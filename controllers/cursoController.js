@@ -17,8 +17,27 @@ const getAllCourses = async(req = request, res = response) => {//obtener todos l
         });
 };
 
-const getOneCourse = (req, res) => {
-    res.send(`Get course ${req.params.id}`);
+const getOneCourse = async(req = request, res = response) => {
+    //res.send(`Get course ${req.params.id}`);
+    await Course.findOne({attributes:[
+        'id', 'nombre_curso', 'descripcion', 'cupo_disponible',
+        'area_estudio_id', 'fecha_limite_curso'
+    ], where: { id: req.params.id } })
+        .then(course => {
+            const data = JSON.stringify(course);
+            const results = JSON.parse(data);
+            if (results != null) {
+                res.json({
+                    results
+                });
+            }else{
+                res.send(`Curso con id: ${req.params.id} no encontrado`);
+            }
+            
+        }).catch(error => {
+            console.log(error);
+        });
+    
 };
 
 const createNewCourse = (req, res) => {
