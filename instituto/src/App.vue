@@ -1,15 +1,18 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
   <prueba-semi/>
+  <hello-world msg='Hola'/>
 
 </template>
 
 <script>
 import PruebaSemi from './components/PruebaSemi.vue';
+import HelloWorld from "./components/HelloWorld.vue";
 
 export default {
   name: 'App',
   components: {
+    HelloWorld,
     PruebaSemi
 }
 }
