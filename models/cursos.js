@@ -11,8 +11,9 @@ const Course = sequelize.define('cursos', {
         allowNull: false
     },
     descripcion: {
-        type: DataTypes.STRING
-        // allowNull defaults to true
+        type: DataTypes.STRING,
+        allowNull: false
+        // allowNull defaults to true if not specified
     },
     cupo_disponible: {
         type: DataTypes.INTEGER,
@@ -25,6 +26,13 @@ const Course = sequelize.define('cursos', {
     fecha_limite_curso: {
         type: DataTypes.DATE,
         allowNull: false
+    },
+    estado_curso: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
+    },
+    img_curso: {
+        type: DataTypes.STRING,
     },
 }, {
     // Other model options go here

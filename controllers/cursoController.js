@@ -40,8 +40,30 @@ const getOneCourse = async(req = request, res = response) => {
     
 };
 
-const createNewCourse = (req, res) => {
-    res.send(`Create course ${req.params.id}`);
+const createNewCourse = async(req = request, res = response) => {
+    //res.send(`Create course ${req.params.id}`);
+    await Course.create({
+        nombre_curso: req.body.nombre_curso,
+        descripcion: req.body.descripcion,
+        cupo_disponible: req.body.cupo_disponible,
+        area_estudio_id: req.body.area_estudio_id,
+        fecha_limite_curso: req.body.fecha_limite_curso,
+        estado_curso: 1,
+        img_curso: req.body.img_curso
+    }, { fields: ['nombre_curso', 'descripcion', 'cupo_disponible',
+    'area_estudio_id', 'fecha_limite_curso', 'estado_curso', 'img_curso'] })
+        .then(course => {
+            if (course) {
+                res.send(course);
+                console.log("Curso creado correctamente");
+            } else {
+                res.status(400).send('Error in insert new record');
+            }
+            
+        }).catch(error => {
+            console.log(error);
+        });
+    
 };
 
 const updateOneCourse = (req, res) => {
