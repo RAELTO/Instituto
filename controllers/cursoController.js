@@ -1,5 +1,19 @@
-const getAllCourses = (req, res) => {
-    res.send("Get all Courses");
+const { response, request } = require('express');
+const Course = require('../models/cursos');
+
+const getAllCourses = async(req = request, res = response) => {//obtener todos los cursos
+    await Course.findAll({attributes:[
+        'nombre_curso', 'descripcion', 'cupo_disponible',
+        'area_estudio_id', 'fecha_limite_curso'
+    ]})
+        .then(course => {
+            const results = JSON.stringify(course);
+            res.json({
+                results
+            });
+        }).catch(error => {
+            console.log(error);
+        });
 };
 
 const getOneCourse = (req, res) => {

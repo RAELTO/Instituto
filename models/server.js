@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const { dbConnection } = require('../database/config');
 
 //server en clase
 class Server {
@@ -13,12 +14,17 @@ class Server {
         }
 
         //db connection
+        this.connectDB();
 
         //Middlewares
         this.middlewares();
 
         //Rutas de mi app
         this.routes();//dispara el motodo routes
+    }
+
+    async connectDB(){
+        await dbConnection();
     }
 
     middlewares() {
@@ -31,7 +37,7 @@ class Server {
         this.app.get('/', (req, res) => {
             res.send('<h1>Hola desde land page!</h1>');
         });
-
+        
         //this.app.use( this.paths.auth, require('../routes/auth') );
         this.app.use( this.paths.cursos, require('../routes/cursos') );
     }
