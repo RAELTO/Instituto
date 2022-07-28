@@ -3,7 +3,7 @@ const Course = require('../models/cursos');
 
 const getAllCourses = async(req = request, res = response) => {//obtener todos los cursos
     await Course.findAll({attributes:[
-        'nombre_curso', 'descripcion', 'cupo_disponible',
+        'id', 'nombre_curso', 'descripcion', 'cupo_disponible',
         'area_estudio_id', 'fecha_limite_curso'
     ]})
         .then(course => {
