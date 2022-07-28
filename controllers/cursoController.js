@@ -81,7 +81,6 @@ const updateOneCourse = async(req = request, res = response) => {
         }
     })
         .then(course => {
-            console.log(course);
             if (course != 0) {
                 res.status(200).send(`Curso con id: ${req.params.id} fue actualizado correctamente`);
             }else{
@@ -93,8 +92,43 @@ const updateOneCourse = async(req = request, res = response) => {
         });
 };
 
-const deleteOneCourse = (req, res) => {
-    res.send(`Delete course ${req.params.id}`);
+const deleteOneCourse = async(req = request, res = response) => {
+    //res.send(`Delete course ${req.params.id}`);
+    /*await Course.update({ 
+        estado_curso: 0,
+    }, {
+        where: {
+            id: req.params.id
+        }
+    })
+        .then(course => {
+            console.log(course);
+            if (course != 0) {
+                res.status(200).send(`Curso con id: ${req.params.id} fue borrado correctamente`);
+            }else{
+                res.status(404).send(`Curso con id: ${req.params.id} no encontrado`);
+            }
+            
+        }).catch(error => {
+            console.log(error);
+        });*/
+
+        await Course.destroy({
+            where: {
+                id: req.params.id
+            }
+        })
+            .then(course => {
+                if (course != 0) {
+                    res.status(200).send(`Curso con id: ${req.params.id} fue borrado correctamente`);
+                }else{
+                    res.status(404).send(`Curso con id: ${req.params.id} no encontrado`);
+                }
+                
+            }).catch(error => {
+                console.log(error);
+            })
+    
 };
 
 module.exports = {
