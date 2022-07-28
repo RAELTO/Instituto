@@ -7,7 +7,8 @@ const getAllCourses = async(req = request, res = response) => {//obtener todos l
         'area_estudio_id', 'fecha_limite_curso'
     ]})
         .then(course => {
-            const results = JSON.stringify(course);
+            const data = JSON.stringify(course);
+            const results = JSON.parse(data);
             res.json({
                 results
             });
