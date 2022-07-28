@@ -1,10 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 
-//parámetros de conexión MySQL con sequelize
-const sequelize = new Sequelize('instituto', 'root', '', {
-    host: 'localhost',
-    dialect: 'mysql'
-});
+//Importación de parámetros de conexión MySQL con sequelize
+const { sequelize } = require('../database/config');
 
 const Course = sequelize.define('cursos', {
     // Model attributes are defined here
