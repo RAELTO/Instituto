@@ -31,7 +31,7 @@ const getOneCourse = async(req = request, res = response) => {
                     results
                 });
             }else{
-                res.send(`Curso con id: ${req.params.id} no encontrado`);
+                res.status(404).send(`Curso con id: ${req.params.id} no encontrado`);
             }
             
         }).catch(error => {
@@ -66,8 +66,31 @@ const createNewCourse = async(req = request, res = response) => {
     
 };
 
-const updateOneCourse = (req, res) => {
-    res.send(`Update course ${req.params.id}`);
+const updateOneCourse = async(req = request, res = response) => {
+    //res.send(`Update course ${req.params.id}`);
+    await Course.update({ 
+        nombre_curso: req.body.nombre_curso,
+        descripcion: req.body.descripcion,
+        cupo_disponible: req.body.cupo_disponible,
+        area_estudio_id: req.body.area_estudio_id,
+        fecha_limite_curso: req.body.fecha_limite_curso,
+        img_curso: req.body.img_curso
+    }, {
+        where: {
+            id: req.params.id
+        }
+    })
+        .then(course => {
+            console.log(course);
+            if (course != 0) {
+                res.status(200).send(`Curso con id: ${req.params.id} fue actualizado correctamente`);
+            }else{
+                res.status(404).send(`Curso con id: ${req.params.id} no encontrado`);
+            }
+            
+        }).catch(error => {
+            console.log(error);
+        });
 };
 
 const deleteOneCourse = (req, res) => {
