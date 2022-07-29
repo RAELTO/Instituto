@@ -10,10 +10,15 @@ const getAllUsers = async(req = request, res = response) => {//obtener todos los
     ]})
         .then(user => {
             const data = JSON.stringify(user);
+            console.log(data);
             const results = JSON.parse(data);
-            res.json({
-                results
-            });
+            if (results.length > 0) {
+                res.json({
+                    results
+                });
+            }else{
+                res.status(404).send('No hay usuarios registrados');
+            }
         }).catch(error => {
             console.log(error);
         });

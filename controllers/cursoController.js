@@ -9,9 +9,13 @@ const getAllCourses = async(req = request, res = response) => {//obtener todos l
         .then(course => {
             const data = JSON.stringify(course);
             const results = JSON.parse(data);
-            res.json({
-                results
-            });
+            if (results.length > 0) {
+                res.json({
+                    results
+                });
+            }else{
+                res.status(404).send('No hay cursos registrados');
+            }
         }).catch(error => {
             console.log(error);
         });
@@ -54,8 +58,11 @@ const createNewCourse = async(req = request, res = response) => {
     'area_estudio_id', 'fecha_limite_curso', 'estado_curso', 'img_curso'] })
         .then(course => {
             if (course) {
-                res.send(course);
-                console.log("Curso creado correctamente");
+                res.send({
+                    course,
+                    msg: 'Curso creado correctamente'
+                });
+                
             } else {
                 res.status(400).send('Error in insert new record');
             }
