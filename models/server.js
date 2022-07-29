@@ -12,6 +12,7 @@ class Server {
         this.paths = {
             //auth: '/api/auth',
             cursos: '/api/cursos',
+            usuarios: '/api/usuarios'
         }
 
         //db connection
@@ -45,6 +46,7 @@ class Server {
         
         //this.app.use( this.paths.auth, require('../routes/auth') );
         this.app.use( this.paths.cursos, require('../routes/cursos') );
+        this.app.use( this.paths.usuarios, require('../routes/usuarios') );
     }
 
     listen() {
