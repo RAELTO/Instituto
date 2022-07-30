@@ -11,12 +11,15 @@ class Server {
         this.port = process.env.PORT;
         this.paths = {
             //auth: '/api/auth',
-            cursos: '/api/cursos',
-            usuarios: '/api/usuarios',
-            tipoDocumento: '/api/tipoDocumento',
-            estadoUsuario: '/api/estadoUsuario',
-            matriculas: '/api/matriculas',
-            matriculasXcurso:'/api/matriculasXcurso'
+            cursos: '/api/v1/cursos',
+            usuarios: '/api/v1/usuarios',
+            tipoDocumento: '/api/v1/tipoDocumento',
+            estadoUsuario: '/api/v1/estadoUsuario',
+            matriculas: '/api/v1/matriculas',
+            matriculasXcurso:'/api/v1/matriculasXcurso',
+            roles: '/api/v1/roles',
+            estadoMatricula: '/api/v1/estadoMatricula',
+            areas: '/api/v1/areas-estudio',
         }
 
         //db connection
@@ -55,6 +58,9 @@ class Server {
         this.app.use( this.paths.estadoUsuario, require('../routes/estadoUsuario') );
         this.app.use( this.paths.matriculas, require('../routes/matricula') );
         this.app.use( this.paths.matriculasXcurso, require('../routes/matriculaXcurso') );
+        this.app.use( this.paths.roles, require('../routes/roles') );
+        this.app.use( this.paths.estadoMatricula, require('../routes/estadoMatricula') );
+        this.app.use( this.paths.areas, require('../routes/areas') );
     }
 
     listen() {
