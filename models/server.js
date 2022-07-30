@@ -15,7 +15,8 @@ class Server {
             usuarios: '/api/usuarios',
             tipoDocumento: '/api/tipoDocumento',
             estadoUsuario: '/api/estadoUsuario',
-            matriculas: '/api/matriculas'
+            matriculas: '/api/matriculas',
+            matriculasXcurso:'/api/matriculasXcurso'
         }
 
         //db connection
@@ -53,6 +54,7 @@ class Server {
         this.app.use( this.paths.tipoDocumento, require('../routes/tipoDocumento') );
         this.app.use( this.paths.estadoUsuario, require('../routes/estadoUsuario') );
         this.app.use( this.paths.matriculas, require('../routes/matricula') );
+        this.app.use( this.paths.matriculasXcurso, require('../routes/matriculaXcurso') );
     }
 
     listen() {
