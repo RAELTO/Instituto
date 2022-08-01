@@ -1,3 +1,4 @@
+
 const { Sequelize, DataTypes } = require('sequelize');
 
 //Importación de parámetros de conexión MySQL con sequelize

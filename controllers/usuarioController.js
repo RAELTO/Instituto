@@ -68,8 +68,10 @@ const createNewUser = async(req = request, res = response) => {
     'correo', 'direccion', 'rol_id', 'id_estado', 'contrasena'] })
         .then(user => {
             if (user) {
-                res.send(user);
-                console.log("Usuario creado correctamente");
+                res.send({
+                    user,
+                    msg: "Usuario creado correctamente"
+                });
             } else {
                 res.status(400).send('Error in insert new record');
             }
