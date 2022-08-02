@@ -1,4 +1,6 @@
 const { response, request } = require('express');
+const bcryptjs = require('bcryptjs');
+
 const User = require('../models/usuarios');
 const { use } = require('../routes/usuarios');
 
@@ -49,7 +51,11 @@ const getOneUser = async(req = request, res = response) => {
 };
 
 const createNewUser = async(req = request, res = response) => {
-    //res.send(`Create course ${req.params.id}`);
+
+    // pass encrypt
+    const salt = bcryptjs.genSaltSync();
+    const pass = bcryptjs.hashSync( req.body.contrasena, salt );//encriptacion de una sola via
+
     await User.create({
         nombre: req.body.nombre,
         apellido: req.body.apellido,
@@ -62,7 +68,7 @@ const createNewUser = async(req = request, res = response) => {
         direccion: req.body.direccion,
         rol_id: req.body.rol_id,
         id_estado: req.body.id_estado,
-        contrasena: req.body.contrasena,
+        contrasena: pass,
     }, { fields: ['nombre', 'apellido', 'fecha_nac',
     'telefono', 'documento', 'tipo_doc_id', 'dni',
     'correo', 'direccion', 'rol_id', 'id_estado', 'contrasena'] })
@@ -83,7 +89,10 @@ const createNewUser = async(req = request, res = response) => {
 };
 
 const updateOneUser = async(req = request, res = response) => {
-    //res.send(`Update course ${req.params.id}`);
+
+    // pass encrypt
+    const salt = bcryptjs.genSaltSync();
+    const pass = bcryptjs.hashSync( req.body.contrasena, salt );
     await User.update({ 
         nombre: req.body.nombre,
         apellido: req.body.apellido,
@@ -96,7 +105,7 @@ const updateOneUser = async(req = request, res = response) => {
         direccion: req.body.direccion,
         rol_id: req.body.rol_id,
         id_estado: req.body.id_estado,
-        contrasena: req.body.contrasena,
+        contrasena: pass,
     }, {
         where: {
             id: req.params.id
