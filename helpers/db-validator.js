@@ -1,5 +1,5 @@
 const { 
-    Course, estMatricula, Registration, RegistrationCourse, Role, Server, StatusU,
+    Course, estMatricula, Registration, RegistrationCourse, Role, StatusU,
     TDocument, User, Areas
 } = require('../models');
 
