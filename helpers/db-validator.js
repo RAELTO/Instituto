@@ -1,7 +1,15 @@
-const { 
-    Course, estMatricula, Registration, RegistrationCourse, Role, Server, StatusU,
-    TDocument, User, Areas
-} = require('../models');
+
+//const { Areas, Role, User, Course } = require('../models');
+const estMatricula = require('../models/estadoMatricula');
+const Registration = require('../models/matricula');
+const RegistrationCourse = require('../models/matriculaXcurso');
+
+const User = require('../models/usuarios');
+const Role = require('../models/roles');
+const StatusU = require('../models/estadoUsuario');
+const TDocument = require('../models/tipoDocumento');
+const Course = require('../models/cursos');
+const Area = require('../models/areas')
 
 //Validar si un rol es valido comparando con los disponibles en la DB
 const validRoles = async(id = '') => {
@@ -86,8 +94,19 @@ const areaValidator = async(area_estudio = '') => {
     if ( areaExists ){
         throw new Error(`El area de estudio ${area_estudio}, ya se encuentra registrada`);
     }
+}
+
+
+
+const AreaExistsId = async(id = '') => {
+    
+    const areaExisting = await Area.findByPk(id);
+    if ( !areaExisting ){
+        throw new Error(`No existe una Area de cursos con el id: ${id}`);
+    }
 
 }
+
 
 
 
@@ -100,5 +119,7 @@ module.exports = {
     userStatusExistsId,
     docValidator,
     areaExistingId,
-    areaValidator
+    areaValidator,
+    courseExistingId,
+    AreaExistsId
 }
