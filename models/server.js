@@ -60,6 +60,10 @@ class Server {
         this.app.use( this.paths.roles, require('../routes/roles') );
         this.app.use( this.paths.estadoMatricula, require('../routes/estadoMatricula') );
         this.app.use( this.paths.areas, require('../routes/areas') );
+
+        this.app.get('*', (req, res) => {
+            res.send('<h1>404 | Page not found</h1>' );
+        });
     }
 
     listen() {
