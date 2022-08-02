@@ -56,13 +56,14 @@
         <section class="container-fluid mt-2">
             <div class="row">
                 <div class="col d-flex flex-column ms-5 mt-4">
-                   <span><span class="fw-bold fs-4 mb-3" >Nombre:</span><span class="fs-3 ms-3" v-if="prueba">Brayan Esteban Marin Calderon</span></span>
-                   <span><span class="fw-bold fs-4 mb-3">Estado:</span><span class=" fs-3 ms-3">0</span></span>
-                   <span><span class="fw-bold fs-4 mb-3">Curso matriculados:</span><span  class=" fs-3 ms-3">Inactivo</span> </span>
-                   <span><span class="fw-bold fs-4 mb-3">Rol: </span> <span class=" fs-3 ms-3">Estudiante</span></span>
+                   <span class="mb-3"><span class="fw-bold fs-4" >Nombre:</span><span class="fs-3 ms-3" v-if="prueba">Brayan Esteban Marin Calderon</span></span>
+                   <span class="mb-3"><span class="fw-bold fs-4">Estado:</span><span class=" fs-3 ms-3">0</span></span>
+                   <span class="mb-3"><span class="fw-bold fs-4">Curso matriculados:</span><span  class=" fs-3 ms-3">Inactivo</span> </span>
+                   <span class="mb-3"><span class="fw-bold fs-4">Rol: </span> <span class=" fs-3 ms-3">Estudiante</span></span>
+                   <button class="btn fw-bolder w-50">Cambiar Curso</button>
                 </div>
-                <div class="col">
-
+                <div class="col text-center">
+                    <img src="../assets/user.png" alt="" style="width:50%;">
                 </div>
             </div>
         </section>
@@ -137,5 +138,8 @@ export default {
 }
 .div-area{
     background: var(--third);
+}
+button{
+    background: var(--first) !important;
 }
 </style>
