@@ -9,7 +9,7 @@ class Server {
         this.app = express();
         this.port = process.env.PORT;
         this.paths = {
-            //auth: '/api/auth',
+            auth: '/api/v1/auth',
             cursos: '/api/v1/cursos',
             usuarios: '/api/v1/usuarios',
             tipoDocumento: '/api/v1/tipoDocumento',
@@ -50,7 +50,7 @@ class Server {
             res.send('<h1>Hola desde land page!</h1>');
         });
         
-        //this.app.use( this.paths.auth, require('../routes/auth') );
+        this.app.use( this.paths.auth, require('../routes/auth') );
         this.app.use( this.paths.cursos, require('../routes/cursos') );
         this.app.use( this.paths.usuarios, require('../routes/usuarios') );
         this.app.use( this.paths.tipoDocumento, require('../routes/tipoDocumento') );

@@ -70,6 +70,9 @@ router.post('/', [//arreglo de middlewares express-validator
 ],createNewUser);
 
 router.delete('/:id', [
+    valJWT,//si este da error no ejecutara el resto, por eso este middleware debe ser el primero en ejecutarse
+    adminRole,//este middleware obliga a que sea admin
+    hasRole(1), //este dice que puede cualquiera de los roles especificados
     check('id', 'No es un ID válido').isNumeric(),
     check('id').custom( userExistingId ),
     valFields

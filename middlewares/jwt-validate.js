@@ -27,7 +27,19 @@ const valJWT = async(req = request, res = response, next) => {
         }
 
         // Verificar si el uid tiene status: true
-        if (!user.status) {
+        let status = '';
+        switch (user.id_estado) {
+            case 1:
+                status = true
+                break;
+            case 0:
+                status = false
+                break;
+        
+            default:
+                break;
+        }
+        if (!status) {
             return res.status(401).json({
                 msg: 'Token no válido - user status: false'
             })

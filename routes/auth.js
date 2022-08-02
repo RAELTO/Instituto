@@ -5,12 +5,11 @@ const { valFields } = require('../middlewares/val-fields');
 
 const { login } = require('../controllers/auth');
 
-
 const router = Router();
 
 router.post('/login', [
-    check('email', 'El correo es obligatorio').isEmail(),
-    check('password', 'La contraseña es obligatoria').not().isEmpty(),
+    check('correo', 'El correo es obligatorio').isEmail(),
+    check('contrasena', 'La contraseña es obligatoria').not().isEmpty(),
     valFields
 ],login);
 

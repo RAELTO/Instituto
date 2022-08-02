@@ -93,7 +93,7 @@ const updateOneUser = async(req = request, res = response) => {
     // pass encrypt
     const salt = bcryptjs.genSaltSync();
     const pass = bcryptjs.hashSync( req.body.contrasena, salt );
-    await User.update({ 
+    await User.update({
         nombre: req.body.nombre,
         apellido: req.body.apellido,
         fecha_nac: req.body.fecha_nac,
@@ -124,25 +124,6 @@ const updateOneUser = async(req = request, res = response) => {
 };
 
 const deleteOneUser = async(req = request, res = response) => {
-    //res.send(`Delete course ${req.params.id}`);
-    /*await Course.update({ 
-        estado_curso: 0,
-    }, {
-        where: {
-            id: req.params.id
-        }
-    })
-        .then(course => {
-            console.log(course);
-            if (course != 0) {
-                res.status(200).send(`Curso con id: ${req.params.id} fue borrado correctamente`);
-            }else{
-                res.status(404).send(`Curso con id: ${req.params.id} no encontrado`);
-            }
-            
-        }).catch(error => {
-            console.log(error);
-        });*/
 
         await User.destroy({
             where: {
