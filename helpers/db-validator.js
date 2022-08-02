@@ -90,17 +90,7 @@ const areaValidator = async(area_estudio = '') => {
 }
 
 
-<<<<<<< HEAD
-=======
-//Validar si una area existe en la BD
-const AreaExistsId = async(id = '') => {
-    
-    const areaExisting = await Area.findByPk(id);
-    if ( !areaExisting ){
-        throw new Error(`No existe una Area de cursos con el id: ${id}`);
-    }
 
-}
 
 
 //Validad si una matricula existe en la BD
@@ -125,7 +115,6 @@ const StatusRegExistsId = async(id = '') => {
 
 
 
->>>>>>> Stiven
 module.exports = {
     validRoles,
     emailValidator,
@@ -136,12 +125,7 @@ module.exports = {
     docValidator,
     areaExistingId,
     areaValidator,
-<<<<<<< HEAD
-    courseExistingId
-=======
     courseExistingId,
-    AreaExistsId,
     registrationExistingId,
     StatusRegExistsId
->>>>>>> Stiven
 }

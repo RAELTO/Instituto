@@ -1,5 +1,6 @@
 const { response, request } = require('express');
 const Registration = require('../models/matricula');
+const Course = require('../models/matriculaXcurso');
 
 const getAllRegistration= async(req = request, res = response) => {//obtener todos los cursos
     await Registration.findAll({attributes:[
@@ -115,7 +116,13 @@ const deleteOneRegistration = async(req = request, res = response) => {
         }).catch(error => {
             console.log(error);
         });*/
-
+        
+        await Course.destroy({
+            where: {
+                id_matr: req.params.id
+            }
+        })
+            
         await Registration.destroy({
             where: {
                 id: req.params.id
@@ -123,9 +130,9 @@ const deleteOneRegistration = async(req = request, res = response) => {
         })
             .then(registration => {
                 if (registration != 0) {
-                    res.status(200).send(`Matricula con id: ${req.params.id} fue borrada correctamente`);
+                    res.status(200).send(`Matricula con id: ${req.params.id} fue borrada correctamente y Cursos de la matricula con id: ${req.params.id} fueron borrados correctamente`);
                 }else{
-                    res.status(404).send(`Matricula con id: ${req.params.id} no encontrada`);
+                    res.status(404).send(`Matricula con id: ${req.params.id} no encontrada y Cursos de la matricula con id: ${req.params.id} no encontrados`);
                 }
                 
             }).catch(error => {
@@ -139,5 +146,6 @@ module.exports = {
     getOneRegistration,
     createNewRegistration,
     updateOneRegistration,
-    deleteOneRegistration
+    deleteOneRegistration,
+    
 };
