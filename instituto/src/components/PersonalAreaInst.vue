@@ -6,7 +6,7 @@
                     <a class="navbar-brand" href="app.html">
                         <img src="../assets/Logo.png" alt="">
                         <span>Instituto</span>
-                    </a>
+                    </a> 
                     <div v-if="prueba">
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -56,10 +56,10 @@
         <section class="container-fluid mt-2">
             <div class="row">
                 <div class="col d-flex flex-column ms-5 mt-4">
-                   <span class="fw-bold h4 mb-3" >Nombre: <span>Brayan Esteban Marin Calderon</span></span>
-                   <span class="fw-bold h4 mb-3">Estado: <span>0</span></span>
-                   <span class="fw-bold h4 mb-3">Curso matriculados: <span>Inactivo</span></span> 
-                   <span class="fw-bold h4 mb-3">Rol: <span>Estudiante</span></span>
+                   <span><span class="fw-bold fs-4 mb-3" >Nombre:</span><span class="fs-3 ms-3" v-if="prueba">Brayan Esteban Marin Calderon</span></span>
+                   <span><span class="fw-bold fs-4 mb-3">Estado:</span><span class=" fs-3 ms-3">0</span></span>
+                   <span><span class="fw-bold fs-4 mb-3">Curso matriculados:</span><span  class=" fs-3 ms-3">Inactivo</span> </span>
+                   <span><span class="fw-bold fs-4 mb-3">Rol: </span> <span class=" fs-3 ms-3">Estudiante</span></span>
                 </div>
                 <div class="col">
 
