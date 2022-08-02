@@ -90,6 +90,42 @@ const areaValidator = async(area_estudio = '') => {
 }
 
 
+<<<<<<< HEAD
+=======
+//Validar si una area existe en la BD
+const AreaExistsId = async(id = '') => {
+    
+    const areaExisting = await Area.findByPk(id);
+    if ( !areaExisting ){
+        throw new Error(`No existe una Area de cursos con el id: ${id}`);
+    }
+
+}
+
+
+//Validad si una matricula existe en la BD
+const registrationExistingId = async(id = '') => {
+    
+    const registrationExisting = await Registration.findByPk(id);
+    if ( !registrationExisting ){
+        throw new Error(`No existe una matricula con el id: ${id}`);
+    }
+
+}
+
+//Validar si un estado de usuario existe en la DB -- validador personalizado
+const StatusRegExistsId = async(id = '') => {
+    
+    const  StatusRegExists = await estMatricula.findByPk(id);
+    if ( ! StatusRegExists ){
+        throw new Error(`No existe un estado de matricula con el id: ${id}`);
+    }
+
+}
+
+
+
+>>>>>>> Stiven
 module.exports = {
     validRoles,
     emailValidator,
@@ -100,5 +136,12 @@ module.exports = {
     docValidator,
     areaExistingId,
     areaValidator,
+<<<<<<< HEAD
     courseExistingId
+=======
+    courseExistingId,
+    AreaExistsId,
+    registrationExistingId,
+    StatusRegExistsId
+>>>>>>> Stiven
 }
