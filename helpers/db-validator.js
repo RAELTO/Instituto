@@ -3,6 +3,9 @@ const User = require('../models/usuarios');
 const Role = require('../models/roles');
 const StatusU = require('../models/estadoUsuario');
 const TDocument = require('../models/tipoDocumento');
+const Course = require('../models/cursos');
+const Area = require('../models/areas')
+
 //Validar si un rol es valido comparando con los disponibles en la DB
 const validRoles = async(id = '') => {
     const role_Exists = await Role.findOne({ where: { id: id } });
@@ -62,7 +65,7 @@ const userStatusExistsId = async(id = '') => {
 //Validar si la area de estudio existe en la DB -- validador personalizado
 const categoryExistingId = async(id = '') => {
     
-    const categoryExisting = await Areas.findById(id);
+    const categoryExisting = await Area.findById(id);
     if ( !categoryExisting ){
         throw new Error(`No existe una categoria con el id: ${id}`);
     }
@@ -79,6 +82,28 @@ const productExistingId = async(id = '') => {
 
 }
 
+//Validar si el curso existe en la DB -- validador personalizado
+const courseExistingId = async(id = '') => {
+    
+    const courseExisting = await Course.findByPk(id);
+    if ( !courseExisting ){
+        throw new Error(`No existe un curso con el id: ${id}`);
+    }
+
+}
+
+const AreaExistsId = async(id = '') => {
+    
+    const areaExisting = await Area.findByPk(id);
+    if ( !areaExisting ){
+        throw new Error(`No existe una Area de cursos con el id: ${id}`);
+    }
+
+}
+
+
+
+
 module.exports = {
     validRoles,
     emailValidator,
@@ -87,5 +112,7 @@ module.exports = {
     productExistingId,
     validDocType,
     userStatusExistsId,
-    docValidator
+    docValidator,
+    courseExistingId,
+    AreaExistsId
 }
