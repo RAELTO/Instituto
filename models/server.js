@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const { dbConnection } = require('../database/config');
-const bodyParser = require('body-parser')
 
 //server en clase
 class Server {
@@ -25,6 +24,9 @@ class Server {
         //db connection
         this.connectDB();
 
+        //Lectura y parseo body
+        this.app.use( express.json() );
+
         //Middlewares
         this.middlewares();
 
@@ -43,9 +45,6 @@ class Server {
     }
 
     routes() {//my routes configuration
-
-        // parse application/json
-        this.app.use(bodyParser.json());
 
         this.app.get('/', (req, res) => {
             res.send('<h1>Hola desde land page!</h1>');
