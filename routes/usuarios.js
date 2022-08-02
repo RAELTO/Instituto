@@ -29,6 +29,9 @@ router.get('/:id' , [
 ], getOneUser);
 
 router.put('/:id', [
+    valJWT,
+    adminRole,
+    hasRole(1),
     check('id', 'No es un ID válido').isNumeric(),
     check('id').custom( userExistingId ),
     check('nombre', 'El nombre es obligatorio').not().isEmpty(),
@@ -49,6 +52,9 @@ router.put('/:id', [
 ], updateOneUser);
 
 router.post('/', [//arreglo de middlewares express-validator
+    valJWT,
+    adminRole,
+    hasRole(1),
     check('nombre', 'El nombre es obligatorio').not().isEmpty(),
     check('apellido', 'El apellido es obligatorio').not().isEmpty(),
     check('fecha_nac', 'La fecha de nacimiento es obligatoria').not().isEmpty(),
