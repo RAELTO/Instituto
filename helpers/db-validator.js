@@ -1,8 +1,8 @@
-//const { Areas, Role, User, Course } = require('../models');
-const User = require('../models/usuarios');
-const Role = require('../models/roles');
-const StatusU = require('../models/estadoUsuario');
-const TDocument = require('../models/tipoDocumento');
+const { 
+    Course, estMatricula, Registration, RegistrationCourse, Role, Server, StatusU,
+    TDocument, User, Areas
+} = require('../models');
+
 //Validar si un rol es valido comparando con los disponibles en la DB
 const validRoles = async(id = '') => {
     const role_Exists = await Role.findOne({ where: { id: id } });
@@ -60,21 +60,31 @@ const userStatusExistsId = async(id = '') => {
 }
 
 //Validar si la area de estudio existe en la DB -- validador personalizado
-const categoryExistingId = async(id = '') => {
+const areaExistingId = async(id = '') => {
     
-    const categoryExisting = await Areas.findById(id);
-    if ( !categoryExisting ){
-        throw new Error(`No existe una categoria con el id: ${id}`);
+    const areaExisting = await Areas.findByPk(id);
+    if ( !areaExisting ){
+        throw new Error(`No existe un area de estudio con el id: ${id}`);
     }
 
 }
 
 //Validar si el curso existe en la DB -- validador personalizado
-const productExistingId = async(id = '') => {
+const courseExistingId = async(id = '') => {
     
-    const productExisting = await Product.findById(id);
-    if ( !productExisting ){
-        throw new Error(`No existe un producto con el id: ${id}`);
+    const courseExisting = await Course.findByPk(id);
+    if ( !courseExisting ){
+        throw new Error(`No existe un curso con el id: ${id}`);
+    }
+
+}
+
+//Validar si un area de estudio ya esta registrada en la DB
+const areaValidator = async(area_estudio = '') => {
+    
+    const areaExists = await Areas.findOne({ where: { area_estudio: area_estudio } });
+    if ( areaExists ){
+        throw new Error(`El area de estudio ${area_estudio}, ya se encuentra registrada`);
     }
 
 }
@@ -83,9 +93,10 @@ module.exports = {
     validRoles,
     emailValidator,
     userExistingId,
-    categoryExistingId,
-    productExistingId,
+    courseExistingId,
     validDocType,
     userStatusExistsId,
-    docValidator
+    docValidator,
+    areaExistingId,
+    areaValidator
 }
