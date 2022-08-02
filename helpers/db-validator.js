@@ -89,6 +89,8 @@ const areaValidator = async(area_estudio = '') => {
 
 }
 
+
+
 module.exports = {
     validRoles,
     emailValidator,
