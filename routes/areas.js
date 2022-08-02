@@ -1,7 +1,12 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-const { valFields } = require('../middlewares');
+const {
+    valFields,
+    valJWT,
+    adminRole,
+    hasRole
+} = require('../middlewares');
 
 const { areaExistingId, areaValidator } = require('../helpers/db-validator');
 
@@ -23,6 +28,9 @@ router.get('/:id', [
 ], getOneArea);
 
 router.put('/:id', [
+    valJWT,
+    adminRole,
+    hasRole(1),
     check('id', 'No es un ID válido').isNumeric(),
     check('id').custom( areaExistingId ),
     check('area_estudio', 'El area de estudio es obligatoria').not().isEmpty(),
@@ -30,12 +38,18 @@ router.put('/:id', [
 ], updateOneArea);
 
 router.post('/', [
+    valJWT,
+    adminRole,
+    hasRole(1),
     check('area_estudio', 'El area de estudio es obligatoria').not().isEmpty(),
     check('area_estudio').custom( areaValidator ),
     valFields
 ], createNewArea);
 
 router.delete('/:id', [
+    valJWT,
+    adminRole,
+    hasRole(1),
     check('id', 'No es un ID válido').isNumeric(),
     check('id').custom( areaExistingId ),
     valFields
