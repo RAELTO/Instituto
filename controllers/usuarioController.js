@@ -42,7 +42,6 @@ const getOneUser = async(req = request, res = response) => {
                 });
             }else{
                 res.status(404).send(`Usuario con id: ${req.params.id} no encontrado`);
-                //holaaaaaaaaa
             }
             
         }).catch(error => {
