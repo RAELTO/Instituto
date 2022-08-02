@@ -1,3 +1,4 @@
+
 const { 
     Course, estMatricula, Registration, RegistrationCourse, Role, StatusU,
     TDocument, User, Areas
@@ -86,9 +87,7 @@ const areaValidator = async(area_estudio = '') => {
     if ( areaExists ){
         throw new Error(`El area de estudio ${area_estudio}, ya se encuentra registrada`);
     }
-
 }
-
 
 
 module.exports = {
@@ -100,5 +99,6 @@ module.exports = {
     userStatusExistsId,
     docValidator,
     areaExistingId,
-    areaValidator
+    areaValidator,
+    courseExistingId
 }
