@@ -44,6 +44,20 @@ const getOneRegistrationCourse = async(req = request, res = response) => {
 
 const createNewRegistrationCourse = async(req = request, res = response) => {
     //res.send(`Create course ${req.params.id}`);
+
+
+    // console.log(`There are ${await Project.count()} projects`);
+
+    // const amount = await Project.count({
+    // where: {
+    //     id: {
+    //         [Op.gt]: 25
+    //     }   
+    // }
+    // } );
+    // console.log(`There are ${amount} projects with an id greater than 25`);
+
+
     await RegistrationCourse.create({
         id_matr: req.body.id_matr,
         id_curso: req.body.id_curso,

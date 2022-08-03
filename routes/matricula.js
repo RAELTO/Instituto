@@ -8,7 +8,7 @@ const {
     adminRole, 
     hasRole
 } = require('../middlewares');
-const { registrationExistingId, userExistingId, StatusRegExistsId  } = require('../helpers/db-validator');
+const { registrationExistingId, userExistingId, StatusRegExistsId,  } = require('../helpers/db-validator');
 
 
 
