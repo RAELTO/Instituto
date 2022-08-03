@@ -15,14 +15,16 @@ const login = async(req, res = response) => {
         const user = await User.findOne({ where: { correo: correo } });
         if(!user){
             return res.status(400).json({
-                msg: "Usuario / Contraseña incorrecta - email"
+                msg: "Usuario / Contraseña incorrecta - email",
+                validLogin: false
             });
         }
         
         //Verificar si el usuario esta activo
         if(!user.id_estado){
             return res.status(400).json({
-                msg: "Usuario / Contraseña incorrecta - status: false"
+                msg: "Usuario / Contraseña incorrecta - status: false",
+                validLogin: false
             });
         }
 
@@ -30,17 +32,18 @@ const login = async(req, res = response) => {
         const validPassword = bcryptjs.compareSync( contrasena, user.contrasena );//compara la passw del body vs la del usuario, retorna un booleano
         if (!validPassword) {
             return res.status(400).json({
-                msg: "Usuario / Contraseña incorrecta - password"
+                msg: "Usuario / Contraseña incorrecta - password",
+                validLogin: false
             });
         }
 
         // Generar el JWT
         const token = await genJWT( user.id );
 
-
         res.json({
             user,
-            token
+            token,
+            validLogin: true
         })
 
     } catch (error) {
