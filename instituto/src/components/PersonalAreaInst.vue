@@ -4,7 +4,7 @@
             <nav id="navbar" class="navbar navbar-expand-lg bg-light navbar-dark">
                 <div class="container">
                     <a class="navbar-brand" href="app.html">
-                        <img src="../assets/Logo.png" alt="">
+                        <img src="assets/Logo.png" alt="">
                         <span>Instituto</span>
                     </a> 
                     <div v-if="prueba">
@@ -63,7 +63,7 @@
                    <button class="btn fw-bold w-50">Cambiar Curso</button>
                 </div>
                 <div class="col text-center">
-                    <img src="../../src/assets/yo.png" alt="" style="width:50%;">
+                    <img src="assets/User.png" alt="" style="width:50%;">
                     
                 </div>
             </div>
