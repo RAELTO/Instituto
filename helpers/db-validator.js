@@ -90,9 +90,6 @@ const areaValidator = async(area_estudio = '') => {
 }
 
 
-
-
-
 //Validad si una matricula existe en la BD
 const registrationExistingId = async(id = '') => {
     
