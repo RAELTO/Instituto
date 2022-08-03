@@ -47,7 +47,7 @@
                 </div>
             </nav>
         </header>
-        <!-- Area personal -->
+        <!-- Area personal --> 
         <section class="container-fluid mt-4 w-100">
             <div class="p-3 w-50 div-area">
                 <span class="h3 fw-bold ms-2">Área personal</span>
@@ -60,11 +60,17 @@
                    <span class="mb-3"><span class="fw-bold fs-4">Estado:</span><span class=" fs-3 ms-3">0</span></span>
                    <span class="mb-3"><span class="fw-bold fs-4">Curso matriculados:</span><span  class=" fs-3 ms-3">Inactivo</span> </span>
                    <span class="mb-3"><span class="fw-bold fs-4">Rol: </span> <span class=" fs-3 ms-3">Estudiante</span></span>
-                   <button class="btn fw-bolder w-50">Cambiar Curso</button>
+                   <button class="btn fw-bold w-50">Cambiar Curso</button>
                 </div>
                 <div class="col text-center">
-                    <img src="../assets/user.png" alt="" style="width:50%;">
+                    <img src="../../src/assets/yo.png" alt="" style="width:50%;">
+                    
                 </div>
+            </div>
+        </section>
+        <section class="container-fluid mt-4 w-100">
+            <div class="p-3 w-50 div-area">
+                <span class="h3 fw-bold ms-2">Mis cursos</span>
             </div>
         </section>
 </template>
