@@ -5,7 +5,7 @@ const { sequelize } = require('../database/config');
 
 const StatusU = sequelize.define('estados_usuarios', {
     // Model attributes are defined here
-    //id: {type: Sequelize.INTEGER, primaryKey: true},
+    id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
     estado_usuario: {
         type: DataTypes.BOOLEAN,
         allowNull: false

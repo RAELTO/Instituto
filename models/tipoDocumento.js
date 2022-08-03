@@ -5,7 +5,7 @@ const { sequelize } = require('../database/config');
 
 const TDocument = sequelize.define('tipo_documentos', {
     // Model attributes are defined here
-    //id: {type: Sequelize.INTEGER, primaryKey: true},
+    id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
     tipo_documento: {
         type: DataTypes.STRING,
         allowNull: false

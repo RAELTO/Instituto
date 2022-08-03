@@ -5,7 +5,7 @@ const { sequelize } = require('../database/config');
 
 const RegistrationCourse = sequelize.define('matricula_x_curso', {
     // Model attributes are defined here
-    //id: {type: Sequelize.INTEGER, primaryKey: true},
+    id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
     id_matr: {
         type: DataTypes.INTEGER,
         allowNull: false

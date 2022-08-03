@@ -9,7 +9,7 @@ const {
     hasRole
 } = require('../middlewares');
 
-const { courseExistingId, areaExistingId,  } = require('../helpers/db-validator');
+const { courseExistingId, areaExistingId, courseValidator } = require('../helpers/db-validator');
 
 
 const { getAllCourses,
@@ -43,6 +43,7 @@ router.post('/', [ //arreglo de middlewares express-validator
     adminRole,
     hasRole(1),
     check('nombre_curso', 'El nombre es obligatorio').not().isEmpty(),
+    check('nombre_curso').custom( courseValidator ),
     check('descripcion', 'La descripcion es obligatoria').not().isEmpty(),
     check('cupo_disponible', 'Ingresa un valor válido').isNumeric(),
     check('cupo_disponible', 'el cupo disponible del grupo es obligatorio').not().isEmpty(),
