@@ -1,5 +1,5 @@
 <template>
-  <!-- HEADER -->
+  <!-- HEADER --> 
         <header>
             <nav id="navbar" class="navbar navbar-expand-lg bg-light navbar-dark">
                 <div class="container">
