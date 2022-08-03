@@ -1,6 +1,6 @@
 <template>
   <!-- HEADER -->
-        <header>
+        <header> 
             <nav id="navbar" class="navbar navbar-expand-lg bg-light navbar-dark">
                 <div class="container">
                     <a class="navbar-brand" href="app.html">
