@@ -71,7 +71,7 @@
             <th scope="col">Last</th>
             <th scope="col">Handle</th>
           </tr>
-        </thead>
+        </thead> 
         <tbody>
           <tr>
             <th scope="row">1</th>
