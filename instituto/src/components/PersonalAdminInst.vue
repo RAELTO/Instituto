@@ -37,8 +37,8 @@
     </section>
     <!--Category  -->
     <section v-if="view===1">
-      <button class="btn p-1 m-2 fw-bold text-white">Crear usuario</button>
       <div class="container">
+      <button class="btn p-1 m-2 fw-bold text-white">Crear usuario</button>
       <table class="table table-dark table-striped">
         <thead>
           <tr>
@@ -61,8 +61,8 @@
     </section>
     <!-- Courses -->
     <section v-if="view===2">
-      <button class="btn p-1 m-2 fw-bold text-white">Crear usuario</button>
       <div class="container">
+      <button class="btn p-1 m-2 fw-bold text-white">Crear usuario</button>
       <table class="table table-dark table-striped">
         <thead>
           <tr>
