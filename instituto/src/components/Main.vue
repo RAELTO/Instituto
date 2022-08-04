@@ -60,7 +60,7 @@
             </div>
         </div>
     </section>
-    <!-- Modal Edit usuario -->
+    <!-- Modal Cursos -->
     <section>
         <!-- Modal -->
         <div class="modal fade" id="modalCursos" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -78,13 +78,9 @@
                                     <img src="assets/Logo.png" alt="">
                                 </div>
                                 <div class="form-floating mb-3 col-sm-12">
-                                    <!-- <input type="text" class="form-control" placeholder="descripción">
-                                    <label class="ms-2">Descripción</label> -->
                                     <h6 class="card-title">Descripción:<span></span></h6>
                                 </div>
                                 <div class="form-floating mb-3 col-sm-12">
-                                    <!-- <input type="date" class="form-control" placeholder="fecha">
-                                    <label class="ms-2">Fecha de cierre</label> -->
                                     <h6 class="card-title">Fecha de cierre: 12/10/2022<span></span></h6>
                                 </div>
                                   
@@ -99,7 +95,7 @@
             </div>
         </div>
     </section>
-    <!--  /Modal Edit usuario-->
+    <!--  /Modal Cursos-->
             
  <!-- FOOTER -->
     <footer id="footer" class="pb-4 pt-4">
