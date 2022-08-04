@@ -17,7 +17,7 @@
                             <ul class="navbar-nav ms-auto mb-2 mb-lg-0 d-flex align-items-center">
                                 <li class="nav-item">
                                     <a class="nav-link active" aria-current="page" href="#">
-                                        <img src="../assets/user.png" alt="User">
+                                        <img src="assets/User.png" alt="User">
                                         <span>Brayan Marin</span>
                                     </a>
                                 </li>

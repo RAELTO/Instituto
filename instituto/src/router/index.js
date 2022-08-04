@@ -25,6 +25,11 @@ const routes = [
     path: '/personal',
     name: 'personal',
     component: () => import(/* webpackChunkName: "about" */ '../components/PersonalAreaInst.vue')
+  },
+  {
+    path: '/main',
+    name: 'main',
+    component: () => import(/* webpackChunkName: "about" */ '../components/Main.vue')
   }
 ]
 
