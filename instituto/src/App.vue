@@ -7,7 +7,6 @@
 import HeaderInst from './components/HeaderInst.vue'
 export default {
   data() {
-    
   },
   components:{
     HeaderInst
