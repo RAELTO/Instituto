@@ -87,7 +87,7 @@ export default {
     return{
       view:0,
     }
-  },  
+  },   
   methods:{
     user(){
       this.view=0;
