@@ -58,12 +58,15 @@ const createNewRegistrationCourse = async(req = request, res = response) => {
     // console.log(`There are ${amount} projects with an id greater than 25`);
 
 
-    await RegistrationCourse.create({
+    await RegistrationCourse.create(
+        {
         id_matr: req.body.id_matr,
         id_curso: req.body.id_curso,
        
     }, { fields: ['id_matr', 'id_curso'] })
         .then(registration => {
+
+            courseValidator(id_matr, id_curso);
             if (registration) {
                 res.send({
                     registration,
@@ -79,6 +82,17 @@ const createNewRegistrationCourse = async(req = request, res = response) => {
         });
     
 };
+
+// //Validar que un curso este registrado en una misma matricula 
+// const courseValidator = async(id_matr = '', id_curso = '') => {
+//     console.log(id_matr, id_curso);
+//     const courseExists = await RegistrationCourse.findOne({ where: { id_matr: id_matr, id_curso: id_curso } });
+//     if ( courseExists ){
+//         return false
+//     }
+//     return 
+
+// }
 
 const updateOneRegistrationCourse = async(req = request, res = response) => {
     //res.send(`Update course ${req.params.id}`);

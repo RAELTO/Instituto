@@ -89,14 +89,7 @@ const areaValidator = async(area_estudio = '') => {
     }
 }
 
-//Validar si un curso ya está registrado en la DB
-const courseValidator = async(nombre_curso = '') => {
-    
-    const courseExists = await Course.findOne({ where: { nombre_curso: nombre_curso } });
-    if ( courseExists ){
-        throw new Error(`El curso ${nombre_curso}, ya se encuentra registrado`);
-    }
-}
+
 
 
 //Validad si una matricula existe en la BD

@@ -16,7 +16,7 @@ const RegistrationCourse = sequelize.define('matricula_x_curso', {
         // allowNull defaults to true if not specified
     },
     
-   
+    
 }, {
     // Other model options go here
 });
