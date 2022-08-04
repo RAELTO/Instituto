@@ -14,13 +14,73 @@
                    <span class="mb-3"><span class="fw-bold fs-4">Curso matriculados:</span><span  class=" fs-3 ms-3">0</span> </span>
                    <span class="mb-3"><span class="fw-bold fs-4">Estado:</span><span class=" fs-3 ms-3">Inactivo</span></span>
                    <span class="mb-3"><span class="fw-bold fs-4">Rol: </span> <span class=" fs-3 ms-3">Estudiante</span></span>
-                   <button class="btn fw-bold w-50">Cambiar Curso</button>
+                   <button class="btn fw-bold w-50" data-bs-toggle="modal" data-bs-target="#cambioCurso">Cambiar Curso</button>
                 </div>
                 <div class="col text-center">
                     <img src="assets/User.png" alt="" style="width:50%;">
                     
                 </div>
             </div>
+            <!-- Modales -->
+            <section>
+                <!-- Modal -->
+                    <div class="modal fade" id="cambioCurso" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title fw-bold" id="staticBackdropLabel">Formulario cambio de curso</h5>
+                            <p type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></p>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col col-12 mt-2 mb-2">
+                                      <div class="form-floating">
+                                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                                        <label for="floatingTextarea">¿Por qué quiere cambiar de curso?</label>
+                                      </div>
+                                    </div>
+                                    <p class="col-12 fw-bold h6 mb-2">Curso a cambiar</p>
+                                      <div class="row mb-2">
+                                        <div class="col col-6">
+                                            <select class="form-select text-center" aria-label="Default select example">
+                                            <option selected>Categoría</option>
+                                            <option value="1">One</option>
+                                            </select>
+                                        </div>
+                                        <div class="col col-6">
+                                            <select class="form-select text-center" aria-label="Default select example">
+                                            <option selected>Cursos</option>
+                                            <option value="1">One</option>
+                                            </select>
+                                        </div>
+                                      </div>
+                                    <p class="col-12 fw-bold h6 mb-2">Curso a trasladarse</p>
+                                      <div class="row mb-2">
+                                        <div class="col col-6">
+                                            <select class="form-select text-center" aria-label="Default select example">
+                                            <option selected>Categoría</option>
+                                            <option value="1">One</option>
+                                            </select>
+                                        </div>
+                                        <div class="col col-6">
+                                            <select class="form-select text-center" aria-label="Default select example">
+                                            <option selected>Cursos</option>
+                                            <option value="1">One</option>
+                                            </select>
+                                        </div>
+                                      </div> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Guardar</button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+            </section>
         </section>
         <!-- Etiqueta -->
         <section class="container-fluid mt-4 w-100">
@@ -48,7 +108,7 @@
         </section>
         <!-- Card -->
         <section>
-
+            
         </section>
         <!-- No existen cursos -->
         <section class="mt-5 p-5">
@@ -69,9 +129,38 @@ export default {
   name: 'PersonalAreaInst',
   data(){
     return{
-        
+        UserLog:'',
+        token:'',
     }
   },
+  methods:{
+    updateLocal() {
+      sessionStorage.setItem("user", JSON.stringify(this.UserLog));
+    },
+    sesionDatos() {
+      if (sessionStorage.getItem("user") !== null) {
+        this.UserLog = JSON.parse(sessionStorage.getItem("user"));
+      } else {
+        this.UserLog= '';
+      }
+    },
+    localDatos() {
+      if (localStorage.getItem("token") !== null) {
+        this.token = JSON.parse(localStorage.getItem("token"));
+      } else {
+        this.token= '';
+      }
+    },
+    updateSesion() {
+      localStorage.setItem("token", JSON.stringify(this.token));
+    },
+  },
+  created() {
+    this.sesionDatos();
+    this.localDatos();
+  },
+  mounted() {},
+  computed: {},
 
 }
 </script>
@@ -94,6 +183,12 @@ export default {
 .div-area{
     background: var(--third);
     
+}
+.modal-content{
+  background: var(--third);
+}
+#floatingTextarea{
+  background: var(--fourth);
 }
 button{
     background: var(--first) !important;

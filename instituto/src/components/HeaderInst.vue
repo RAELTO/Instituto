@@ -6,7 +6,7 @@
                         <img src="assets/Logo.png" alt="">
                         <span>Instituto</span>
                     </a> 
-                    <div v-if="rol">
+                    <div v-if="estado">
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
@@ -52,7 +52,8 @@ export default {
   name:'HeaderInst',
   data() {
     return{
-        rol:true
+        estado:false,
+        rol:''
     }
   },
 }
