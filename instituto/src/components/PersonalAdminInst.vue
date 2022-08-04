@@ -37,24 +37,24 @@
     <!--Category  -->
     <section v-if="view===1">
       <div class="container">
-      <table class="table table-dark table-striped">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-        </tbody>
-      </table>
+        <table class="table table-dark table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">First</th>
+              <th scope="col">Last</th>
+              <th scope="col">Handle</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>@mdo</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </section>
     <!-- Courses -->
@@ -79,6 +79,40 @@
         </tbody>
       </table>
       </div>
+    </section>
+    <section>
+        <!-- Modal -->
+        <div class="modal fade" id="modalCat" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Título modal</h5>
+                        <p type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</p>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="text-center">
+                                    <img src="assets/Logo.png" alt="">
+                                </div>
+                                <div class="form-floating mb-3 col-sm-12">
+                                    <h6 class="card-title">Descripción:<span></span></h6>
+                                </div>
+                                <div class="form-floating mb-3 col-sm-12">
+                                    <h6 class="card-title">Fecha de cierre: 12/10/2022<span></span></h6>
+                                </div>
+                                  
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="">Cancelar</button>
+                        <button type="button" class="btn">Matricularse</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
   </section>
