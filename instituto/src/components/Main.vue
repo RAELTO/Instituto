@@ -46,13 +46,12 @@
                         <img src="assets/Logo.png" class="card-img-top" alt="">
                         <h5 class="text-center"><strong></strong></h5>
                         <div class="card-body">
-                            <h6 class="card-title">Estreno: <span></span></h6>
-                            <h6 class="card-title">Genero: <span></span></h6>
-                            <h6 class="card-title">Duracion: <span></span></h6>
+                            <h6 class="card-title">NOMBRE DEL CURSO<span></span></h6>
+                            <h6 class="card-title">Fecha de cierre: 12/10/2022<span></span></h6>
                         </div>
                         <div class="card-footer">
                             <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-                                <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn">Boton</button>
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#modalCursos" class="btn">Matricularse</button>
                             </div> 
                         </div>
                     </div>
@@ -61,6 +60,46 @@
             </div>
         </div>
     </section>
+    <!-- Modal Edit usuario -->
+    <section>
+        <!-- Modal -->
+        <div class="modal fade" id="modalCursos" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Título modal</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="row">
+                                <div>
+                                    <img src="assets/Logo.png" alt="">
+                                </div>
+                                <div class="form-floating mb-3 col-sm-12">
+                                    <!-- <input type="text" class="form-control" placeholder="descripción">
+                                    <label class="ms-2">Descripción</label> -->
+                                    <h6 class="card-title">Descripción:<span></span></h6>
+                                </div>
+                                <div class="form-floating mb-3 col-sm-12">
+                                    <!-- <input type="date" class="form-control" placeholder="fecha">
+                                    <label class="ms-2">Fecha de cierre</label> -->
+                                    <h6 class="card-title">Fecha de cierre: 12/10/2022<span></span></h6>
+                                </div>
+                                  
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="">Cancelar</button>
+                        <button type="button" class="btn">Matricularse</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--  /Modal Edit usuario-->
             
  <!-- FOOTER -->
     <footer id="footer" class="pb-4 pt-4">
@@ -158,6 +197,9 @@ button{
 
 #cartelera .card:hover{
     box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.5);
+}
+#modalCursos .modal-content{
+  background: var(--fourth) !important;
 }
 .container .row .col select{
     background: var(--fourth);
