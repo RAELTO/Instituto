@@ -57,7 +57,7 @@
           </tr>
         </tbody>
       </table>
-      </div>
+      </div> 
     </section>
     <!-- Courses -->
     <section v-if="view===2">
