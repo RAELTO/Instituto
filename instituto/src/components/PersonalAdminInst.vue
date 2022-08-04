@@ -15,18 +15,20 @@
       <table class="table table-dark table-striped">
         <thead>
           <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellidos</th>
+            <th scope="col">Correo</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Opciones</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
+            <td><span>Brayan Esteban</span></td>
+            <td><span>Marin Calderon</span></td>
+            <td><span>demo@demo.com</span></td>
+            <td><span>Activo</span></td>
+            <td><button class="btn"></button></td>
           </tr>
         </tbody>
       </table>
