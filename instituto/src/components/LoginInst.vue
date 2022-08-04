@@ -41,7 +41,7 @@
                         </div>
                          <div class="col-12 col-lg col-md">
                             
-                            <img src="./../assets/Logo.png" style="width: 120px;" alt="">
+                            <img src="assets/Logo.png" style="width: 120px;" alt="">
                            
                         </div>
                         <div class="col-12 col-lg col-md">
