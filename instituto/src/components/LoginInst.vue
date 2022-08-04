@@ -15,7 +15,7 @@
 
             <div class="wv-divider"></div>
             <form class="wv-form">
-              <input class="wv-input" v-model="user" type="email" placeholder="Correo Electronico"/>
+              <input class="wv-input" v-model="correo" type="email" placeholder="Correo Electronico"/>
               <input class="wv-input" v-model="pass" type="password" placeholder="Contraseña"/>
               <button class="wv-button" @click="login" type="button"><span>Iniciar Sesión</span></button>
             </form>
@@ -25,7 +25,7 @@
     </div>
   </div>
 </div>
- <!-- FOOTER -->
+            <!-- FOOTER -->
             <footer id="footer" class="pb-4 pt-4">
                 <div class="container">
                     <div class="row text-center">
@@ -79,6 +79,8 @@ export default {
         prueba:false,
         correo:'',
         pass:'',
+        UserLog:'', 
+        token:'',
     }
   },
   methods:{
@@ -89,13 +91,44 @@ export default {
         contrasena: this.pass,
       })
       .then((response)=>{
-        console.log(response.data)
-      })
+        console.log('RESPONSE',response.data);
+        this.UserLog = response.data.user;
+        this.token = response.data.token;
+        this.updateLocal();
+        this.updateSesion();
+        this.$router.push('/personal');
+      }) 
       .catch(err=>{
         console.log(err)
       })
-    }
-  }
+    },
+    updateLocal() {
+      sessionStorage.setItem("user", JSON.stringify(this.UserLog));
+    },
+    sesionDatos() {
+      if (sessionStorage.getItem("user") !== null) {
+        this.UserLog = JSON.parse(sessionStorage.getItem("user"));
+      } else {
+        this.UserLog= '';
+      }
+    },
+    localDatos() {
+      if (localStorage.getItem("token") !== null) {
+        this.token = JSON.parse(localStorage.getItem("token"));
+      } else {
+        this.token= '';
+      }
+    },
+    updateSesion() {
+      localStorage.setItem("token", JSON.stringify(this.token));
+    },
+  },
+  created() {
+    this.sesionDatos();
+    this.localDatos();
+  },
+  mounted() {},
+  computed: {},
 }
 
 
