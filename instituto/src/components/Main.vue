@@ -24,13 +24,13 @@
     <section class="mt-4">
         <div class="container">
             <div class="row justify-content-between">
-                <div class="col col-5">
+                <div class="col col-6">
                     <select class="form-select text-center" aria-label="Default select example">
                     <option selected>Open this select menu</option>
                     <option value="1">One</option>
                     </select>
                 </div>
-                <div class="col col-5 ">
+                <div class="col col-6 ">
                     <div>
                         <input type="email" class="form-control text-center" placeholder="Buscar curso">
                     </div>
@@ -69,7 +69,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="staticBackdropLabel">Título modal</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
+                        <p type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</p>
                     </div>
                     <div class="modal-body">
                         <div class="container">
