@@ -1,10 +1,14 @@
 const { response, request } = require('express');
-const RegistrationCourse = require('../models/matriculaXcurso');
+const { Registration, RegistrationCourse, Course, User } = require('../models');
+
 
 const getAllRegistrationCourse= async(req = request, res = response) => {//obtener todos los cursos
     await RegistrationCourse.findAll({attributes:[
-        'id', 'id_matr', 'id_curso'
-    ]})
+        'id'
+    ], include: [{ model: Registration, attributes: ['id', 'fecha_matricula', 'precio_matricula'],
+        include: [{model: User, 
+            attributes: ['id', 'nombre', 'apellido', 'telefono', 'dni', 'correo', 'direccion']}] }, 
+    { model: Course }]})
         .then(registration => {
             const data = JSON.stringify(registration);
             const results = JSON.parse(data);
@@ -21,7 +25,6 @@ const getAllRegistrationCourse= async(req = request, res = response) => {//obten
 };
 
 const getOneRegistrationCourse = async(req = request, res = response) => {
-    //res.send(`Get course ${req.params.id}`);
     await RegistrationCourse.findOne({attributes:[
         'id', 'id_matr', 'id_curso'
     ], where: { id: req.params.id } })
@@ -62,7 +65,6 @@ const createNewRegistrationCourse = async(req = request, res = response) => {
         {
         id_matr: req.body.id_matr,
         id_curso: req.body.id_curso,
-       
     }, { fields: ['id_matr', 'id_curso'] })
         .then(registration => {
 
@@ -95,7 +97,6 @@ const createNewRegistrationCourse = async(req = request, res = response) => {
 // }
 
 const updateOneRegistrationCourse = async(req = request, res = response) => {
-    //res.send(`Update course ${req.params.id}`);
     await RegistrationCourse.update({ 
         id_matr: req.body.id_matr,
         id_curso: req.body.id_curso,
@@ -117,25 +118,6 @@ const updateOneRegistrationCourse = async(req = request, res = response) => {
 };
 
 const deleteOneRegistrationCourse = async(req = request, res = response) => {
-    //res.send(`Delete course ${req.params.id}`);
-    /*await Course.update({ 
-        estado_curso: 0,
-    }, {
-        where: {
-            id: req.params.id
-        }
-    })
-        .then(course => {
-            console.log(course);
-            if (course != 0) {
-                res.status(200).send(`Curso con id: ${req.params.id} fue borrado correctamente`);
-            }else{
-                res.status(404).send(`Curso con id: ${req.params.id} no encontrado`);
-            }
-            
-        }).catch(error => {
-            console.log(error);
-        });*/
 
         await RegistrationCourse.destroy({
             where: {

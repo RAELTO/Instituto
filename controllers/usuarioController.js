@@ -1,15 +1,14 @@
 const { response, request } = require('express');
 const bcryptjs = require('bcryptjs');
-
-const User = require('../models/usuarios');
+const { Role, TDocument, User } = require('../models');
 const { use } = require('../routes/usuarios');
 
 const getAllUsers = async(req = request, res = response) => {//obtener todos los cursos
     await User.findAll({attributes:[
         'id', 'nombre', 'apellido', 'fecha_nac',
-        'telefono', 'documento', 'tipo_doc_id', 'dni',
-        'correo', 'direccion', 'rol_id', 'id_estado', 'contrasena'
-    ]})
+        'telefono', 'documento', 'dni',
+        'correo', 'direccion', 'id_estado'
+    ], include: [{ model: Role}, { model: TDocument }]})
         .then(user => {
             const data = JSON.stringify(user);
             console.log(data);
@@ -30,9 +29,9 @@ const getOneUser = async(req = request, res = response) => {
     //res.send(`Get course ${req.params.id}`);
     await User.findOne({attributes:[
         'id', 'nombre', 'apellido', 'fecha_nac',
-        'telefono', 'documento', 'tipo_doc_id', 'dni',
-        'correo', 'direccion', 'rol_id', 'id_estado', 'contrasena'
-    ], where: { id: req.params.id } })
+        'telefono', 'documento', 'dni',
+        'correo', 'direccion', 'id_estado'
+    ], where: { id: req.params.id }, include: [{ model: Role}, { model: TDocument }]})
         .then(user => {
             const data = JSON.stringify(user);
             const results = JSON.parse(data);
@@ -74,7 +73,7 @@ const createNewUser = async(req = request, res = response) => {
     'correo', 'direccion', 'rol_id', 'id_estado', 'contrasena'] })
         .then(user => {
             if (user) {
-                res.send({
+                res.status(200).send({
                     user,
                     msg: "Usuario creado correctamente"
                 });
