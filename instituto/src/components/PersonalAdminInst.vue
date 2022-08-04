@@ -2,9 +2,9 @@
 <!-- Buttons -->
   <section>
     <div class="container mt-5 p-3">
-      <button class="btn m-2 fw-bold text-white" @click="user"> Usuarios</button>
-      <button class="btn m-2 fw-bold text-white" @click="category">Categoría</button>
-      <button class="btn m-2 fw-bold text-white" @click="courses">Cursos</button>
+      <button class="btn m-2 fw-bold text-white " :disabled="view===0" @click="user"> Usuarios</button>
+      <button class="btn m-2 fw-bold text-white" :disabled="view===1" @click="category">Categoría</button>
+      <button class="btn m-2 fw-bold text-white" :disabled="view===2" @click="courses">Cursos</button>
     </div>
   </section>
   <!-- Tables -->
@@ -33,7 +33,7 @@
       </div>
     </section>
     <!--Category  -->
-    <section v-if="view===2">
+    <section v-if="view===1">
       <div class="container">
       <table class="table table-dark table-striped">
         <thead>
