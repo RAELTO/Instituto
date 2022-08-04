@@ -74,7 +74,7 @@
                     <div class="modal-body">
                         <div class="container">
                             <div class="row">
-                                <div>
+                                <div class="text-center">
                                     <img src="assets/Logo.png" alt="">
                                 </div>
                                 <div class="form-floating mb-3 col-sm-12">
