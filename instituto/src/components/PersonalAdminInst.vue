@@ -359,9 +359,20 @@
           <tbody>
             <tr>
               <th scope="row">1</th>
-              <td>JAVA</td>
-              <td>En este curso de Java aprenderás a dominar este lenguaje de programación desde cero a experto, lo cual te permitirá crear aplicaciones de escritorio siguiendo las buenas prácticas de programación en Java.</td>
-              <td><button class="btn"></button></td>
+              <td>DESARROLLO</td>
+              <td>Aprende Desarrollo Web con este curso 100% práctico, paso a paso y sin conocimientos previo</td>
+              <td>
+                <button
+                  class="btn text-white"
+                  data-bs-toggle="modal"
+                  data-bs-target="#userEdit"
+                >
+                  <i class="bi bi-eye-fill"></i>
+                </button>
+                <button class="btn text-white danger ms-1">
+                  <i class="bi bi-trash3-fill"></i>
+                </button>
+              </td>
             </tr>
           </tbody>
         </table> 
