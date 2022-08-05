@@ -56,7 +56,7 @@
               <td>@mdo</td>
             </tr>
           </tbody>
-        </table>
+        </table> 
       </div> 
       <section>
         <!-- Modal -->
