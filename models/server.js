@@ -62,7 +62,7 @@ class Server {
         this.app.use( this.paths.areas, require('../routes/areas') );
 
         this.app.get('*', (req, res) => {
-            res.send('<h1>404 | Page not found</h1>' );
+            res.status(404).send(`<h1>404 | Endpoint: " ${req.url} " not found</h1>`);
         });
     }
 
