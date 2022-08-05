@@ -387,6 +387,8 @@ background-color: var(--third);
 }
 #modalfooterpass{
    background-color: var(--third);
+
+   
 }
 
 
