@@ -38,7 +38,7 @@ router.put('/:id', [
     check('id').custom( registrationCourseExistingId ),
     check('id_matr').custom( registrationExistingId ),
     check('id_curso').custom(courseExistingId),
-    check('id_matr', 'id_curso').custom(courseValidator),
+    // check('id_matr', 'id_curso').custom(courseValidator),
     valFields
 ], updateOneRegistrationCourse);
 
@@ -50,7 +50,7 @@ router.post('/', [
     check('id_matr').custom( registrationExistingId ),
     check('id_curso', 'No es un valor valido').isNumeric(),
     check('id_curso').custom(courseExistingId),
-    check('id_matr', 'id_curso').custom(courseValidator),
+    // check('id_matr', 'id_curso').custom(courseValidator),
     valFields
 ], createNewRegistrationCourse);
 
