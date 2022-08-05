@@ -736,6 +736,11 @@ export default {
       return JSON.parse(localStorage.getItem("token"))
     }
   },
+  // beforeCreate(){
+  //   console.log('Inicio del before');
+  //   console.log(this.getToken());
+  //   console.log('Final del Before');
+  // }
 };
 </script>
 <style>
