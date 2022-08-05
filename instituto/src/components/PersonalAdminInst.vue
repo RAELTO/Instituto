@@ -78,7 +78,8 @@
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">Descripción:</label>
-                                        <input type="text" minlength="8" class="form-control" placeholder="ingrese descripción">
+                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="ingrese descripción"></textarea>
+
                                     </div>
                                 </form>                                  
                             </div>
