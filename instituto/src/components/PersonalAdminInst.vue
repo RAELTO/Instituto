@@ -364,8 +364,9 @@
               <td>
                 <button
                   class="btn text-white"
-                  data-bs-toggle="modal"
-                  data-bs-target="#userEdit"
+                  data-bs-toggle="modal" 
+                  data-bs-target="#modalCat"
+                  @click="botonAct()"
                 >
                   <i class="bi bi-eye-fill"></i>
                 </button>
@@ -446,10 +447,13 @@ export default {
   data() {
     return {
       view: 0,
-      typeAction: 0
+      typeAction: 0,
     };
   },
   methods: {
+    botonAct(){
+      this.typeAction = 1;
+    },
     user() {
       this.view = 0;
     },
