@@ -128,7 +128,7 @@ export default {
         this.token = response.data.token;
         this.updateLocal();
         this.updateSesion();
-        this.$router.push('/personal');
+        this.$router.push('/personalAdmin');
       }) 
       .catch(err=>{
         console.log(err)
