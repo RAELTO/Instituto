@@ -394,8 +394,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="">Cancelar</button>
-                        <button type="button" class="btn">Matricularse</button>
+                        <button type="button" class="btn btn-secondary fw-bold text-white" data-bs-dismiss="modal" id="">Cancelar</button>
+                        <button type="button" class="btn fw-bold text-white">Matricularse</button>
                     </div>
                 </div>
             </div>
