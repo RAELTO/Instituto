@@ -64,7 +64,7 @@ const createNewArea = async(req = request, res = response) => {
 
 const updateOneArea = async(req = request, res = response) => {
     await Areas.update({ 
-        area_estudio: req.body.area_estudio
+        area_estudio: req.body.area_estudio.toUpperCase()
     }, {
         where: {
             id: req.params.id
