@@ -43,7 +43,7 @@ const getOneArea = async(req = request, res = response) => {
 
 const createNewArea = async(req = request, res = response) => {
     await Areas.create({
-        area_estudio: req.body.area_estudio,
+        area_estudio: req.body.area_estudio.toUpperCase()
     }, { fields: ['area_estudio'] })
         .then(area => {
             if (area) {
