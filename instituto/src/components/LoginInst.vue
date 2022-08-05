@@ -17,10 +17,42 @@
             <form class="wv-form">
               <input class="wv-input" v-model="correo" type="email" placeholder="Correo Electronico"/>
               <input class="wv-input" v-model="pass" type="password" placeholder="Contraseña"/>
-              <button class="wv-button" @click="login" type="button"><span>Iniciar Sesión</span></button>
+              <button class="wv-button" @click="login"  data-bs-toggle="modal" data-bs-target="#modalcambiopass" type="button"><span>Iniciar Sesión prueba</span></button>
+              <div  style="margin-top: 10px;" >
+            <button  class="wv-button">Iniciar Sesión </button>
+            </div>
             </form>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal Cambio Contraseña -->
+<div class="modal fade" id="modalcambiopass"  aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content" >
+      <div class="modal-header" id="modalheaderpass">
+        <h5 class="modal-title fw-bold" id="exampleModalLabel"  >Cambio de clave</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="modalpassbody">
+        <div class="row">
+          <div class="card" id="cardpass" >
+              <div class="card-body" > 
+                <h5 class="card-title">Por su seguridad es necesario cambiar su contraseña</h5>
+               <p style="color:black ;"> Digite su Nueva contraseña</p>
+                <input    class="form-control" >
+                <div style="margin-top: 10px ;">
+                <p  style="color:black ;" >  Confirme su nueva contraseña</p>
+                 <input    class="form-control" >
+                 </div >
+              </div>
+              </div>
+            </div>    
+            </div>
+       <div class="modal-footer" id="modalfooterpass">
+        <button type="button" class="btn btn-success">Confirmar</button>
       </div>
     </div>
   </div>
@@ -340,12 +372,28 @@ p {
 .wv-tabs {
   margin: 0 0 -160px;
 }
+#modalcambiopass{
+color: black;
+
+}
+#modalheaderpass{
+  background-color: var(--third);
+}
+#modalpassbody{
+  background-color: var(--third);
+}
+#cardpass{
+background-color: var(--third);
+}
+#modalfooterpass{
+   background-color: var(--third);
+}
 
 
 
 #footer {
     background: var(--second) ;
-    padding: 250px;
+    padding: 310px;
     margin-top: 14%;
 
  
@@ -357,12 +405,10 @@ p {
 
 }
 
-#footer h6 i{
-    font-size: 20px;
-    
-}
+
 #footer h5{
     color: white;
+    
     
     
 }
