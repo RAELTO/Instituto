@@ -38,26 +38,61 @@
     <!--Category  -->
     <section v-if="view===1">
       <div class="container">
-      <button class="btn p-1 m-2 fw-bold text-white" data-bs-toggle="modal" data-bs-target="#modalCat">Crear Categoría</button>
-      <table class="table table-dark table-striped">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-        </tbody>
-      </table>
+        <button class="btn p-1 m-2 fw-bold text-white" data-bs-toggle="modal" data-bs-target="#modalCat">Crear Categoría</button>
+        <table class="table table-dark table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">First</th>
+              <th scope="col">Last</th>
+              <th scope="col">Handle</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>@mdo</td>
+            </tr>
+          </tbody>
+        </table>
       </div> 
+      <section>
+        <!-- Modal -->
+        <div class="modal fade" id="modalCat" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Agregar categoría</h5>
+                        <p type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></p>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="row">
+                              <form class="text-start">
+                                    <div class="mb-3">
+                                        <label class="form-label">Nombre categoría:</label>
+                                        <input type="text" class="form-control" placeholder="ingrese nombre de la categoria">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Descripción:</label>
+                                        <input type="text" minlength="8" class="form-control" placeholder="ingrese descripción">
+                                    </div>
+                                </form>                                  
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="">Cancelar</button>
+                        <button type="button" class="btn">Matricularse</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     </section>
     <!-- Courses -->
     <section v-if="view===2">
@@ -85,39 +120,6 @@
     </section>
 
   </section>
-  <section>
-        <!-- Modal -->
-        <div class="modal fade" id="modalCat" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-            aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">Agregar categoría</h5>
-                        <p type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</p>
-                    </div>
-                    <div class="modal-body">
-                        <div class="container">
-                            <div class="row">
-                                    <label for="exampleFormControlInput1" class="form-label">Nombre categoría</label>
-                                <div class="form-floating mb-3 col-sm-12">
-                                    <input type="text" class="form-control" id="exampleFormControlInput1">
-                                </div>
-                                    <label for="exampleFormControlTextarea1" class="form-label">Descripción:</label>
-                                <div class="form-floating mb-3 col-sm-12">
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                                </div>
-                                  
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="">Cancelar</button>
-                        <button type="button" class="btn">Matricularse</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 </template>
 <script>
 export default {
