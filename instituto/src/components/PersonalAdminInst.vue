@@ -395,7 +395,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary fw-bold text-white" data-bs-dismiss="modal" id="">Cancelar</button>
-                        <button type="button" class="btn fw-bold text-white">Matricularse</button>
+                        <button type="button" v-if="typeAction == 0" class="btn fw-bold text-white">Matricularse</button>
+                        <button type="button" v-if="typeAction == 1" class="btn fw-bold text-white">Actualizar</button>
                     </div>
                 </div>
             </div>
@@ -434,6 +435,7 @@ export default {
   data() {
     return {
       view: 0,
+      typeAction: 0
     };
   },
   methods: {
