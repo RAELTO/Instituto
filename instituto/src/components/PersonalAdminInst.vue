@@ -420,26 +420,275 @@
     <!-- Courses -->
     <section v-if="view===2">
       <div class="container">
-      <button class="btn p-1 m-2 fw-bold text-white">Crear usuario</button>
-      <table class="table table-dark table-striped">
+      <button class="btn p-1 m-2 fw-bold text-white"  
+      data-bs-toggle="modal"
+      data-bs-target="#gradeCreate" 
+       >Agregar cursos
+       </button>
+      <table class="table table-dark table-striped" >
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th scope="col">Nombre de curso</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Cantidad Alumnos</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Opciones</th>
+              
           </tr>
         </thead> 
         <tbody>
           <tr>
             <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
+            <td>Vue.js</td>
+            <td>
+              <div class="input-append date" id="dp3" data-date="12-02-2012" data-date-format="dd-mm-yyyy">  <input class="span2" size="16" type="text" value="12-02-2012">  <span class="add-on"><i class="icon-th"></i></span></div>
+            </td>
+            <td>25</td>
+           <td><span>Activo</span></td>
+             <td>
+                <button
+                  class="btn text-white"
+                  data-bs-toggle="modal"
+                  data-bs-target="#gradeEdit"
+                >
+                  <i class="bi bi-eye-fill"></i>
+                </button>
+                <button class="btn text-white danger ms-1">
+                  <i class="bi bi-trash3-fill"></i>
+                </button>
+              </td>
           </tr>
         </tbody>
       </table>
       </div>
+          <!-- Modal  Crear curso-->
+      <div
+        class="modal fade"
+        id="gradeCreate"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title fw-bold" id="staticBackdropLabel">
+                Agregar Curso
+              </h5>
+              <p
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></p>
+            </div>
+            <!-- body modal curso -->
+            <div class="modal-body">
+              <div class="container">
+                <div class="row">
+                
+                  <div class="mb-3 col-12">
+                    <select
+                      class="form-select"
+                      aria-label="Default select example"
+                    >
+                      <option selected>Categoria curso </option>
+                      <option value="1">Programación</option>
+                      <option value="2">Matemáticas</option>
+
+                    </select>
+                  </div>
+                   <div class="mb-3 col-6">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Nombre Curso"
+                      aria-label="NombreCurso"
+                      aria-describedby="basic-addon1"
+                    />
+                  </div>
+                  <div class="mb-3 col-6">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Cantidad Alumnos"
+                      aria-label="CantidadAlumnos"
+                      aria-describedby="basic-addon1"
+                    />
+                  </div>
+                  <div class="mb-3 col-12">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Fecha Curso"
+                      aria-label="FechaCurso"
+                      aria-describedby="basic-addon1"
+                    />
+                  </div>
+                
+                    <div class="mb-3 col-12">
+                    <select
+                      class="form-select"
+                      aria-label="Default select example"
+                    >
+                      <option selected>activo</option>
+                      <option value="1">inactivo</option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                   <label class="form-label">Descripción:</label>
+                   <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Ingrese una descripción"></textarea>
+                   </div>
+                  <div class="input-group mb-3">
+                    <label class="fw-bold col-12 mb-2"> Cargar Imagen Curso</label>
+                    <input
+                      type="file"
+                      class="form-control"
+                      id="inputGroupFile02"
+                    />
+                    <label class="input-group-text" for="inputGroupFile02"
+                      >Upload</label
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary fw-bold"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" class="btn btn-primary fw-bold">
+                Guardar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+  <div
+        class="modal fade"
+        id="gradeEdit"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title fw-bold" id="staticBackdropLabel">
+                Agregar Curso
+              </h5>
+              <p
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></p>
+            </div>
+            <!-- body modal curso -->
+            <div class="modal-body">
+              <div class="container">
+                <div class="row">
+                
+                  <div class="mb-3 col-12">
+                    <select
+                      class="form-select"
+                      aria-label="Default select example"
+                    >
+                      <option selected>Categoria curso </option>
+                      <option value="1">Programación</option>
+                      <option value="2">Matemáticas	</option>
+
+                    </select>
+                  </div>
+                   <div class="mb-3 col-6">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Nombre Curso"
+                      aria-label="NombreCurso"
+                      aria-describedby="basic-addon1"
+                    />
+                  </div>
+                  <div class="mb-3 col-6">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Cantidad Alumnos"
+                      aria-label="CantidadAlumnos"
+                      aria-describedby="basic-addon1"
+                    />
+                  </div>
+                  <div class="mb-3 col-6">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Fecha Curso"
+                      aria-label="FechaCurso"
+                      aria-describedby="basic-addon1"
+                    />
+                  </div>
+                  <div class="mb-3 col-6">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Docente"
+                      aria-label="Docente"
+                      aria-describedby="basic-addon1"
+                    />
+                  </div>
+                    <div class="mb-3 col-12">
+                    <select
+                      class="form-select"
+                      aria-label="Default select example"
+                    >
+                      <option selected>activo</option>
+                      <option value="1">inactivo</option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                   <label class="form-label">Descripción:</label>
+                   <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Ingrese descripción del curso"></textarea>
+                   </div>
+                  <div class="input-group mb-3">
+                    <label class="fw-bold col-12 mb-2"> Cargar Imagen Curso</label>
+                    <input
+                      type="file"
+                      class="form-control"
+                      id="inputGroupFile02"
+                    />
+                    <label class="input-group-text" for="inputGroupFile02"
+                      >Upload</label
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary fw-bold"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" class="btn btn-primary fw-bold">
+                Guardar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </section>
   </section>
 </template>
@@ -451,6 +700,8 @@ export default {
       typeAction: 0,
     };
   },
+  
+      
   methods: {
     botonAct(){
       this.typeAction = 1;
