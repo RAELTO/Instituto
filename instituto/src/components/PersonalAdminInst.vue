@@ -385,7 +385,8 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">Agregar categoría</h5>
+                        <h5 class="modal-title" v-if="typeAction == 0" id="staticBackdropLabel">Agregar categoría</h5>
+                        <h5 class="modal-title" v-if="typeAction == 1" id="staticBackdropLabel">Actualizar categoría</h5>
                         <p type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></p>
                     </div>
                     <div class="modal-body">
