@@ -346,7 +346,7 @@
     <!--Category  -->
     <section v-if="view === 1">
       <div class="container">
-        <button class="btn p-1 m-2 fw-bold text-white" data-bs-toggle="modal" data-bs-target="#modalCat">Crear Categoría</button>
+        <button class="btn p-1 m-2 fw-bold text-white" data-bs-toggle="modal" @click="getToken()" data-bs-target="#modalCat">Crear Categoría</button>
         <table class="table table-dark table-striped">
           <thead>
             <tr>
@@ -395,11 +395,11 @@
                               <form class="text-start">
                                     <div class="mb-3">
                                         <label class="form-label">Nombre categoría:</label>
-                                        <input type="text" class="form-control" placeholder="ingrese nombre de la categoria">
+                                        <input type="text" v-model="name" class="form-control" placeholder="ingrese nombre de la categoria">
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">Descripción:</label>
-                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="ingrese descripción"></textarea>
+                                        <textarea class="form-control" v-model="description" id="exampleFormControlTextarea1" rows="3" placeholder="ingrese descripción"></textarea>
 
                                     </div>
                                 </form>                                  
@@ -408,7 +408,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary fw-bold text-white" data-bs-dismiss="modal" id="">Cancelar</button>
-                        <button type="button" v-if="typeAction == 0" class="btn fw-bold text-white">Matricularse</button>
+                        <button type="button" v-if="typeAction == 0" @click="registrar()" class="btn fw-bold text-white">Matricularse</button>
                         <button type="button" v-if="typeAction == 1" class="btn fw-bold text-white">Actualizar</button>
                     </div>
                 </div>
@@ -693,11 +693,14 @@
   </section>
 </template>
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
       view: 0,
       typeAction: 0,
+      name: '',
+      description: ''
     };
   },
   
@@ -715,6 +718,23 @@ export default {
     courses() {
       this.view = 2;
     },
+    async registrar(){
+       const url ='https://instituto-backend.herokuapp.com/api/v1/areas-estudio';
+       const data = {"area_estudio": this.name}
+       const headers = {headers:{"x-token":this.getToken()}}
+       console.log(this.getToken("token"));
+      await axios
+        .post(url, data, headers)
+        .then((response) => {
+            console.log(response.data);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    },
+    getToken(){  
+      return JSON.parse(localStorage.getItem("token"))
+    }
   },
 };
 </script>
