@@ -9,7 +9,7 @@ const {
     adminRole, 
     hasRole
 } = require('../middlewares');
-const { registrationExistingId, registrationCourseExistingId , courseExistingId , courseValidator } = require('../helpers/db-validator');
+const { registrationExistingId, registrationCourseExistingId , courseExistingId } = require('../helpers/db-validator');
 
 
 
