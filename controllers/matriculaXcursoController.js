@@ -63,39 +63,10 @@ const createNewRegistrationCourse = async(req = request, res = response) => {
     // }
     // } );
     // console.log(`There are ${amount} projects with an id greater than 25`);
-    await loadInfo();
-    await loadCourse(req.body.id_curso);
-    console.log(cursos);
+   
+    let registro = await validateRegister(req.body.id_matr,  req.body.id_curso);
 
-    let ward = true;
-    let msg = ''
-    info.forEach(matr => {
-        if(matr.matricula.id == req.body.id_matr && matr.curso.id ==  req.body.id_curso ){
-            // console.log('Ya existe un curso registrado en la matricula');
-           msg += `Ya existe un curso con id ${ req.body.id_curso} en la matricula ${req.body.id_matr}`
-            ward = false;
-        }
-        
-    });
-
-    let areas = 0;
-    
-    info.forEach(matr => {
-        if(matr.matricula.id == req.body.id_matr && cursos.areas_estudio.id ==  matr.curso.area_estudio_id ){
-            areas += 1;
-        }
-        
-    });
-
-    if(areas >= 4){
-        ward = false;
-        msg += ` El estudiante ya supero la cantidad máxima (4) de cursos de una misma area ${cursos.areas_estudio.area_estudio}`;
-       
-       
-    }
-
-
-    if(ward){
+    if(registro.ward){
         await RegistrationCourse.create(
             {
                 
@@ -120,7 +91,7 @@ const createNewRegistrationCourse = async(req = request, res = response) => {
     }
     else{
         try {
-            res.status(400).send(msg);
+            res.status(400).send(registro.msg);
         } catch (error) {
             console.log(error);
         }
@@ -128,6 +99,9 @@ const createNewRegistrationCourse = async(req = request, res = response) => {
     }
     
 };
+
+
+
 
 // //Validar que un curso este registrado en una misma matricula 
 // const courseValidator = async(id_matr = '', id_curso = '') => {
@@ -141,24 +115,40 @@ const createNewRegistrationCourse = async(req = request, res = response) => {
 // }
 
 const updateOneRegistrationCourse = async(req = request, res = response) => {
-    await RegistrationCourse.update({ 
-        id_matr: req.body.id_matr,
-        id_curso: req.body.id_curso,
-    }, {
-        where: {
-            id: req.params.id
-        }
-    })
-        .then(registration => {
-            if (registration != 0) {
-                res.status(200).send(`Matricula por cursos con id: ${req.params.id} fue actualizada correctamente`);
-            }else{
-                res.status(404).send(`Matricula por cursos con id: ${req.params.id} no encontrada`);
+
+    let registro = await validateRegister(req.body.id_matr,  req.body.id_curso);
+
+
+    if(registro.ward){
+
+        await RegistrationCourse.update({ 
+            id_matr: req.body.id_matr,
+            id_curso: req.body.id_curso,
+        }, {
+            where: {
+                id: req.params.id
             }
-            
-        }).catch(error => {
+        })
+            .then(registration => {
+                if (registration != 0) {
+                    res.status(200).send(`Matricula por cursos con id: ${req.params.id} fue actualizada correctamente`);
+                }else{
+                    res.status(404).send(`Matricula por cursos con id: ${req.params.id} no encontrada`);
+                }
+                
+            }).catch(error => {
+                console.log(error);
+            });
+    }
+    else{
+        try {
+            res.status(400).send(registro.msg);
+        } catch (error) {
             console.log(error);
-        });
+        }
+       
+    }
+    
 };
 
 const deleteOneRegistrationCourse = async(req = request, res = response) => {
@@ -217,6 +207,48 @@ async function loadCourse(id) {
                 console.log(error);
             });
     
+};
+
+async function validateRegister(id_matr, id_curso){
+
+    await loadInfo();
+    await loadCourse(id_curso);
+    // console.log(cursos);
+    // console.log(info);
+
+    // console.log(id_matr, id_curso);
+    let registro = {
+        ward: true,
+        msg: ''
+    }
+    // let ward = true;
+    // let msg = ''
+    info.forEach(matr => {
+        if(matr.matricula.id == id_matr && matr.curso.id ==  id_curso ){
+            // console.log('Ya existe un curso registrado en la matricula');
+           registro.msg += `Ya existe un curso con id ${ id_curso} en la matricula ${id_matr}`
+            registro.ward = false;
+        }
+        
+    });
+
+    let areas = 0;
+    
+    info.forEach(matr => {
+        if(matr.matricula.id == id_matr && cursos.areas_estudio.id ==  matr.curso.area_estudio_id ){
+            areas += 1;
+        }
+        
+    });
+
+    if(areas >= 4){
+        registro.ward = false;
+        registro.msg += `\nEl estudiante ya supero la cantidad máxima (4) de cursos de una misma area ${cursos.areas_estudio.area_estudio}`;
+       
+       
+    }
+
+    return registro;
 };
 
 module.exports = {
