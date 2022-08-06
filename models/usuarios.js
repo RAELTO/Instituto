@@ -26,6 +26,7 @@ const User = sequelize.define('usuarios', {
     },
     documento: {
         type: DataTypes.STRING,
+        defaultValue: 'noImage.jpg',
         allowNull: false
     },
     tipo_doc_id: {
