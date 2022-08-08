@@ -761,7 +761,7 @@ export default {
     },
     
     listCat(){
-      // const url ='https://instituto-backend.herokuapp.com/api/v1/cursos';
+      // const url ='https://instituto-backend.herokuapp.com/api/v1/area-estudio';
 
     },
     chargData(data = []){
