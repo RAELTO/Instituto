@@ -7,7 +7,7 @@ const getAllUsers = async(req = request, res = response) => {//obtener todos los
     await User.findAll({attributes:[
         'id', 'nombre', 'apellido', 'fecha_nac',
         'telefono', 'documento', 'dni',
-        'correo', 'direccion', 'id_estado'
+        'correo', 'direccion', 'id_estado', 'img'
     ], include: [{ model: Role}, { model: TDocument }]})
         .then(user => {
             const data = JSON.stringify(user);
@@ -30,7 +30,7 @@ const getOneUser = async(req = request, res = response) => {
     await User.findOne({attributes:[
         'id', 'nombre', 'apellido', 'fecha_nac',
         'telefono', 'documento', 'dni',
-        'correo', 'direccion', 'id_estado'
+        'correo', 'direccion', 'id_estado', 'img'
     ], where: { id: req.params.id }, include: [{ model: Role}, { model: TDocument }]})
         .then(user => {
             const data = JSON.stringify(user);
