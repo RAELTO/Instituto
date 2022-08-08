@@ -461,7 +461,9 @@
                 >
                   <i class="bi bi-eye-fill"></i>
                 </button>
-                <button class="btn text-white danger ms-1">
+                <button 
+                  @click="deleteCat(data)"
+                  class="btn text-white danger ms-1">
                   <i class="bi bi-trash3-fill"></i>
                 </button>
               </td>
@@ -764,8 +766,33 @@ export default {
         });
     },
     listCat(){
-      // const url ='https://instituto-backend.herokuapp.com/api/v1/areas-estudio';
+       const url ='https://instituto-backend.herokuapp.com/api/v1/areas-estudio';  
+       const headers = {
+                        headers:{"x-token":this.getToken()}
+                       }
+       axios
+        .get(url)
+        .then(data => this.arrayDataCat = data.data.results)
+        .catch(function (error) {
+          console.log(error);
+        });
 
+    },
+    deleteCat(data = []){
+       const url ='https://instituto-backend.herokuapp.com/api/v1/areas-estudio/id';
+       const headers = {
+                        headers:{"x-token":this.getToken()}
+                       }
+       axios 
+        .delete(url, {
+        id: data["id"],
+        })
+        .then((response) => {
+            this.listCat
+        })  
+        .catch(function(error) {
+          console.log(error);
+        });
     },
     chargData(data = []){
       this.catAct();
