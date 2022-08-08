@@ -346,7 +346,7 @@
     <!--Category  -->
     <section v-if="view === 1">
       <div class="container">
-        <button class="btn p-1 m-2 fw-bold text-white" data-bs-toggle="modal" @click="getToken()" data-bs-target="#modalCat">Crear Categoría</button>
+        <button class="btn p-1 m-2 fw-bold text-white" data-bs-toggle="modal" data-bs-target="#modalCat">Crear Categoría</button>
         <table class="table table-dark table-striped">
           <thead>
             <tr>
@@ -366,7 +366,7 @@
                   class="btn text-white"
                   data-bs-toggle="modal" 
                   data-bs-target="#modalCat"
-                  @click="botonAct()"
+                  @click="chargData()"
                 >
                   <i class="bi bi-eye-fill"></i>
                 </button>
@@ -700,14 +700,17 @@ export default {
       view: 0,
       typeAction: 0,
       name: '',
-      description: ''
+      description: '',
+      arrayDataCat: [],
+      id_DataCat: 0,
     };
-  },
-  
-      
+  },   
   methods: {
-    botonAct(){
+    catAct(){
       this.typeAction = 1;
+    },
+    catBasic(){
+      this.typeAction = 0;
     },
     user() {
       this.view = 0;
@@ -720,8 +723,12 @@ export default {
     },
     async registrar(){
        const url ='https://instituto-backend.herokuapp.com/api/v1/areas-estudio';
-       const data = {"area_estudio": this.name}
-       const headers = {headers:{"x-token":this.getToken()}}
+       const data = {
+                     "area_estudio": this.name
+                    }
+       const headers = {
+                        headers:{"x-token":this.getToken()}
+                       }
        console.log(this.getToken("token"));
       await axios
         .post(url, data, headers)
@@ -731,6 +738,18 @@ export default {
         .catch((error) => {
             console.log(error);
         });
+    },
+    listCat(){
+      // const url ='https://instituto-backend.herokuapp.com/api/v1/areas-estudio';
+
+    },
+    chargData(data = []){
+      this.catAct();
+      this.id_DataCat = data["id"];
+      this.name = data["area_estudio"];
+    },
+    UpdateDataCat(){
+
     },
     getToken(){  
       return JSON.parse(localStorage.getItem("token"))
