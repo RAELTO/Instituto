@@ -722,6 +722,7 @@ export default {
       description: '',
       arrayDataCat: [],
       id_DataCat: 0,
+      cursos:'',
     };
   },   
   methods: {
@@ -758,8 +759,9 @@ export default {
             console.log(error);
         });
     },
+    
     listCat(){
-      // const url ='https://instituto-backend.herokuapp.com/api/v1/areas-estudio';
+      // const url ='https://instituto-backend.herokuapp.com/api/v1/cursos';
 
     },
     chargData(data = []){
@@ -773,6 +775,24 @@ export default {
     getToken(){  
       this.token = JSON.parse(localStorage.getItem("token"))
       return JSON.parse(localStorage.getItem("token"))
+    },
+    async registrarCursos(){
+       const url ='https://instituto-backend.herokuapp.com/api/v1/cursos';
+       const data = {
+                     "nombre_curso": this.name
+                    }
+       const headers = {
+                        headers:{"x-token":this.getToken()}
+                       }
+       console.log(this.getToken("token"));
+      await axios
+        .post(url, data, headers)
+        .then((response) => {
+            console.log(response.data);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
     },
     async getUsuarios(){
       const url ='https://instituto-backend.herokuapp.com/api/v1/usuarios';
