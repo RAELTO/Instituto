@@ -350,17 +350,15 @@
         <table class="table table-dark table-striped">
           <thead>
             <tr>
-              <th scope="col">#</th>
               <th scope="col">Nombre</th>
               <th scope="col">Descripción</th>
-              <th scope="col">Opciones</th>
+              <th style="width: 120px">Opciones</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>DESARROLLO</td>
-              <td>Aprende Desarrollo Web con este curso 100% práctico, paso a paso y sin conocimientos previo</td>
+          <tbody v-if="arrayDataCat.length">
+            <tr v-for="(cat,index) in arrayDataCat" :key="`cat-${index}`">
+              <td v-text="cat.area_estudio"></td>
+              <td></td>
               <td>
                 <button
                   class="btn text-white"
@@ -370,9 +368,18 @@
                 >
                   <i class="bi bi-eye-fill"></i>
                 </button>
-                <button class="btn text-white danger ms-1">
+                <button 
+                  @click="deleteCat(data)"
+                  class="btn text-white danger ms-1">
                   <i class="bi bi-trash3-fill"></i>
                 </button>
+              </td>
+            </tr>
+          </tbody>
+          <tbody v-else>
+            <tr>
+              <td colspan="9" class="text-center">
+                No existen elementos 
               </td>
             </tr>
           </tbody>
@@ -740,8 +747,33 @@ export default {
         });
     },
     listCat(){
-      // const url ='https://instituto-backend.herokuapp.com/api/v1/areas-estudio';
+       const url ='https://instituto-backend.herokuapp.com/api/v1/areas-estudio';  
+       const headers = {
+                        headers:{"x-token":this.getToken()}
+                       }
+       axios
+        .get(url)
+        .then(data => this.arrayDataCat = data.data.results)
+        .catch(function (error) {
+          console.log(error);
+        });
 
+    },
+    deleteCat(data = []){
+       const url ='https://instituto-backend.herokuapp.com/api/v1/areas-estudio/id';
+       const headers = {
+                        headers:{"x-token":this.getToken()}
+                       }
+       axios 
+        .delete(url, {
+        id: data["id"],
+        })
+        .then((response) => {
+            this.listCat
+        })  
+        .catch(function(error) {
+          console.log(error);
+        });
     },
     chargData(data = []){
       this.catAct();
@@ -760,6 +792,9 @@ export default {
   //   console.log(this.getToken());
   //   console.log('Final del Before');
   // }
+  mounted() {
+    this.listCat(); 
+  }
 };
 </script>
 <style>
