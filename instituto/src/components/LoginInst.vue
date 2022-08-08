@@ -17,9 +17,9 @@
             <div class="wv-form">
               <input class="wv-input" v-model="correo" type="email" placeholder="Correo Electronico"/>
               <input class="wv-input" v-model="pass" type="password" placeholder="Contraseña"/>
-              <button class="wv-button" data-bs-toggle="modal" data-bs-target="#modalcambiopass" type="button"><span>Iniciar Sesión prueba</span></button>
-              <div  style="margin-top: 10px;" >
-            <button  class="wv-button" @click="login">Iniciar Sesión </button>
+              <button class="wv-button"  data-bs-toggle="modal" data-bs-target="#modalcambiopass" type="button"><span>Iniciar Sesión prueba</span></button>
+              <div style="margin-top: 10px;" >
+            <button  class="wv-button" @click="login">Iniciar Sesión</button>
             </div>
             </div>
           </div>
@@ -117,7 +117,7 @@ export default {
   },
   methods:{
     async login(){
-      const url ='https://instituto-backend.herokuapp.com/api/v1/auth/login';
+      const url ='https://instituto-backend.herokuapp.com/api/v1/auth/login'
       await axios.post(url,{
         correo: this.correo,
         contrasena: this.pass,
