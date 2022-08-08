@@ -46,20 +46,24 @@
                 <th scope="col">Apellidos</th>
                 <th scope="col">Correo</th>
                 <th scope="col">Estado</th>
+                <th scope="col">Rol</th>
                 <th scope="col">Opciones</th>
               </tr>
             </thead>
             <tbody>
               <tr
-                v-for="{id,nombre,apellido,correo,id_estado} in dataUser"
+                v-for="{id,nombre,apellido,correo,id_estado,role} in dataUser"
                 :key="id">
                 <td><span>{{nombre}}</span></td>
                 <td><span>{{apellido}}</span></td>
                 <td><span>{{correo}}</span></td>
-                <td><span 
-                :style="{color: id_estado==1 ? 'green': 'red' }">
-                {{id_estado == 1? 'Activo' : 'Inactivo'}}
-                </span></td>
+                <td>
+                  <span 
+                      :style="{color: id_estado==1 ? 'green': 'red' }">
+                      {{id_estado == 1? 'Activo' : 'Inactivo'}}
+                  </span>
+                </td>
+                <td><span>{{role.nombre_rol}}</span></td>
                 <td>
                   <button
                     class="btn text-white"
@@ -68,7 +72,7 @@
                   >
                     <i class="bi bi-eye-fill"></i>
                   </button>
-                  <button class="btn text-white danger ms-1">
+                  <button class="btn text-white danger ms-1" @click="deleteUsuarios(id)">
                     <i class="bi bi-trash3-fill"></i>
                   </button>
                 </td>
@@ -720,6 +724,7 @@ export default {
       typeAction: 0,
       name: '',
       description: '',
+      dataUser: null,
       arrayDataCat: [],
       id_DataCat: 0,
     };
@@ -776,6 +781,7 @@ export default {
     },
     async getUsuarios(){
       const url ='https://instituto-backend.herokuapp.com/api/v1/usuarios';
+             
       await axios
         .get(url)
         .then((response) => {
@@ -785,9 +791,24 @@ export default {
         .catch((error) => {
             console.log(error);
         });
-
-
+    },
+    async deleteUsuarios(id){
+      console.log(id);
+      const headers = {headers:{"x-token":this.getToken()}};
+      // const params = { };
+      // const idd = {id: id}
+      const url =`https://instituto-backend.herokuapp.com/api/v1/usuarios/${id}`;
+      await axios
+      .delete(url,headers)
+      .then(res=>{
+        console.log(res);
+      })
+      this.getUsuarios()
+      .catch((err)=>{
+        console.log(err);
+      })
     }
+
   },
    mounted(){
     this.getUsuarios()
