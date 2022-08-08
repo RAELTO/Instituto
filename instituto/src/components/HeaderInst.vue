@@ -52,7 +52,7 @@ export default {
   name:'HeaderInst',
   data() {
     return{
-        estado:false,
+        estado:true,
         rol:''
     }
   },
