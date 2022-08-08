@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+const fileUpload = require('express-fileupload');
+
 const { dbConnection } = require('../database/config');
 
 //server en clase
@@ -19,13 +21,11 @@ class Server {
             roles: '/api/v1/roles',
             estadoMatricula: '/api/v1/estadoMatricula',
             areas: '/api/v1/areas-estudio',
+            uploads: '/api/v1/uploads',
         }
 
         //db connection
         this.connectDB();
-
-        //Lectura y parseo body
-        this.app.use( express.json() );
 
         //Middlewares
         this.middlewares();
@@ -41,6 +41,15 @@ class Server {
     middlewares() {
         //CORS
         this.app.use( cors() );
+
+        //Lectura y parseo body
+        this.app.use( express.json() );
+
+        // Fileupload - Carga de archivos
+        this.app.use(fileUpload({
+            useTempFiles : true,
+            tempFileDir : '/tmp/'
+        }));
 
     }
 
@@ -60,6 +69,7 @@ class Server {
         this.app.use( this.paths.roles, require('../routes/roles') );
         this.app.use( this.paths.estadoMatricula, require('../routes/estadoMatricula') );
         this.app.use( this.paths.areas, require('../routes/areas') );
+        this.app.use( this.paths.uploads, require('../routes/uploads') );
 
         this.app.get('*', (req, res) => {
             res.status(404).send(`<h1>404 | Endpoint: " ${req.url} " not found</h1>`);

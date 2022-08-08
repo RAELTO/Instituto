@@ -31,7 +31,7 @@ const Course = sequelize.define('cursos', {
         type: DataTypes.BOOLEAN,
         allowNull: false
     },
-    img_curso: {
+    img: {
         type: DataTypes.STRING,
     },
 }, {

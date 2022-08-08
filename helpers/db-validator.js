@@ -137,6 +137,18 @@ const registrationCourseExistingId = async(id = '') => {
 
 }*/
 
+//Validar las colecciones permitidas
+const allowedTables = (table = '', tables = []) => {
+
+    const incluida = tables.includes( table );
+    if (!incluida) {
+        throw new Error(`La tabla ${table} no es permitida - ${tables}`);
+    }
+    
+    return true;
+
+}
+
 
 
 module.exports = {
@@ -152,5 +164,6 @@ module.exports = {
     courseExistingId,
     registrationExistingId,
     StatusRegExistsId,
-    registrationCourseExistingId
+    registrationCourseExistingId,
+    allowedTables,
 }
