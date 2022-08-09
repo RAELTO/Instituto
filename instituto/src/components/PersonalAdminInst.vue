@@ -649,7 +649,8 @@ export default {
       await axios
         .post(url, data, headers)
         .then((response) => {
-            console.log(response.data);              
+            console.log(response.data);   
+            this.message("Categoría registrada", "success");           
             this.clearCat();
             this.listCat();
         })
@@ -670,17 +671,52 @@ export default {
         });
     },
     deleteCat(id){
-       const headers = {headers:{"x-token":this.getToken()}};
-       const url =`https://instituto-backend.herokuapp.com/api/v1/areas-estudio/${id}`;
-      axios
-      .delete(url,headers)
-      .then(res=>{
-        console.log(res);
-        this.listCat();
-      })
-      .catch((err)=>{
-        console.log(err);
-      })
+      //  const headers = {headers:{"x-token":this.getToken()}};
+      //  const url =`https://instituto-backend.herokuapp.com/api/v1/areas-estudio/${id}`;
+      // axios
+      // .delete(url,headers)
+      // .then(res=>{
+      //   console.log(res);
+      //   this.listCat();
+      // })
+      // .catch((err)=>{
+      //   console.log(err);
+      // })
+
+
+      swal({
+        title: "Esta seguro de Eliminar la Región " + data["area_estudio"],
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Aceptar!",
+        cancelButtonText: "Cancelar",
+        confirmButtonClass: "btn btn-success",
+        cancelButtonClass: "btn btn-danger",
+        buttonsStyling: false,
+        reverseButtons: true
+      }).then(result => {
+        if (result.value) {
+          const headers = {headers:{"x-token":this.getToken()}};
+          const url =`https://instituto-backend.herokuapp.com/api/v1/areas-estudio/${id}`;
+          axios
+          .delete(url,headers)
+          .then(res=>{
+            console.log(res);
+            this.message("Categoría eliminada", "success");
+            this.listCat();
+          })
+          .catch((err)=>{
+            console.log(err);
+          })
+          
+        } else if (
+          // Read more about handling dismissals
+          result.dismiss === swal.DismissReason.cancel
+        ) {
+        }
+      });
       
 
     },
@@ -699,6 +735,7 @@ export default {
         .put(url, data, headers)
         .then((response) => {
             console.log(response.data);
+            this.message("Categoría actualizada", "success");
             this.clearCat();
             this.catBasic();
             this.listCat();
@@ -711,6 +748,23 @@ export default {
       this.catBasic();
       this.name = null;
       this.description = null;
+    },
+    message(msj, icono) {
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-center',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+        Toast.fire({
+            icon: icono,
+            title: msj
+        })
     },
     getToken(){  
       this.token = JSON.parse(localStorage.getItem("token"))
