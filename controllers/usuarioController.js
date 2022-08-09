@@ -1,7 +1,6 @@
 const { response, request } = require('express');
 const bcryptjs = require('bcryptjs');
 const { Role, TDocument, User } = require('../models');
-const { use } = require('../routes/usuarios');
 
 const getAllUsers = async(req = request, res = response) => {//obtener todos los cursos
     await User.findAll({attributes:[
@@ -111,7 +110,7 @@ const updateOneUser = async(req = request, res = response) => {
         }
     })
         .then(user => {
-            if (use != 0) {
+            if (user != 0) {
                 res.status(200).send(`Usuario con id: ${req.params.id} fue actualizado correctamente`);
             }else{
                 res.status(404).send(`Usuario con id: ${req.params.id} no encontrado`);
