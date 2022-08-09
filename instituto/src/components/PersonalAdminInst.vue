@@ -507,11 +507,12 @@
                       <select
                         class="form-select"
                         aria-label="Default select example"
-                        v-model="areaEstudio"
+                        v-model="areaEstudioId"
+                       
                       >
-                        <option selected>Categoría curso</option>
-                        <option value="1">Programación</option>
-                        <option value="2">Matemáticas</option>
+                      <option value=""  >Categorias</option>
+                      <option :value="item.id" v-for="item in arrayDataCat" :key="item.id">{{item.area_estudio}}</option>
+                    
 
                       </select>
                     </div>
@@ -553,9 +554,9 @@
                         class="form-select"
                         aria-label="Default select example"
                       >
-                
-                        <option selected>activo</option>
-                        <option value="1">inactivo</option>
+                        <option value="" selected >Estado</option>
+                        <option  value="true">activo</option>
+                        <option value="false">inactivo</option>
                       </select>
                     </div>
                     <div class="mb-3">
@@ -620,6 +621,8 @@ export default {
       fechaCurso:'',
       estadoCurso:'',
       descripcion:'',
+      areaEstudioId:'',
+
 
     };
   },   
@@ -672,56 +675,56 @@ export default {
           console.log(error);
         });
     },
-    deleteCat(id){
-      //  const headers = {headers:{"x-token":this.getToken()}};
-      //  const url =`https://instituto-backend.herokuapp.com/api/v1/areas-estudio/${id}`;
-      // axios
-      // .delete(url,headers)
-      // .then(res=>{
-      //   console.log(res);
-      //   this.listCat();
-      // })
-      // .catch((err)=>{
-      //   console.log(err);
-      // })
+    // deleteCat(id){
+    //   //  const headers = {headers:{"x-token":this.getToken()}};
+    //   //  const url =`https://instituto-backend.herokuapp.com/api/v1/areas-estudio/${id}`;
+    //   // axios
+    //   // .delete(url,headers)
+    //   // .then(res=>{
+    //   //   console.log(res);
+    //   //   this.listCat();
+    //   // })
+    //   // .catch((err)=>{
+    //   //   console.log(err);
+    //   // })
 
 
-      swal({
-        title: "Esta seguro de Eliminar la Región " + data["area_estudio"],
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Aceptar!",
-        cancelButtonText: "Cancelar",
-        confirmButtonClass: "btn btn-success",
-        cancelButtonClass: "btn btn-danger",
-        buttonsStyling: false,
-        reverseButtons: true
-      }).then(result => {
-        if (result.value) {
-          const headers = {headers:{"x-token":this.getToken()}};
-          const url =`https://instituto-backend.herokuapp.com/api/v1/areas-estudio/${id}`;
-          axios
-          .delete(url,headers)
-          .then(res=>{
-            console.log(res);
-            this.message("Categoría eliminada", "success");
-            this.listCat();
-          })
-          .catch((err)=>{
-            console.log(err);
-          })
+    //   swal({
+    //     title: "Esta seguro de Eliminar la Región " + data["area_estudio"],
+    //     type: "warning",
+    //     showCancelButton: true,
+    //     confirmButtonColor: "#3085d6",
+    //     cancelButtonColor: "#d33",
+    //     confirmButtonText: "Aceptar!",
+    //     cancelButtonText: "Cancelar",
+    //     confirmButtonClass: "btn btn-success",
+    //     cancelButtonClass: "btn btn-danger",
+    //     buttonsStyling: false,
+    //     reverseButtons: true
+    //   }).then(result => {
+    //     if (result.value) {
+    //       const headers = {headers:{"x-token":this.getToken()}};
+    //       const url =`https://instituto-backend.herokuapp.com/api/v1/areas-estudio/${id}`;
+    //       axios
+    //       .delete(url,headers)
+    //       .then(res=>{
+    //         console.log(res);
+    //         this.message("Categoría eliminada", "success");
+    //         this.listCat();
+    //       })
+    //       .catch((err)=>{
+    //         console.log(err);
+    //       })
           
-        } else if (
-          // Read more about handling dismissals
-          result.dismiss === swal.DismissReason.cancel
-        ) {
-        }
-      });
+    //     } else if (
+    //       // Read more about handling dismissals
+    //       result.dismiss === swal.DismissReason.cancel
+    //     ) {
+    //     }
+    //   });
       
 
-    },
+    // },
     chargData(data = []){
        this.catAct();
        this.id_DataCat = data["id"];
@@ -751,35 +754,36 @@ export default {
       this.name = null;
       this.description = null;
     },
-    message(msj, icono) {
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-center',
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        })
-        Toast.fire({
-            icon: icono,
-            title: msj
-        })
-    },
+    // message(msj, icono) {
+    //     const Toast = Swal.mixin({
+    //         toast: true,
+    //         position: 'top-center',
+    //         showConfirmButton: false,
+    //         timer: 1500,
+    //         timerProgressBar: true,
+    //         didOpen: (toast) => {
+    //             toast.addEventListener('mouseenter', Swal.stopTimer)
+    //             toast.addEventListener('mouseleave', Swal.resumeTimer)
+    //         }
+    //     })
+    //     Toast.fire({
+    //         icon: icono,
+    //         title: msj
+    //     })
+    // },
     getToken(){  
       this.token = JSON.parse(localStorage.getItem("token"))
       return JSON.parse(localStorage.getItem("token"))
     },
     async registrarCursos(){
        const url ='https://instituto-backend.herokuapp.com/api/v1/cursos';
+       let estadoCurso = this.estadoCurso == "true"? true:false
        const data = {
-                      "area_estudio_id": this.areaEstudio,
+                      "area_estudio_id": this.areaEstudioId,
                      "nombre_curso": this.nameCurso,
                      "cupo_disponible":this.cantidadAlumnos,
                      "fecha_limite_curso":this.fechaCurso,
-                     "estado_curso":this.estadoCurso,
+                     "estado_curso":estadoCurso,
                      "descripcion":this.descripcion,
                     }
        const headers = {
