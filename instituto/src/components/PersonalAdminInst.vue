@@ -444,36 +444,19 @@
         <table class="table table-dark table-striped" >
           <thead>
             <tr>
-              <th scope="col">#</th>
               <th scope="col">Nombre de curso</th>
               <th scope="col">Fecha</th>
               <th scope="col">Cantidad Alumnos</th>
                 <th scope="col">Estado</th>
                 <th scope="col">Opciones</th>
-                
             </tr>
           </thead> 
           <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Vue.js</td>
-              <td>
-                <button
-                  class="btn text-white"
-                  data-bs-toggle="modal" 
-                  data-bs-target="#modalCat"
-                  @click="chargData()"
-                >
-                  <i class="bi bi-eye-fill"></i>
-                </button>
-                <button 
-                  @click="deleteCat(data)"
-                  class="btn text-white danger ms-1">
-                  <i class="bi bi-trash3-fill"></i>
-                </button>
-              </td>
-              <td>25</td>
-            <td><span>Activo</span></td>
+            <tr v-for="objeto in cursosData" :key="objeto.id" >
+              <td v-text="objeto.nombre_curso"></td>
+              <td v-text="objeto.fecha_limite_curso"></td>
+              <td v-text="objeto.cupo_disponible"></td>
+              <td v-text="objeto.estado_curso"></td>
               <td>
                   <button
                     class="btn text-white"
@@ -482,7 +465,9 @@
                   >
                     <i class="bi bi-eye-fill"></i>
                   </button>
-                  <button class="btn text-white danger ms-1">
+                  <button 
+                  @click="deleteCursos(objeto.id)"
+                  class="btn text-white danger ms-1">
                     <i class="bi bi-trash3-fill"></i>
                   </button>
                 </td>
@@ -524,7 +509,7 @@
                         aria-label="Default select example"
                         
                       >
-                        <option selected>Categoria curso</option>
+                        <option selected>Categoría curso</option>
                         <option value="1">Programación</option>
                         <option value="2">Matemáticas</option>
 
@@ -696,7 +681,7 @@ export default {
       .catch((err)=>{
         console.log(err);
       })
-      // const url ='https://instituto-backend.herokuapp.com/api/v1/area-estudio';
+      
 
     },
     chargData(data = []){
@@ -738,7 +723,6 @@ export default {
                      "fecha_limite_curso":this.fechaCurso,
                      "estado_curso":this.estadoCurso,
                      "descripcion":this.descripcion,
-
                     }
        const headers = {
                         headers:{"x-token":this.getToken()}
@@ -752,6 +736,21 @@ export default {
         .catch((error) => {
             console.log(error);
         });
+
+    },
+    deleteCursos(id){
+       const headers = {headers:{"x-token":this.getToken()}};
+       const url =`https://instituto-backend.herokuapp.com/api/v1/cursos/${id}`;
+      axios
+      .delete(url,headers)
+      .then(res=>{
+        console.log(res);
+        this.cursosData();
+      })
+      .catch((err)=>{
+        console.log(err);
+      })
+  
 
     },
     async getUsuarios(){
