@@ -46,20 +46,24 @@
                 <th scope="col">Apellidos</th>
                 <th scope="col">Correo</th>
                 <th scope="col">Estado</th>
+                <th scope="col">Rol</th>
                 <th scope="col">Opciones</th>
               </tr>
             </thead>
             <tbody>
               <tr
-                v-for="{id,nombre,apellido,correo,id_estado} in dataUser"
+                v-for="{id,nombre,apellido,correo,id_estado,role} in dataUser"
                 :key="id">
                 <td><span>{{nombre}}</span></td>
                 <td><span>{{apellido}}</span></td>
                 <td><span>{{correo}}</span></td>
-                <td><span 
-                :style="{color: id_estado==1 ? 'green': 'red' }">
-                {{id_estado == 1? 'Activo' : 'Inactivo'}}
-                </span></td>
+                <td>
+                  <span 
+                      :style="{color: id_estado==1 ? 'green': 'red' }">
+                      {{id_estado == 1? 'Activo' : 'Inactivo'}}
+                  </span>
+                </td>
+                <td><span>{{role.nombre_rol}}</span></td>
                 <td>
                   <button
                     class="btn text-white"
@@ -68,7 +72,7 @@
                   >
                     <i class="bi bi-eye-fill"></i>
                   </button>
-                  <button class="btn text-white danger ms-1">
+                  <button class="btn text-white danger ms-1" @click="deleteUsuarios(id)">
                     <i class="bi bi-trash3-fill"></i>
                   </button>
                 </td>
@@ -352,34 +356,39 @@
       </section>
       <!--Category  -->
       <section v-if="view === 1">
-        <div class="">
-          <button class="btn p-1 m-2 fw-bold text-white" data-bs-toggle="modal" @click="getToken()" data-bs-target="#modalCat">Crear Categoría</button>
+        <div class="container">
+          <button class="btn p-1 m-2 fw-bold text-white" data-bs-toggle="modal" data-bs-target="#modalCat">Crear Categoría</button>
           <table class="table table-dark table-striped">
             <thead>
               <tr>
-                <th scope="col">#</th>
                 <th scope="col">Nombre</th>
-                <th scope="col">Descripción</th>
-                <th scope="col">Opciones</th>
+                <th style="width: 120px">Opciones</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>DESARROLLO</td>
-                <td>Aprende Desarrollo Web con este curso 100% práctico, paso a paso y sin conocimientos previo</td>
+            <tbody v-if="arrayDataCat.length">
+              <tr v-for="data in arrayDataCat" :key="data.id">
+                <td v-text="data.area_estudio"></td>
                 <td>
                   <button
                     class="btn text-white"
                     data-bs-toggle="modal" 
                     data-bs-target="#modalCat"
-                    @click="botonAct()"
+                    @click="chargData(data)"
                   >
                     <i class="bi bi-eye-fill"></i>
                   </button>
-                  <button class="btn text-white danger ms-1">
+                  <button 
+                    @click="deleteCat(data.id)"
+                    class="btn text-white danger ms-1">
                     <i class="bi bi-trash3-fill"></i>
                   </button>
+                </td>
+              </tr>
+            </tbody>
+            <tbody v-else>
+              <tr>
+                <td colspan="9" class="text-center">
+                  No existen elementos 
                 </td>
               </tr>
             </tbody>
@@ -415,8 +424,8 @@
                       </div>
                       <div class="modal-footer">
                           <button type="button" class="btn btn-secondary fw-bold text-white" data-bs-dismiss="modal" id="">Cancelar</button>
-                          <button type="button" v-if="typeAction == 0" @click="registrar()" class="btn fw-bold text-white">Matricularse</button>
-                          <button type="button" v-if="typeAction == 1" class="btn fw-bold text-white">Actualizar</button>
+                          <button type="button" v-if="typeAction == 0" @click="registrarCat()" data-bs-dismiss="modal" class="btn fw-bold text-white">Matricularse</button>
+                          <button type="button" v-if="typeAction == 1" @click="UpdateDataCat()" data-bs-dismiss="modal" class="btn fw-bold text-white">Actualizar</button>
                       </div>
                   </div>
               </div>
@@ -457,7 +466,9 @@
                 >
                   <i class="bi bi-eye-fill"></i>
                 </button>
-                <button class="btn text-white danger ms-1">
+                <button 
+                  @click="deleteCat(data)"
+                  class="btn text-white danger ms-1">
                   <i class="bi bi-trash3-fill"></i>
                 </button>
               </td>
@@ -720,6 +731,7 @@ export default {
       typeAction: 0,
       name: '',
       description: '',
+      dataUser: null,
       arrayDataCat: [],
       id_DataCat: 0,
     };
@@ -740,7 +752,7 @@ export default {
     courses() {
       this.view = 2;
     },
-    async registrar(){
+    async registrarCat(){
        const url ='https://instituto-backend.herokuapp.com/api/v1/areas-estudio';
        const data = {
                      "area_estudio": this.name
@@ -752,23 +764,64 @@ export default {
       await axios
         .post(url, data, headers)
         .then((response) => {
-            console.log(response.data);
+            console.log(response.data);              
+            this.clearCat();
+            this.listCat();
         })
         .catch((error) => {
             console.log(error);
         });
     },
     listCat(){
-      // const url ='https://instituto-backend.herokuapp.com/api/v1/areas-estudio';
-
+       const url ='https://instituto-backend.herokuapp.com/api/v1/areas-estudio';  
+       axios
+        .get(url)
+        .then(
+          data => this.arrayDataCat = data.data.results
+        )
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    deleteCat(id){
+       const headers = {headers:{"x-token":this.getToken()}};
+       const url =`https://instituto-backend.herokuapp.com/api/v1/areas-estudio/${id}`;
+      axios
+      .delete(url,headers)
+      .then(res=>{
+        console.log(res);
+        this.listCat();
+      })
+      .catch((err)=>{
+        console.log(err);
+      })
     },
     chargData(data = []){
-      this.catAct();
-      this.id_DataCat = data["id"];
-      this.name = data["area_estudio"];
+       this.catAct();
+       this.id_DataCat = data["id"];
+       this.name = data["area_estudio"];
     },
     UpdateDataCat(){
-
+      const headers = {headers:{"x-token":this.getToken()}};
+      const url =`https://instituto-backend.herokuapp.com/api/v1/areas-estudio/${this.id_DataCat}`;
+      const data = {
+                     "area_estudio": this.name
+                    };
+      axios
+        .put(url, data, headers)
+        .then((response) => {
+            console.log(response.data);
+            this.clearCat();
+            this.catBasic();
+            this.listCat();
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    },
+    clearCat(){
+      this.name = null;
+      this.description = null;
     },
     getToken(){  
       this.token = JSON.parse(localStorage.getItem("token"))
@@ -776,6 +829,7 @@ export default {
     },
     async getUsuarios(){
       const url ='https://instituto-backend.herokuapp.com/api/v1/usuarios';
+             
       await axios
         .get(url)
         .then((response) => {
@@ -785,12 +839,28 @@ export default {
         .catch((error) => {
             console.log(error);
         });
-
-
+    },
+    async deleteUsuarios(id){
+      console.log(id);
+      const headers = {headers:{"x-token":this.getToken()}};
+      // const params = { };
+      // const idd = {id: id}
+      const url =`https://instituto-backend.herokuapp.com/api/v1/usuarios/${id}`;
+      await axios
+      .delete(url,headers)
+      .then(res=>{
+        console.log(res);
+      })
+      this.getUsuarios()
+      .catch((err)=>{
+        console.log(err);
+      })
     }
+
   },
    mounted(){
-    this.getUsuarios()
+    this.getUsuarios();
+    this.listCat();
   }
 };
 </script>
