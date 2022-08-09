@@ -411,7 +411,7 @@
                                 <form class="text-start">
                                       <div class="mb-3">
                                           <label class="form-label">Nombre categoría:</label>
-                                          <input type="text" v-model="name" class="form-control" placeholder="ingrese nombre de la categoria">
+                                          <input type="text" v-model="name" class="form-control" placeholder="ingrese nombre de la categoría">
                                       </div>
                                       <div class="mb-3">
                                           <label class="form-label">Descripción:</label>
@@ -522,8 +522,9 @@
                       <select
                         class="form-select"
                         aria-label="Default select example"
+                        
                       >
-                        <option selected>Categoria curso </option>
+                        <option selected>Categoria curso</option>
                         <option value="1">Programación</option>
                         <option value="2">Matemáticas</option>
 
@@ -531,6 +532,7 @@
                     </div>
                     <div class="mb-3 col-6">
                       <input
+                       v-model="nameCurso"
                         type="text"
                         class="form-control"
                         placeholder="Nombre Curso"
@@ -540,7 +542,8 @@
                     </div>
                     <div class="mb-3 col-6">
                       <input
-                        type="text"
+                        v-model="cantidadAlumnos"
+                        type="number"
                         class="form-control"
                         placeholder="Cantidad Alumnos"
                         aria-label="CantidadAlumnos"
@@ -549,7 +552,8 @@
                     </div>
                     <div class="mb-3 col-12">
                       <input
-                        type="text"
+                      v-model="fechaCurso"
+                        type="date"
                         class="form-control"
                         placeholder="Fecha Curso"
                         aria-label="FechaCurso"
@@ -559,6 +563,7 @@
                   
                       <div class="mb-3 col-12">
                       <select
+                       v-model="estadoCurso"
                         class="form-select"
                         aria-label="Default select example"
                       >
@@ -567,8 +572,8 @@
                       </select>
                     </div>
                     <div class="mb-3">
-                    <label class="form-label">Descripción:</label>
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Ingrese una descripción"></textarea>
+                        <label class="form-label">Descripción:</label>
+                        <textarea v-model="descripcion" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Ingrese una descripción"></textarea>
                     </div>
                     <div class="input-group mb-3">
                       <label class="fw-bold col-12 mb-2"> Cargar Imagen Curso</label>
@@ -592,130 +597,18 @@
                 >
                   Close
                 </button>
-                <button type="button" class="btn btn-primary fw-bold">
+                <button type="button" @click="registrarCursos()" class="btn btn-primary fw-bold">
                   Guardar
+                </button>
+                  <button type="button"  class="btn btn-primary fw-bold">
+                  Actualizar datos
                 </button>
               </div>
             </div>
           </div>
         </div>
     
-    <div
-          class="modal fade"
-          id="gradeEdit"
-          data-bs-backdrop="static"
-          data-bs-keyboard="false"
-          tabindex="-1"
-          aria-labelledby="staticBackdropLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title fw-bold" id="staticBackdropLabel">
-                  Agregar Curso
-                </h5>
-                <p
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></p>
-              </div>
-              <!-- body modal curso -->
-              <div class="modal-body">
-                <div class="">
-                  <div class="row">
-                  
-                    <div class="mb-3 col-12">
-                      <select
-                        class="form-select"
-                        aria-label="Default select example"
-                      >
-                        <option selected>Categoria curso </option>
-                        <option value="1">Programación</option>
-                        <option value="2">Matemáticas	</option>
-
-                      </select>
-                    </div>
-                    <div class="mb-3 col-6">
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Nombre Curso"
-                        aria-label="NombreCurso"
-                        aria-describedby="basic-addon1"
-                      />
-                    </div>
-                    <div class="mb-3 col-6">
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Cantidad Alumnos"
-                        aria-label="CantidadAlumnos"
-                        aria-describedby="basic-addon1"
-                      />
-                    </div>
-                    <div class="mb-3 col-6">
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Fecha Curso"
-                        aria-label="FechaCurso"
-                        aria-describedby="basic-addon1"
-                      />
-                    </div>
-                    <div class="mb-3 col-6">
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Docente"
-                        aria-label="Docente"
-                        aria-describedby="basic-addon1"
-                      />
-                    </div>
-                      <div class="mb-3 col-12">
-                      <select
-                        class="form-select"
-                        aria-label="Default select example"
-                      >
-                        <option selected>activo</option>
-                        <option value="1">inactivo</option>
-                      </select>
-                    </div>
-                    <div class="mb-3">
-                    <label class="form-label">Descripción:</label>
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Ingrese descripción del curso"></textarea>
-                    </div>
-                    <div class="input-group mb-3">
-                      <label class="fw-bold col-12 mb-2"> Cargar Imagen Curso</label>
-                      <input
-                        type="file"
-                        class="form-control"
-                        id="inputGroupFile02"
-                      />
-                      <label class="input-group-text" for="inputGroupFile02"
-                        >Upload</label
-                      >
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary fw-bold"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button type="button" class="btn btn-primary fw-bold">
-                  Guardar
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+    
 
       </section>
     </section>
@@ -734,6 +627,13 @@ export default {
       dataUser: null,
       arrayDataCat: [],
       id_DataCat: 0,
+      cursosData:[],
+      nameCurso:'',
+      cantidadAlumnos:'',
+      fechaCurso:'',
+      estadoCurso:'',
+      descripcion:'',
+
     };
   },   
   methods: {
@@ -772,6 +672,7 @@ export default {
             console.log(error);
         });
     },
+    
     listCat(){
        const url ='https://instituto-backend.herokuapp.com/api/v1/areas-estudio';  
        axios
@@ -795,6 +696,8 @@ export default {
       .catch((err)=>{
         console.log(err);
       })
+      // const url ='https://instituto-backend.herokuapp.com/api/v1/area-estudio';
+
     },
     chargData(data = []){
        this.catAct();
@@ -827,6 +730,30 @@ export default {
       this.token = JSON.parse(localStorage.getItem("token"))
       return JSON.parse(localStorage.getItem("token"))
     },
+    async registrarCursos(){
+       const url ='https://instituto-backend.herokuapp.com/api/v1/cursos';
+       const data = {
+                     "nombre_curso": this.nameCurso,
+                     "cupo_disponible":this.cantidadAlumnos,
+                     "fecha_limite_curso":this.fechaCurso,
+                     "estado_curso":this.estadoCurso,
+                     "descripcion":this.descripcion,
+
+                    }
+       const headers = {
+                        headers:{"x-token":this.getToken()}
+                       }
+       console.log(this.getToken("token"));
+      await axios
+        .post(url, data, headers)
+        .then((response) => {
+            console.log(response.data);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+
+    },
     async getUsuarios(){
       const url ='https://instituto-backend.herokuapp.com/api/v1/usuarios';
              
@@ -855,12 +782,33 @@ export default {
       .catch((err)=>{
         console.log(err);
       })
+
+
+
+    },
+     async getCursos(){
+      const url ='https://instituto-backend.herokuapp.com/api/v1/cursos';
+      await axios
+        .get(url)
+        .then((response) => {
+            const data = response.data.results;
+            this.cursosData = data
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+
+
+
     }
 
   },
    mounted(){
     this.getUsuarios();
     this.listCat();
+    this.getCursos();
+  
+
   }
 };
 </script>
