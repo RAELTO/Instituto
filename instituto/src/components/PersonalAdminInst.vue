@@ -1,6 +1,7 @@
 <template>
   <div class="container-sm">
   <!-- Buttons -->
+    <button @click="showAlert">Alerta</button>
     <section>
       <div class=" mt-5 p-3">
         <button
@@ -670,56 +671,56 @@ export default {
           console.log(error);
         });
     },
-    deleteCat(id){
-      //  const headers = {headers:{"x-token":this.getToken()}};
-      //  const url =`https://instituto-backend.herokuapp.com/api/v1/areas-estudio/${id}`;
-      // axios
-      // .delete(url,headers)
-      // .then(res=>{
-      //   console.log(res);
-      //   this.listCat();
-      // })
-      // .catch((err)=>{
-      //   console.log(err);
-      // })
+    // deleteCat(id){
+    //   //  const headers = {headers:{"x-token":this.getToken()}};
+    //   //  const url =`https://instituto-backend.herokuapp.com/api/v1/areas-estudio/${id}`;
+    //   // axios
+    //   // .delete(url,headers)
+    //   // .then(res=>{
+    //   //   console.log(res);
+    //   //   this.listCat();
+    //   // })
+    //   // .catch((err)=>{
+    //   //   console.log(err);
+    //   // })
 
 
-      swal({
-        title: "¿Esta seguro de Eliminar este registro?",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Aceptar!",
-        cancelButtonText: "Cancelar",
-        confirmButtonClass: "btn btn-success",
-        cancelButtonClass: "btn btn-danger",
-        buttonsStyling: false,
-        reverseButtons: true
-      }).then(result => {
-        if (result.value) {
-          const headers = {headers:{"x-token":this.getToken()}};
-          const url =`https://instituto-backend.herokuapp.com/api/v1/areas-estudio/${id}`;
-          axios
-          .delete(url,headers)
-          .then(res=>{
-            console.log(res);
-            this.message("Categoría eliminada", "success");
-            this.listCat();
-          })
-          .catch((err)=>{
-            console.log(err);
-          })
+    //   swal({
+    //     title: "¿Esta seguro de Eliminar este registro?",
+    //     type: "warning",
+    //     showCancelButton: true,
+    //     confirmButtonColor: "#3085d6",
+    //     cancelButtonColor: "#d33",
+    //     confirmButtonText: "Aceptar!",
+    //     cancelButtonText: "Cancelar",
+    //     confirmButtonClass: "btn btn-success",
+    //     cancelButtonClass: "btn btn-danger",
+    //     buttonsStyling: false,
+    //     reverseButtons: true
+    //   }).then(result => {
+    //     if (result.value) {
+    //       const headers = {headers:{"x-token":this.getToken()}};
+    //       const url =`https://instituto-backend.herokuapp.com/api/v1/areas-estudio/${id}`;
+    //       axios
+    //       .delete(url,headers)
+    //       .then(res=>{
+    //         console.log(res);
+    //         this.message("Categoría eliminada", "success");
+    //         this.listCat();
+    //       })
+    //       .catch((err)=>{
+    //         console.log(err);
+    //       })
           
-        } else if (
-          // Read more about handling dismissals
-          result.dismiss === swal.DismissReason.cancel
-        ) {
-        }
-      });
+    //     } else if (
+    //       // Read more about handling dismissals
+    //       result.dismiss === swal.DismissReason.cancel
+    //     ) {
+    //     }
+    //   });
       
 
-    },
+    // },
     chargData(data = []){
        this.catAct();
        this.id_DataCat = data["id"];
@@ -749,23 +750,23 @@ export default {
       this.name = null;
       this.description = null;
     },
-    message(msj, icono) {
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-center',
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        })
-        Toast.fire({
-            icon: icono,
-            title: msj
-        })
-    },
+    // message(msj, icono) {
+    //     const Toast = Swal.mixin({
+    //         toast: true,
+    //         position: 'top-center',
+    //         showConfirmButton: false,
+    //         timer: 1500,
+    //         timerProgressBar: true,
+    //         didOpen: (toast) => {
+    //             toast.addEventListener('mouseenter', Swal.stopTimer)
+    //             toast.addEventListener('mouseleave', Swal.resumeTimer)
+    //         }
+    //     })
+    //     Toast.fire({
+    //         icon: icono,
+    //         title: msj
+    //     })
+    // },
     getToken(){  
       this.token = JSON.parse(localStorage.getItem("token"))
       return JSON.parse(localStorage.getItem("token"))
