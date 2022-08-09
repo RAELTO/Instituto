@@ -682,7 +682,7 @@ export default {
                      "cupo_disponible":this.cantidadAlumnos,
                      "fecha_limite_curso":this.fechaCurso,
                      "estado_curso":this.estadoCurso,
-                     "descripcion":this.descripcion
+                     "descripcion":this.descripcion,
 
                     }
        const headers = {
