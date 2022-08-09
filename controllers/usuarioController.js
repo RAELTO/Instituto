@@ -50,6 +50,10 @@ const getOneUser = async(req = request, res = response) => {
 
 const createNewUser = async(req = request, res = response) => {
 
+    if (req.body.documento === null) {
+        req.body.documento = 'noPdfYet';
+    }
+
     // pass encrypt
     const salt = bcryptjs.genSaltSync();
     const pass = bcryptjs.hashSync( req.body.contrasena, salt );//encriptacion de una sola via

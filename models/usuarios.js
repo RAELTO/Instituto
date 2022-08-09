@@ -27,7 +27,6 @@ const User = sequelize.define('usuarios', {
     documento: {
         type: DataTypes.STRING,
         defaultValue: 'noPdfYet',
-        allowNull: false
     },
     tipo_doc_id: {
         type: DataTypes.INTEGER,
