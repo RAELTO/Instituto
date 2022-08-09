@@ -1,6 +1,7 @@
 <template>
   <div class="container-sm">
   <!-- Buttons -->
+    <button @click="showAlert">Alerta</button>
     <section>
       <div class=" mt-5 p-3">
         <button
@@ -381,34 +382,39 @@
       </section>
       <!--Category  -->
       <section v-if="view === 1">
-        <div class="">
-          <button class="btn p-1 m-2 fw-bold text-white" data-bs-toggle="modal" @click="getToken()" data-bs-target="#modalCat">Crear Categoría</button>
+        <div class="container">
+          <button class="btn p-1 m-2 fw-bold text-white" data-bs-toggle="modal" data-bs-target="#modalCat">Crear Categoría</button>
           <table class="table table-dark table-striped">
             <thead>
               <tr>
-                <th scope="col">#</th>
                 <th scope="col">Nombre</th>
-                <th scope="col">Descripción</th>
-                <th scope="col">Opciones</th>
+                <th style="width: 120px">Opciones</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>DESARROLLO</td>
-                <td>Aprende Desarrollo Web con este curso 100% práctico, paso a paso y sin conocimientos previo</td>
+            <tbody v-if="arrayDataCat.length">
+              <tr v-for="data in arrayDataCat" :key="data.id">
+                <td v-text="data.area_estudio"></td>
                 <td>
                   <button
                     class="btn text-white"
                     data-bs-toggle="modal" 
                     data-bs-target="#modalCat"
-                    @click="botonAct()"
+                    @click="chargData(data)"
                   >
                     <i class="bi bi-eye-fill"></i>
                   </button>
-                  <button class="btn text-white danger ms-1">
+                  <button 
+                    @click="deleteCat(data.id)"
+                    class="btn text-white danger ms-1">
                     <i class="bi bi-trash3-fill"></i>
                   </button>
+                </td>
+              </tr>
+            </tbody>
+            <tbody v-else>
+              <tr>
+                <td colspan="9" class="text-center">
+                  No existen elementos 
                 </td>
               </tr>
             </tbody>
@@ -431,7 +437,7 @@
                                 <form class="text-start">
                                       <div class="mb-3">
                                           <label class="form-label">Nombre categoría:</label>
-                                          <input type="text" v-model="name" class="form-control" placeholder="ingrese nombre de la categoria">
+                                          <input type="text" v-model="name" class="form-control" placeholder="ingrese nombre de la categoría">
                                       </div>
                                       <div class="mb-3">
                                           <label class="form-label">Descripción:</label>
@@ -443,9 +449,9 @@
                           </div>
                       </div>
                       <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary fw-bold text-white" data-bs-dismiss="modal" id="">Cancelar</button>
-                          <button type="button" v-if="typeAction == 0" @click="registrar()" class="btn fw-bold text-white">Matricularse</button>
-                          <button type="button" v-if="typeAction == 1" class="btn fw-bold text-white">Actualizar</button>
+                          <button type="button" class="btn btn-secondary fw-bold text-white" @click="clearCat()" data-bs-dismiss="modal" id="">Cancelar</button>
+                          <button type="button" v-if="typeAction == 0" @click="registrarCat()" data-bs-dismiss="modal" class="btn fw-bold text-white">Matricularse</button>
+                          <button type="button" v-if="typeAction == 1" @click="UpdateDataCat()" data-bs-dismiss="modal" class="btn fw-bold text-white">Actualizar</button>
                       </div>
                   </div>
               </div>
@@ -464,34 +470,19 @@
         <table class="table table-dark table-striped" >
           <thead>
             <tr>
-              <th scope="col">#</th>
               <th scope="col">Nombre de curso</th>
               <th scope="col">Fecha</th>
               <th scope="col">Cantidad Alumnos</th>
                 <th scope="col">Estado</th>
                 <th scope="col">Opciones</th>
-                
             </tr>
           </thead> 
           <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Vue.js</td>
-              <td>
-                <button
-                  class="btn text-white"
-                  data-bs-toggle="modal" 
-                  data-bs-target="#modalCat"
-                  @click="chargData()"
-                >
-                  <i class="bi bi-eye-fill"></i>
-                </button>
-                <button class="btn text-white danger ms-1">
-                  <i class="bi bi-trash3-fill"></i>
-                </button>
-              </td>
-              <td>25</td>
-            <td><span>Activo</span></td>
+            <tr v-for="objeto in cursosData" :key="objeto.id" >
+              <td v-text="objeto.nombre_curso"></td>
+              <td v-text="objeto.fecha_limite_curso"></td>
+              <td v-text="objeto.cupo_disponible"></td>
+              <td v-text="objeto.estado_curso"></td>
               <td>
                   <button
                     class="btn text-white"
@@ -500,7 +491,9 @@
                   >
                     <i class="bi bi-eye-fill"></i>
                   </button>
-                  <button class="btn text-white danger ms-1">
+                  <button 
+                  @click="deleteCursos(objeto.id)"
+                  class="btn text-white danger ms-1">
                     <i class="bi bi-trash3-fill"></i>
                   </button>
                 </td>
@@ -540,8 +533,9 @@
                       <select
                         class="form-select"
                         aria-label="Default select example"
+                        
                       >
-                        <option selected>Categoria curso </option>
+                        <option selected>Categoría curso</option>
                         <option value="1">Programación</option>
                         <option value="2">Matemáticas</option>
 
@@ -549,6 +543,7 @@
                     </div>
                     <div class="mb-3 col-6">
                       <input
+                       v-model="nameCurso"
                         type="text"
                         class="form-control"
                         placeholder="Nombre Curso"
@@ -558,7 +553,8 @@
                     </div>
                     <div class="mb-3 col-6">
                       <input
-                        type="text"
+                        v-model="cantidadAlumnos"
+                        type="number"
                         class="form-control"
                         placeholder="Cantidad Alumnos"
                         aria-label="CantidadAlumnos"
@@ -567,7 +563,8 @@
                     </div>
                     <div class="mb-3 col-12">
                       <input
-                        type="text"
+                      v-model="fechaCurso"
+                        type="date"
                         class="form-control"
                         placeholder="Fecha Curso"
                         aria-label="FechaCurso"
@@ -577,6 +574,7 @@
                   
                       <div class="mb-3 col-12">
                       <select
+                       v-model="estadoCurso"
                         class="form-select"
                         aria-label="Default select example"
                       >
@@ -585,8 +583,8 @@
                       </select>
                     </div>
                     <div class="mb-3">
-                    <label class="form-label">Descripción:</label>
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Ingrese una descripción"></textarea>
+                        <label class="form-label">Descripción:</label>
+                        <textarea v-model="descripcion" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Ingrese una descripción"></textarea>
                     </div>
                     <div class="input-group mb-3">
                       <label class="fw-bold col-12 mb-2"> Cargar Imagen Curso</label>
@@ -610,130 +608,18 @@
                 >
                   Close
                 </button>
-                <button type="button" class="btn btn-primary fw-bold">
+                <button type="button" @click="registrarCursos()" class="btn btn-primary fw-bold">
                   Guardar
+                </button>
+                  <button type="button"  class="btn btn-primary fw-bold">
+                  Actualizar datos
                 </button>
               </div>
             </div>
           </div>
         </div>
     
-    <div
-          class="modal fade"
-          id="gradeEdit"
-          data-bs-backdrop="static"
-          data-bs-keyboard="false"
-          tabindex="-1"
-          aria-labelledby="staticBackdropLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title fw-bold" id="staticBackdropLabel">
-                  Agregar Curso
-                </h5>
-                <p
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></p>
-              </div>
-              <!-- body modal curso -->
-              <div class="modal-body">
-                <div class="">
-                  <div class="row">
-                  
-                    <div class="mb-3 col-12">
-                      <select
-                        class="form-select"
-                        aria-label="Default select example"
-                      >
-                        <option selected>Categoria curso </option>
-                        <option value="1">Programación</option>
-                        <option value="2">Matemáticas	</option>
-
-                      </select>
-                    </div>
-                    <div class="mb-3 col-6">
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Nombre Curso"
-                        aria-label="NombreCurso"
-                        aria-describedby="basic-addon1"
-                      />
-                    </div>
-                    <div class="mb-3 col-6">
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Cantidad Alumnos"
-                        aria-label="CantidadAlumnos"
-                        aria-describedby="basic-addon1"
-                      />
-                    </div>
-                    <div class="mb-3 col-6">
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Fecha Curso"
-                        aria-label="FechaCurso"
-                        aria-describedby="basic-addon1"
-                      />
-                    </div>
-                    <div class="mb-3 col-6">
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Docente"
-                        aria-label="Docente"
-                        aria-describedby="basic-addon1"
-                      />
-                    </div>
-                      <div class="mb-3 col-12">
-                      <select
-                        class="form-select"
-                        aria-label="Default select example"
-                      >
-                        <option selected>activo</option>
-                        <option value="1">inactivo</option>
-                      </select>
-                    </div>
-                    <div class="mb-3">
-                    <label class="form-label">Descripción:</label>
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Ingrese descripción del curso"></textarea>
-                    </div>
-                    <div class="input-group mb-3">
-                      <label class="fw-bold col-12 mb-2"> Cargar Imagen Curso</label>
-                      <input
-                        type="file"
-                        class="form-control"
-                        id="inputGroupFile02"
-                      />
-                      <label class="input-group-text" for="inputGroupFile02"
-                        >Upload</label
-                      >
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary fw-bold"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button type="button" class="btn btn-primary fw-bold">
-                  Guardar
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+    
 
       </section>
     </section>
@@ -773,6 +659,12 @@ export default {
         contrasena:null,
       },
       modal:false,
+      cursosData:[],
+      nameCurso:'',
+      cantidadAlumnos:'',
+      fechaCurso:'',
+      estadoCurso:'',
+      descripcion:'',
 
     };
   },   
@@ -792,10 +684,143 @@ export default {
     courses() {
       this.view = 2;
     },
-    async registrar(){
+    async registrarCat(){
        const url ='https://instituto-backend.herokuapp.com/api/v1/areas-estudio';
        const data = {
                      "area_estudio": this.name
+                    }
+       const headers = {
+                        headers:{"x-token":this.getToken()}
+                       }
+       console.log(this.getToken("token"));
+      await axios
+        .post(url, data, headers)
+        .then((response) => {
+            console.log(response.data);   
+            this.message("Categoría registrada", "success");           
+            this.clearCat();
+            this.listCat();
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    },
+    
+    listCat(){
+       const url ='https://instituto-backend.herokuapp.com/api/v1/areas-estudio';  
+       axios
+        .get(url)
+        .then(
+          data => this.arrayDataCat = data.data.results
+        )
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    // deleteCat(id){
+    //   //  const headers = {headers:{"x-token":this.getToken()}};
+    //   //  const url =`https://instituto-backend.herokuapp.com/api/v1/areas-estudio/${id}`;
+    //   // axios
+    //   // .delete(url,headers)
+    //   // .then(res=>{
+    //   //   console.log(res);
+    //   //   this.listCat();
+    //   // })
+    //   // .catch((err)=>{
+    //   //   console.log(err);
+    //   // })
+
+
+    //   swal({
+    //     title: "¿Esta seguro de Eliminar este registro?",
+    //     type: "warning",
+    //     showCancelButton: true,
+    //     confirmButtonColor: "#3085d6",
+    //     cancelButtonColor: "#d33",
+    //     confirmButtonText: "Aceptar!",
+    //     cancelButtonText: "Cancelar",
+    //     confirmButtonClass: "btn btn-success",
+    //     cancelButtonClass: "btn btn-danger",
+    //     buttonsStyling: false,
+    //     reverseButtons: true
+    //   }).then(result => {
+    //     if (result.value) {
+    //       const headers = {headers:{"x-token":this.getToken()}};
+    //       const url =`https://instituto-backend.herokuapp.com/api/v1/areas-estudio/${id}`;
+    //       axios
+    //       .delete(url,headers)
+    //       .then(res=>{
+    //         console.log(res);
+    //         this.message("Categoría eliminada", "success");
+    //         this.listCat();
+    //       })
+    //       .catch((err)=>{
+    //         console.log(err);
+    //       })
+          
+    //     } else if (
+    //       // Read more about handling dismissals
+    //       result.dismiss === swal.DismissReason.cancel
+    //     ) {
+    //     }
+    //   });
+      
+
+    // },
+    chargData(data = []){
+       this.catAct();
+       this.id_DataCat = data["id"];
+       this.name = data["area_estudio"];
+    },
+    UpdateDataCat(){
+      const headers = {headers:{"x-token":this.getToken()}};
+      const url =`https://instituto-backend.herokuapp.com/api/v1/areas-estudio/${this.id_DataCat}`;
+      const data = {
+                     "area_estudio": this.name
+                    };
+      axios
+        .put(url, data, headers)
+        .then((response) => {
+            console.log(response.data);
+            this.message("Categoría actualizada", "success");
+            this.clearCat();
+            this.catBasic();
+            this.listCat();
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    },
+    clearCat(){
+      this.catBasic();
+      this.name = null;
+      this.description = null;
+    },
+    // message(msj, icono) {
+    //     const Toast = Swal.mixin({
+    //         toast: true,
+    //         position: 'top-center',
+    //         showConfirmButton: false,
+    //         timer: 1500,
+    //         timerProgressBar: true,
+    //         didOpen: (toast) => {
+    //             toast.addEventListener('mouseenter', Swal.stopTimer)
+    //             toast.addEventListener('mouseleave', Swal.resumeTimer)
+    //         }
+    //     })
+    //     Toast.fire({
+    //         icon: icono,
+    //         title: msj
+    //     })
+    // },
+    async registrarCursos(){
+       const url ='https://instituto-backend.herokuapp.com/api/v1/cursos';
+       const data = {
+                     "nombre_curso": this.nameCurso,
+                     "cupo_disponible":this.cantidadAlumnos,
+                     "fecha_limite_curso":this.fechaCurso,
+                     "estado_curso":this.estadoCurso,
+                     "descripcion":this.descripcion,
                     }
        const headers = {
                         headers:{"x-token":this.getToken()}
@@ -809,17 +834,21 @@ export default {
         .catch((error) => {
             console.log(error);
         });
-    },
-    listCat(){
-      // const url ='https://instituto-backend.herokuapp.com/api/v1/areas-estudio';
 
     },
-    chargData(data = []){
-      this.catAct();
-      this.id_DataCat = data["id"];
-      this.name = data["area_estudio"];
-    },
-    UpdateDataCat(){
+    deleteCursos(id){
+       const headers = {headers:{"x-token":this.getToken()}};
+       const url =`https://instituto-backend.herokuapp.com/api/v1/cursos/${id}`;
+      axios
+      .delete(url,headers)
+      .then(res=>{
+        console.log(res);
+        this.cursosData();
+      })
+      .catch((err)=>{
+        console.log(err);
+      })
+  
 
     },
     getToken(){  
@@ -923,13 +952,29 @@ export default {
         console.log(err);
       })
     },
+     async getCursos(){
+      const url ='https://instituto-backend.herokuapp.com/api/v1/cursos';
+      await axios
+        .get(url)
+        .then((response) => {
+            const data = response.data.results;
+            this.cursosData = data
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+
+
+
+    }
 
   },
    mounted(){
     this.getUsuarios();
-    this.getUsuariosDocument();
-    this.getUsuariosRol();
-    this.getUsuariosEstado()
+    this.listCat();
+    this.getCursos();
+  
+
   }
 };
 </script>
