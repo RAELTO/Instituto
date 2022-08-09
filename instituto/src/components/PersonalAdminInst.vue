@@ -952,6 +952,7 @@ export default {
         console.log(err);
       })
     },
+
      async getCursos(){
       const url ='https://instituto-backend.herokuapp.com/api/v1/cursos';
       await axios
@@ -971,6 +972,9 @@ export default {
   },
    mounted(){
     this.getUsuarios();
+    this.getUsuariosDocument();
+    this.getUsuariosRol();
+    this.getUsuariosEstado()
     this.listCat();
     this.getCursos();
   
