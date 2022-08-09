@@ -461,7 +461,7 @@
                   <button
                     class="btn text-white"
                     data-bs-toggle="modal"
-                    data-bs-target="#gradeEdit"
+                    data-bs-target="#gradeCreate"
                   >
                     <i class="bi bi-eye-fill"></i>
                   </button>
@@ -507,7 +507,7 @@
                       <select
                         class="form-select"
                         aria-label="Default select example"
-                        
+                        v-model="areaEstudio"
                       >
                         <option selected>Categoría curso</option>
                         <option value="1">Programación</option>
@@ -547,11 +547,13 @@
                     </div>
                   
                       <div class="mb-3 col-12">
+                      <label class="form-label">Estado:</label>
                       <select
                        v-model="estadoCurso"
                         class="form-select"
                         aria-label="Default select example"
                       >
+                
                         <option selected>activo</option>
                         <option value="1">inactivo</option>
                       </select>
@@ -718,6 +720,7 @@ export default {
     async registrarCursos(){
        const url ='https://instituto-backend.herokuapp.com/api/v1/cursos';
        const data = {
+                      "area_estudio_id": this.areaEstudio,
                      "nombre_curso": this.nameCurso,
                      "cupo_disponible":this.cantidadAlumnos,
                      "fecha_limite_curso":this.fechaCurso,
@@ -750,8 +753,6 @@ export default {
       .catch((err)=>{
         console.log(err);
       })
-  
-
     },
     async getUsuarios(){
       const url ='https://instituto-backend.herokuapp.com/api/v1/usuarios';
