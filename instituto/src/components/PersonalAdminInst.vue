@@ -685,7 +685,7 @@ export default {
 
 
       swal({
-        title: "Esta seguro de Eliminar la Región " + data["area_estudio"],
+        title: "¿Esta seguro de Eliminar este registro?",
         type: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
