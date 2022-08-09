@@ -764,7 +764,7 @@ export default {
       await axios
         .post(url, data, headers)
         .then((response) => {
-            console.log(response.data);
+            console.log(response.data);              
             this.clearCat();
             this.listCat();
         })
