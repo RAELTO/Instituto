@@ -603,55 +603,6 @@ export default {
           console.log(error);
         });
     },
-
-    // deleteCat(id){
-    //   //  const headers = {headers:{"x-token":this.getToken()}};
-    //   //  const url =`https://instituto-backend.herokuapp.com/api/v1/areas-estudio/${id}`;
-    //   // axios
-    //   // .delete(url,headers)
-    //   // .then(res=>{
-    //   //   console.log(res);
-    //   //   this.listCat();
-    //   // })
-    //   // .catch((err)=>{
-    //   //   console.log(err);
-    //   // })
-
-
-    //   swal({
-    //     title: "Esta seguro de Eliminar la Región " + data["area_estudio"],
-    //     type: "warning",
-    //     showCancelButton: true,
-    //     confirmButtonColor: "#3085d6",
-    //     cancelButtonColor: "#d33",
-    //     confirmButtonText: "Aceptar!",
-    //     cancelButtonText: "Cancelar",
-    //     confirmButtonClass: "btn btn-success",
-    //     cancelButtonClass: "btn btn-danger",
-    //     buttonsStyling: false,
-    //     reverseButtons: true
-    //   }).then(result => {
-    //     if (result.value) {
-    //       const headers = {headers:{"x-token":this.getToken()}};
-    //       const url =`https://instituto-backend.herokuapp.com/api/v1/areas-estudio/${id}`;
-    //       axios
-    //       .delete(url,headers)
-    //       .then(res=>{
-    //         console.log(res);
-    //         this.message("Categoría eliminada", "success");
-    //         this.listCat();
-    //       })
-    //       .catch((err)=>{
-    //         console.log(err);
-    //       })
-          
-    //     } else if (
-    //       // Read more about handling dismissals
-    //       result.dismiss === swal.DismissReason.cancel
-    //     ) {
-    //     }
-    //   });
-
     deleteCat(id){
       const swalWithBootstrapButtons = this.$swal.mixin({
         customClass: {
@@ -728,23 +679,6 @@ export default {
       this.name = null;
       this.description = null;
     },
-    // message(msj, icono) {
-    //     const Toast = Swal.mixin({
-    //         toast: true,
-    //         position: 'top-center',
-    //         showConfirmButton: false,
-    //         timer: 1500,
-    //         timerProgressBar: true,
-    //         didOpen: (toast) => {
-    //             toast.addEventListener('mouseenter', Swal.stopTimer)
-    //             toast.addEventListener('mouseleave', Swal.resumeTimer)
-    //         }
-    //     })
-    //     Toast.fire({
-    //         icon: icono,
-    //         title: msj
-    //     })
-    // },
     message(msj, icono) {
         const Toast = this.$swal.mixin({
             toast: true,
@@ -844,7 +778,7 @@ export default {
           .then(res=>{
             console.log(res);
             this.getUsuarios()
-            this.message(`El usuario ${user[0].nombre} a sido eliminado correctamente`, 'success')
+            this.message(`El usuario ${user[0].nombre} ha sido eliminado correctamente`, 'success')
 
           })
           .catch((err)=>{
@@ -923,7 +857,7 @@ export default {
       .then(res=>{
         console.log(res);
         this.getUsuarios()
-        this.message('El usuario a sido creado exitosamente', 'success')
+        this.message('El usuario ha sido creado exitosamente', 'success')
       })
       .catch((err)=>{
         console.log(err);
