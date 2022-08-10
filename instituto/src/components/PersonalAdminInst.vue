@@ -719,56 +719,47 @@ export default {
           console.log(error);
         });
     },
-    // deleteCat(id){
-    //   //  const headers = {headers:{"x-token":this.getToken()}};
-    //   //  const url =`https://instituto-backend.herokuapp.com/api/v1/areas-estudio/${id}`;
-    //   // axios
-    //   // .delete(url,headers)
-    //   // .then(res=>{
-    //   //   console.log(res);
-    //   //   this.listCat();
-    //   // })
-    //   // .catch((err)=>{
-    //   //   console.log(err);
-    //   // })
+    deleteCat(id){
+      const swalWithBootstrapButtons = this.$swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success',
+          cancelButton: 'btn btn-danger danger m-2'
+        },
+        buttonsStyling: false
+      })
 
-
-    //   swal({
-    //     title: "¿Esta seguro de Eliminar este registro?",
-    //     type: "warning",
-    //     showCancelButton: true,
-    //     confirmButtonColor: "#3085d6",
-    //     cancelButtonColor: "#d33",
-    //     confirmButtonText: "Aceptar!",
-    //     cancelButtonText: "Cancelar",
-    //     confirmButtonClass: "btn btn-success",
-    //     cancelButtonClass: "btn btn-danger",
-    //     buttonsStyling: false,
-    //     reverseButtons: true
-    //   }).then(result => {
-    //     if (result.value) {
-    //       const headers = {headers:{"x-token":this.getToken()}};
-    //       const url =`https://instituto-backend.herokuapp.com/api/v1/areas-estudio/${id}`;
-    //       axios
-    //       .delete(url,headers)
-    //       .then(res=>{
-    //         console.log(res);
-    //         this.message("Categoría eliminada", "success");
-    //         this.listCat();
-    //       })
-    //       .catch((err)=>{
-    //         console.log(err);
-    //       })
+      swalWithBootstrapButtons.fire({
+        title: '¿Esta seguro de eliminar este registro?',
+        text: "no podras revertir los cambios!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, borrar!',
+        cancelButtonText: 'Cancelar!',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const headers = {headers:{"x-token":this.getToken()}};
+          const url =`https://instituto-backend.herokuapp.com/api/v1/areas-estudio/${id}`;
+          axios
+          .delete(url,headers)
+          .then(res=>{
+            console.log(res);
+            this.message("Categoría eliminada", "success");
+            this.listCat();
+          })
+          .catch((err)=>{
+            console.log(err);
+          })
+        } else
+          /* Read more about handling dismissals below */
+         {
+           result.dismiss === this.$swal.DismissReason.cancel
           
-    //     } else if (
-    //       // Read more about handling dismissals
-    //       result.dismiss === swal.DismissReason.cancel
-    //     ) {
-    //     }
-    //   });
+        }
+      })
       
 
-    // },
+    },
     chargData(data = []){
        this.catAct();
        this.id_DataCat = data["id"];
@@ -798,23 +789,23 @@ export default {
       this.name = null;
       this.description = null;
     },
-    // message(msj, icono) {
-    //     const Toast = Swal.mixin({
-    //         toast: true,
-    //         position: 'top-center',
-    //         showConfirmButton: false,
-    //         timer: 1500,
-    //         timerProgressBar: true,
-    //         didOpen: (toast) => {
-    //             toast.addEventListener('mouseenter', Swal.stopTimer)
-    //             toast.addEventListener('mouseleave', Swal.resumeTimer)
-    //         }
-    //     })
-    //     Toast.fire({
-    //         icon: icono,
-    //         title: msj
-    //     })
-    // },
+    message(msj, icono) {
+        const Toast = this.$swal.mixin({
+            toast: true,
+            position: 'top-center',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+            }
+        })
+        Toast.fire({
+            icon: icono,
+            title: msj
+        })
+    },
     async registrarCursos(){
        const url ='https://instituto-backend.herokuapp.com/api/v1/cursos';
        const data = {
