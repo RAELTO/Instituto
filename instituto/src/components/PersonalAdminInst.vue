@@ -474,7 +474,9 @@
               <th scope="col">Fecha</th>
               <th scope="col">Cantidad Alumnos</th>
                 <th scope="col">Estado</th>
+                <th scope="col">Descripción</th>
                 <th scope="col">Opciones</th>
+                
             </tr>
           </thead> 
           <tbody>
@@ -483,11 +485,13 @@
               <td v-text="objeto.fecha_limite_curso"></td>
               <td v-text="objeto.cupo_disponible"></td>
               <td v-text="objeto.estado_curso"></td>
+                 <td v-text="objeto.descripcion"></td>
               <td>
                   <button
                     class="btn text-white"
                     data-bs-toggle="modal"
                     data-bs-target="#gradeCreate"
+                  @click="chargCursos(objeto)"
                   >
                     <i class="bi bi-eye-fill"></i>
                   </button>
@@ -614,7 +618,7 @@
                 <button type="button" @click="registrarCursos()" class="btn btn-primary fw-bold">
                   Guardar
                 </button>
-                  <button type="button"  class="btn btn-primary fw-bold">
+                  <button type="button"  @click="UpdateCursos()" class="btn btn-primary fw-bold">
                   Actualizar datos
                 </button>
               </div>
@@ -668,6 +672,7 @@ export default {
       estadoCurso:'',
       descripcion:'',
       areaEstudioId:'',
+      id_dataCursos: 0 ,
 
 
     };
@@ -911,11 +916,44 @@ export default {
       .delete(url,headers)
       .then(res=>{
         console.log(res);
-        this.cursosData();
+        this.getCursos();
       })
       .catch((err)=>{
         console.log(err);
       })
+    },
+     chargCursos(data = []){
+       this.id_dataCursos = data["id"];
+        this.areaEstudioId = data["area_estudio_id"];
+       this.nameCurso = data["nombre_curso"];
+       this.fechaCurso = data["fech_limite_curso"];
+       this.cantidadAlumnos = data["cupo_disponible"];
+       this.estadoCurso = data["estado_curso"];
+        this.descripcion = data["descripcion"];
+
+    },
+       UpdateCursos(){
+      const headers = {headers:{"x-token":this.getToken()}};
+      const url =`https://instituto-backend.herokuapp.com/api/v1/cursos/${this.id_dataCursos}`;
+      const data = {
+                     "area_estudio_id": this.areaEstudioId,
+                     "name_curso": this.nameCurso,
+                     "fecha_limite_curso": this.fechaCurso,
+                     "cupo_disponible": this.cantidadAlumnos,
+                     "estado_curso": this.estadoCurso,
+                     "descripcion": this.descripcion,
+                    };
+      axios
+        .put(url, data, headers)
+        .then((response) => {
+            console.log(response.data);
+            this.message("Categoría actualizada", "success");
+          this.getCursos();
+          
+        })
+        .catch((error) => {
+            console.log(error);
+        });
     },
     getToken(){  
       return JSON.parse(localStorage.getItem("token"))
