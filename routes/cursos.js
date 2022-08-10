@@ -6,7 +6,8 @@ const {
     valFields,
     valJWT,
     adminRole,
-    hasRole
+    hasRole,
+    validateFileUpload
 } = require('../middlewares');
 
 const { courseExistingId, areaExistingId, courseValidator } = require('../helpers/db-validator');
@@ -54,6 +55,7 @@ router.post('/', [ //arreglo de middlewares express-validator
     check('fecha_limite_curso', 'No es una fecha válida').isDate(),
     check('estado_curso', 'El estado del curso es obligatorio').not().isEmpty(),
     check('estado_curso', 'El estado del curso es obligatorio').isBoolean(),
+    validateFileUpload,
     valFields
 ], createNewCourse);
 

@@ -5,7 +5,8 @@ const {
     valFields, 
     valJWT, 
     adminRole, 
-    hasRole
+    hasRole,
+    validateFileUpload
 } = require('../middlewares');
 
 const { validRoles, emailValidator, userExistingId, 
@@ -67,10 +68,10 @@ router.post('/', [//arreglo de middlewares express-validator
     check('correo', 'El correo ingresado no es válido').isEmail(),
     check('correo').custom( emailValidator ),
     check('direccion', 'La dirección es obligatoria').not().isEmpty(),
-    //check('role', 'No es un rol válido').isIn(['ADMIN_ROLE', 'USER_ROLE']),
     check('rol_id').custom( validRoles ),
     check('id_estado').custom( userStatusExistsId ),
     check('contrasena', 'La contraseña es obligatoria').not().isEmpty(),
+    validateFileUpload,
     valFields
 ],createNewUser);
 
