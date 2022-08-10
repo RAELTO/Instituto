@@ -1,7 +1,6 @@
 <template>
   <div class="container-sm">
   <!-- Buttons -->
-    <button @click="showAlert">Alerta</button>
     <section>
       <div class=" mt-5 p-3">
         <button
@@ -36,10 +35,10 @@
             class="btn p-1 m-2 fw-bold text-white"
             data-bs-toggle="modal"
             data-bs-target="#userCreate"
+            @click="action(0)"
           >
             <i class="bi bi-person-plus-fill p-3"></i>
           </button>
-          <!-- <button class="m-2" @click="getUsuarios"> Prueba traer usuarios </button> -->
           <table class="table table-dark table-striped">
             <thead>
               <tr>
@@ -53,27 +52,28 @@
             </thead>
             <tbody>
               <tr
-                v-for="{id,nombre,apellido,correo,id_estado,role} in dataUser"
-                :key="id">
-                <td><span>{{nombre}}</span></td>
-                <td><span>{{apellido}}</span></td>
-                <td><span>{{correo}}</span></td>
+                v-for="item in dataUser"
+                :key="item.id">
+                <td><span>{{item.nombre}}</span></td>
+                <td><span>{{item.apellido}}</span></td>
+                <td><span>{{item.correo}}</span></td>
                 <td>
                   <span 
-                      :style="{color: id_estado==1 ? 'green': 'red' }">
-                      {{id_estado == 1? 'Activo' : 'Inactivo'}}
+                      :style="{color: item.id_estado==1 ? 'green': 'red' }">
+                      {{item.id_estado == 1? 'Activo' : 'Inactivo'}}
                   </span>
                 </td>
-                <td><span>{{role.nombre_rol}}</span></td>
+                <td><span>{{item.role.nombre_rol}}</span></td>
                 <td>
                   <button
                     class="btn text-white"
+                    @click="action(1,item)"
                     data-bs-toggle="modal"
-                    data-bs-target="#userEdit"
+                    data-bs-target="#userCreate"
                   >
-                    <i class="bi bi-eye-fill"></i>
+                    <i class="bi bi-eye-fill" ></i>
                   </button>
-                  <button class="btn text-white danger ms-1" @click="deleteUsuarios(id)">
+                  <button class="btn text-white danger ms-1" @click="deleteUsuarios(item.id)">
                     <i class="bi bi-trash3-fill"></i>
                   </button>
                 </td>
@@ -94,8 +94,11 @@
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title fw-bold" id="staticBackdropLabel">
+                <h5 class="modal-title fw-bold" id="staticBackdropLabel" v-if="Usuario.typeAction==0">
                   Agregar Usuario
+                </h5>
+                 <h5 class="modal-title fw-bold" id="staticBackdropLabel" v-if="Usuario.typeAction==1">
+                  Actualizar Usuario
                 </h5>
                 <p
                   type="button"
@@ -218,7 +221,7 @@
                         >{{item.estado_usuario? 'Activo': 'Inactivo'}}</option>
                       </select>
                     </div>
-                    <div class="input-group mb-3">
+                    <div class="input-group mb-3" v-if="Usuario.typeAction==0">
                       <label class="fw-bold col-12 mb-2"> Cargar documento</label>
                       <input
                         type="file"
@@ -242,138 +245,22 @@
                 >
                   Close
                 </button>
+                
                 <button 
                 type="button" 
                 class="btn btn-primary fw-bold"
                 data-bs-dismiss="modal"
+                v-if="Usuario.typeAction==0"
                 @click="postUsuario">
                   Guardar
                 </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Editar Usuario -->
-        <div
-          class="modal fade"
-          id="userEdit"
-          data-bs-backdrop="static"
-          data-bs-keyboard="false"
-          tabindex="-1"
-          aria-labelledby="staticBackdropLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title fw-bold" id="staticBackdropLabel">
-                  Editar Usuario
-                </h5>
-                <p
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></p>
-              </div>
-              <div class="modal-body">
-                <div class="">
-                  <div class="row">
-                    <div class="mb-3 col-6">
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Nombre"
-                        aria-label="Nombre"
-                        aria-describedby="basic-addon1"
-                      />
-                    </div>
-                    <div class="mb-3 col-6">
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Apellido"
-                        aria-label="Apellido"
-                        aria-describedby="basic-addon1"
-                      />
-                    </div>
-                    <div class="mb-3 col-6">
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Fecha de Nacimiento"
-                        aria-label="Nacimiento"
-                        aria-describedby="basic-addon1"
-                      />
-                    </div>
-                    <div class="mb-3 col-6">
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Teléfono"
-                        aria-label="Telefono"
-                        aria-describedby="basic-addon1"
-                      />
-                    </div>
-                    <div class="mb-3 col-6">
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Dirección"
-                        aria-label="Direccion"
-                        aria-describedby="basic-addon1"
-                      />
-                    </div>
-                    <div class="mb-3 col-6">
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Correo"
-                        aria-label="Correo"
-                        aria-describedby="basic-addon1"
-                      />
-                    </div>
-                    <div class="mb-3 col-6">
-                      <select
-                        class="form-select"
-                        aria-label="Default select example"
-                      >
-                        <option selected>Tipo de documento</option>
-                        <option value="1">TI</option>
-                      </select>
-                    </div>
-                    <div class="mb-3 col-6">
-                      <input
-                        type="number"
-                        class="form-control"
-                        placeholder="No. Documento"
-                        aria-label="NoDocumento"
-                        aria-describedby="basic-addon1"
-                      />
-                    </div>
-                    <div class="mb-3 col-12">
-                      <select
-                        class="form-select"
-                        disabled
-                        aria-label="Default select example"
-                      >
-                        <option selected>Tipo de rol</option>
-                        <option value="1">admin</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary fw-bold"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button type="button" class="btn btn-primary fw-bold">
-                  Guardar
+                <button 
+                type="button" 
+                class="btn btn-primary fw-bold"
+                data-bs-dismiss="modal"
+                v-if="Usuario.typeAction==1"
+                @click="putUsuario">
+                  Actualizar
                 </button>
               </div>
             </div>
@@ -636,7 +523,6 @@ export default {
       name: '',
       description: '',
       arrayDataCat: [],
-      
       id_DataCat: 0,
       // Brayan
       dataUser: null,
@@ -644,6 +530,8 @@ export default {
       rolData:null,
       estadoData:null,
       Usuario:{
+        updateUser:null,
+        typeAction:0,
         nombre:null,//
         apellido:null,//
         fecha_nac:null,//
@@ -668,10 +556,6 @@ export default {
     };
   },   
   methods: {
-    showAlert() {
-      // Use sweetalert2
-      this.$swal('Hello Vue world!!!');
-    },
     catAct(){
       this.typeAction = 1;
     },
@@ -739,7 +623,7 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           const headers = {headers:{"x-token":this.getToken()}};
-          const url =`https://instituto-backend.herokuapp.com/api/v1/areas-estudio/${id}`;
+          const url =`ashttps://instituto-backend.herokuapp.com/api/v1/areas-estudio/${id}`;
           axios
           .delete(url,headers)
           .then(res=>{
@@ -750,11 +634,16 @@ export default {
           .catch((err)=>{
             console.log(err);
           })
-        } else
-          /* Read more about handling dismissals below */
+        } else if(result.dismiss === this.$swal.DismissReason.cancel)
          {
-           result.dismiss === this.$swal.DismissReason.cancel
-          
+          const categoria = this.arrayDataCat.filter((e)=>{
+            return e.id === id
+          });
+          swalWithBootstrapButtons.fire(
+          'Cacelado',
+          `Tu categoria ${categoria[0].area_estudio} no ha sido eliminada`,
+          'error'
+        )
         }
       })
       
@@ -794,12 +683,8 @@ export default {
             toast: true,
             position: 'top-center',
             showConfirmButton: false,
-            timer: 1500,
+            timer: 3000,
             timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', this.$swal.stopTimer)
-                toast.addEventListener('mouseleave', this.$swal.resumeTimer)
-            }
         })
         Toast.fire({
             icon: icono,
@@ -847,6 +732,7 @@ export default {
     getToken(){  
       return JSON.parse(localStorage.getItem("token"))
     },
+    // Usuarios
     async getUsuarios(){
       const url ='https://instituto-backend.herokuapp.com/api/v1/usuarios';
              
@@ -861,17 +747,49 @@ export default {
         });
     },
     async deleteUsuarios(id){
-      console.log(id);
-      const headers = {headers:{"x-token":this.getToken()}};
-      const url =`https://instituto-backend.herokuapp.com/api/v1/usuarios/${id}`;
-      await axios
-      .delete(url,headers)
-      .then(res=>{
-        console.log(res);
-        this.getUsuarios()
+     
+      const swalWithBootstrapButtons = this.$swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success',
+          cancelButton: 'btn btn-danger danger m-2'
+        },
+        buttonsStyling: false
       })
-      .catch((err)=>{
-        console.log(err);
+
+      swalWithBootstrapButtons.fire({
+        title: '¿Esta seguro de eliminar este registro?',
+        text: "no podras revertir los cambios!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, borrar!',
+        cancelButtonText: 'Cancelar!',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const user = this.dataUser.filter(user =>{
+            return user.id == id
+          })
+          const headers = {headers:{"x-token":this.getToken()}};
+          const url =`https://instituto-backend.herokuapp.com/api/v1/usuarios/${id}`;
+          axios
+          .delete(url,headers)
+          .then(res=>{
+            console.log(res);
+            this.getUsuarios()
+            this.message(`El usuario ${user[0].nombre} a sido eliminado correctamente`, 'success')
+
+          })
+          .catch((err)=>{
+            console.log(err);
+          })
+        } else if(result.dismiss === this.$swal.DismissReason.cancel)
+         {
+          swalWithBootstrapButtons.fire(
+          'Cancelado',
+          `Tu resgistro no ha sido eliminado`,
+          'error'
+        )
+        }
       })
     },
     async getUsuariosDocument(){
@@ -937,13 +855,79 @@ export default {
       .then(res=>{
         console.log(res);
         this.getUsuarios()
-        this.modal=true;
+        this.message('El usuario a sido creado exitosamente', 'success')
       })
       .catch((err)=>{
         console.log(err);
       })
     },
+    async putUsuario(){
+      const user = this.Usuario.updateUser
+      console.log(user);
+      const url =`https://instituto-backend.herokuapp.com/api/v1/usuarios/${user.id}`;
+      const headers = {headers:{"x-token":this.getToken()}};
+      const data={
+        "nombre": this.Usuario.nombre,
+        "apellido": this.Usuario.apellido,
+        "fecha_nac": this.Usuario.fecha_nac,
+        "telefono": this.Usuario.telefono.toString(),
+        "documento": this.Usuario.documento,
+        "tipo_doc_id": this.Usuario.tipo_doc_id,
+        "dni": this.Usuario.dni.toString(),
+        "correo": this.Usuario.correo,
+        "direccion": this.Usuario.direccion,
+        "rol_id": this.Usuario.rol_id,
+        "id_estado": this.Usuario.id_estado,
+        "contrasena": this.Usuario.contrasena,
 
+      };
+      await axios
+      .put(url,data,headers)
+      .then(res=>{
+        console.log(res);
+        this.message('El usuario a sido actualizado exitosamente', 'success')
+        this.getUsuarios()
+      })
+      .catch((err)=>{
+        console.log(err);
+      })
+    },
+    action(num,data){
+      if( num ==0){
+        this.Usuario.typeAction= 0;
+        this.Usuario.nombre=null
+        this.Usuario.apellido=null
+        this.Usuario.fecha_nac=null
+        this.Usuario.telefono=null
+        this.Usuario.documento=null
+        this.Usuario.tipo_doc_id=null
+        this.Usuario.dni=null
+        this.Usuario.correo=null
+        this.Usuario.direccion=null
+        this.Usuario.rol_id=null
+        this.Usuario.id_estado=null
+        this.Usuario.contrasena=null
+      }else{
+        this.Usuario.updateUser = data
+        const dataUpdate = this.Usuario.updateUser;
+        this.Usuario.typeAction= 1;
+        this.Usuario.nombre = dataUpdate.nombre
+        this.Usuario.apellido= dataUpdate.apellido
+        this.Usuario.fecha_nac= dataUpdate.fecha_nac
+        this.Usuario.telefono= dataUpdate.telefono
+        this.Usuario.documento= dataUpdate.documento
+        this.Usuario.tipo_doc_id= dataUpdate.tipo_documento.id
+        this.Usuario.dni= dataUpdate.dni
+        this.Usuario.correo= dataUpdate.correo
+        this.Usuario.direccion= dataUpdate.direccion
+        this.Usuario.rol_id= dataUpdate.role.id
+        this.Usuario.id_estado= dataUpdate.id_estado
+        this.Usuario.contrasena= dataUpdate.contrasena
+      }
+
+       
+    },
+    // /Usuarios
     async getCursos(){
       const url ='https://instituto-backend.herokuapp.com/api/v1/cursos';
       await axios
