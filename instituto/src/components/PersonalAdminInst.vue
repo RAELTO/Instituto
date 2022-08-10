@@ -638,6 +638,7 @@ export default {
       name: '',
       description: '',
       arrayDataCat: [],
+      
       id_DataCat: 0,
       // Brayan
       dataUser: null,
@@ -669,6 +670,10 @@ export default {
     };
   },   
   methods: {
+    showAlert() {
+      // Use sweetalert2
+      this.$swal('Hello Vue world!!!');
+    },
     catAct(){
       this.typeAction = 1;
     },
@@ -705,7 +710,6 @@ export default {
             console.log(error);
         });
     },
-    
     listCat(){
        const url ='https://instituto-backend.herokuapp.com/api/v1/areas-estudio';  
        axios
@@ -953,7 +957,7 @@ export default {
       })
     },
 
-     async getCursos(){
+    async getCursos(){
       const url ='https://instituto-backend.herokuapp.com/api/v1/cursos';
       await axios
         .get(url)
@@ -974,7 +978,7 @@ export default {
     this.getUsuarios();
     this.getUsuariosDocument();
     this.getUsuariosRol();
-    this.getUsuariosEstado()
+    this.getUsuariosEstado();
     this.listCat();
     this.getCursos();
   
