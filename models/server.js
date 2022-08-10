@@ -21,6 +21,7 @@ class Server {
             roles: '/api/v1/roles',
             estadoMatricula: '/api/v1/estadoMatricula',
             areas: '/api/v1/areas-estudio',
+            passValidate: '/api/v1/pass-validation',
         }
 
         //db connection
@@ -68,6 +69,7 @@ class Server {
         this.app.use( this.paths.roles, require('../routes/roles') );
         this.app.use( this.paths.estadoMatricula, require('../routes/estadoMatricula') );
         this.app.use( this.paths.areas, require('../routes/areas') );
+        this.app.use( this.paths.passValidate, require('../routes/passVal') );
 
         this.app.get('*', (req, res) => {
             res.status(404).send(`<h1>404 | Endpoint: " ${req.url} " not found</h1>`);
