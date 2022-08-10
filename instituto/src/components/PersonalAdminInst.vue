@@ -326,11 +326,6 @@
                                           <label class="form-label">Nombre categoría:</label>
                                           <input type="text" v-model="name" class="form-control" placeholder="ingrese nombre de la categoría">
                                       </div>
-                                      <div class="mb-3">
-                                          <label class="form-label">Descripción:</label>
-                                          <textarea class="form-control" v-model="description" id="exampleFormControlTextarea1" rows="3" placeholder="ingrese descripción"></textarea>
-
-                                      </div>
                                   </form>                                  
                               </div>
                           </div>
