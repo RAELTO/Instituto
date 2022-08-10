@@ -1,6 +1,7 @@
 <template>
   <div class="container-sm">
   <!-- Buttons -->
+    <button @click="showAlert">Alerta</button>
     <section>
       <div class=" mt-5 p-3">
         <button
@@ -113,6 +114,7 @@
                         placeholder="Nombre"
                         aria-label="Nombre"
                         aria-describedby="basic-addon1"
+                        v-model="Usuario.nombre"
                       />
                     </div>
                     <div class="mb-3 col-6">
@@ -122,24 +124,27 @@
                         placeholder="Apellido"
                         aria-label="Apellido"
                         aria-describedby="basic-addon1"
+                        v-model="Usuario.apellido"
                       />
                     </div>
                     <div class="mb-3 col-6">
                       <input
-                        type="text"
+                        type="date"
                         class="form-control"
                         placeholder="Fecha de Nacimiento"
                         aria-label="Nacimiento"
                         aria-describedby="basic-addon1"
+                        v-model="Usuario.fecha_nac"
                       />
                     </div>
                     <div class="mb-3 col-6">
                       <input
-                        type="text"
+                        type="number"
                         class="form-control"
                         placeholder="Teléfono"
                         aria-label="Telefono"
                         aria-describedby="basic-addon1"
+                        v-model="Usuario.telefono"
                       />
                     </div>
                     <div class="mb-3 col-6">
@@ -149,24 +154,30 @@
                         placeholder="Dirección"
                         aria-label="Direccion"
                         aria-describedby="basic-addon1"
+                        v-model="Usuario.direccion"
                       />
                     </div>
                     <div class="mb-3 col-6">
                       <input
-                        type="text"
+                        type="email"
                         class="form-control"
                         placeholder="Correo"
                         aria-label="Correo"
                         aria-describedby="basic-addon1"
+                        v-model="Usuario.correo"
                       />
                     </div>
                     <div class="mb-3 col-6">
                       <select
                         class="form-select"
                         aria-label="Default select example"
+                        v-model="Usuario.tipo_doc_id"
                       >
-                        <option selected>Tipo de documento</option>
-                        <option value="1">TI</option>
+                        <option selected value="null">Tipo de documento</option>
+                        <option 
+                        :value="item.id" 
+                        v-for="item in documentData" 
+                        :key="item.id" >{{item.tipo_documento}}</option>
                       </select>
                     </div>
                     <div class="mb-3 col-6">
@@ -176,15 +187,35 @@
                         placeholder="No. Documento"
                         aria-label="NoDocumento"
                         aria-describedby="basic-addon1"
+                        v-model="Usuario.dni"
                       />
                     </div>
-                    <div class="mb-3 col-12">
+                    <div class="mb-3 col-6">
                       <select
                         class="form-select"
                         aria-label="Default select example"
+                        v-model="Usuario.rol_id"
                       >
-                        <option selected>Tipo de rol</option>
-                        <option value="1">admin</option>
+                        <option selected value="null">Tipo de rol</option>
+                        <option 
+                        v-for="item in rolData"
+                        :value="item.id"
+                        :key="item.id"
+                        >{{item.nombre_rol}}</option>
+                      </select>
+                    </div>
+                    <div class="mb-3 col-6">
+                      <select
+                        class="form-select"
+                        aria-label="Default select example"
+                        v-model="Usuario.id_estado"
+                      >
+                        <option selected value="null">Estado</option>
+                        <option 
+                        v-for="item in estadoData"
+                        :value="item.id"
+                        :key="item.id"
+                        >{{item.estado_usuario? 'Activo': 'Inactivo'}}</option>
                       </select>
                     </div>
                     <div class="input-group mb-3">
@@ -193,19 +224,10 @@
                         type="file"
                         class="form-control"
                         id="inputGroupFile02"
+                        @change="Usuario.documento"
                       />
                       <label class="input-group-text" for="inputGroupFile02"
-                        >Upload</label
-                      >
-                    </div>
-                    <div class="input-group mb-3">
-                      <label class="fw-bold col-12 mb-2"> Cargar Imagen</label>
-                      <input
-                        type="file"
-                        class="form-control"
-                        id="inputGroupFile02"
-                      />
-                      <label class="input-group-text" for="inputGroupFile02"
+                      
                         >Upload</label
                       >
                     </div>
@@ -220,7 +242,11 @@
                 >
                   Close
                 </button>
-                <button type="button" class="btn btn-primary fw-bold">
+                <button 
+                type="button" 
+                class="btn btn-primary fw-bold"
+                data-bs-dismiss="modal"
+                @click="postUsuario">
                   Guardar
                 </button>
               </div>
@@ -356,7 +382,7 @@
       </section>
       <!--Category  -->
       <section v-if="view === 1">
-        <div class="container">
+        <div>
           <button class="btn p-1 m-2 fw-bold text-white" data-bs-toggle="modal" data-bs-target="#modalCat">Crear Categoría</button>
           <table class="table table-dark table-striped">
             <thead>
@@ -612,9 +638,29 @@ export default {
       typeAction: 0,
       name: '',
       description: '',
-      dataUser: null,
       arrayDataCat: [],
+      
       id_DataCat: 0,
+      // Brayan
+      dataUser: null,
+      documentData:null,
+      rolData:null,
+      estadoData:null,
+      Usuario:{
+        nombre:null,//
+        apellido:null,//
+        fecha_nac:null,//
+        telefono:null,//
+        documento:'Prueba',//
+        tipo_doc_id:null,//
+        dni:'',//
+        correo:null,//
+        direccion:null,//
+        rol_id:null,//
+        id_estado:null,
+        contrasena:null,
+      },
+      modal:false,
       cursosData:[],
       nameCurso:'',
       cantidadAlumnos:'',
@@ -627,6 +673,10 @@ export default {
     };
   },   
   methods: {
+    showAlert() {
+      // Use sweetalert2
+      this.$swal('Hello Vue world!!!');
+    },
     catAct(){
       this.typeAction = 1;
     },
@@ -663,7 +713,6 @@ export default {
             console.log(error);
         });
     },
-    
     listCat(){
        const url ='https://instituto-backend.herokuapp.com/api/v1/areas-estudio';  
        axios
@@ -675,6 +724,7 @@ export default {
           console.log(error);
         });
     },
+
     // deleteCat(id){
     //   //  const headers = {headers:{"x-token":this.getToken()}};
     //   //  const url =`https://instituto-backend.herokuapp.com/api/v1/areas-estudio/${id}`;
@@ -722,9 +772,49 @@ export default {
     //     ) {
     //     }
     //   });
+
+    deleteCat(id){
+      const swalWithBootstrapButtons = this.$swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success',
+          cancelButton: 'btn btn-danger danger m-2'
+        },
+        buttonsStyling: false
+      })
+
+      swalWithBootstrapButtons.fire({
+        title: '¿Esta seguro de eliminar este registro?',
+        text: "no podras revertir los cambios!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, borrar!',
+        cancelButtonText: 'Cancelar!',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const headers = {headers:{"x-token":this.getToken()}};
+          const url =`https://instituto-backend.herokuapp.com/api/v1/areas-estudio/${id}`;
+          axios
+          .delete(url,headers)
+          .then(res=>{
+            console.log(res);
+            this.message("Categoría eliminada", "success");
+            this.listCat();
+          })
+          .catch((err)=>{
+            console.log(err);
+          })
+        } else
+          /* Read more about handling dismissals below */
+         {
+           result.dismiss === this.$swal.DismissReason.cancel
+          
+        }
+      })
+
       
 
-    // },
+    },
     chargData(data = []){
        this.catAct();
        this.id_DataCat = data["id"];
@@ -771,9 +861,23 @@ export default {
     //         title: msj
     //     })
     // },
-    getToken(){  
-      this.token = JSON.parse(localStorage.getItem("token"))
-      return JSON.parse(localStorage.getItem("token"))
+    message(msj, icono) {
+        const Toast = this.$swal.mixin({
+            toast: true,
+            position: 'top-center',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+            }
+        })
+        Toast.fire({
+            icon: icono,
+            title: msj
+        })
+
     },
     async registrarCursos(){
        const url ='https://instituto-backend.herokuapp.com/api/v1/cursos';
@@ -813,6 +917,9 @@ export default {
         console.log(err);
       })
     },
+    getToken(){  
+      return JSON.parse(localStorage.getItem("token"))
+    },
     async getUsuarios(){
       const url ='https://instituto-backend.herokuapp.com/api/v1/usuarios';
              
@@ -836,16 +943,83 @@ export default {
       .delete(url,headers)
       .then(res=>{
         console.log(res);
+        this.getUsuarios()
       })
-      this.getUsuarios()
       .catch((err)=>{
         console.log(err);
       })
-
-
-
     },
-     async getCursos(){
+    async getUsuariosDocument(){
+      const url ='https://instituto-backend.herokuapp.com/api/v1/tipoDocumento';
+             
+      await axios
+        .get(url)
+        .then((response) => {
+            const data = response.data.results;
+            this.documentData = data
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    },
+    async getUsuariosRol(){
+      const url ='https://instituto-backend.herokuapp.com/api/v1/roles';
+             
+      await axios
+        .get(url)
+        .then((response) => {
+            const data = response.data.results;
+            this.rolData = data
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    },
+    async getUsuariosEstado(){
+      const url ='https://instituto-backend.herokuapp.com/api/v1/estadoUsuario';
+             
+      await axios
+        .get(url)
+        .then((response) => {
+            const data = response.data.results;
+            this.estadoData = data
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    },
+    async postUsuario(){
+      const url =`https://instituto-backend.herokuapp.com/api/v1/usuarios`;
+      const headers = {headers:{"x-token":this.getToken()}};
+      let contrasena = this.Usuario.dni.toString()
+      const data={
+        "nombre": this.Usuario.nombre,
+        "apellido": this.Usuario.apellido,
+        "fecha_nac": this.Usuario.fecha_nac,
+        "telefono": this.Usuario.telefono.toString(),
+        "documento": this.Usuario.documento,
+        "tipo_doc_id": this.Usuario.tipo_doc_id,
+        "dni": this.Usuario.dni.toString(),
+        "correo": this.Usuario.correo,
+        "direccion": this.Usuario.direccion,
+        "rol_id": this.Usuario.rol_id,
+        "id_estado": this.Usuario.id_estado,
+        "contrasena": contrasena,
+
+      };
+      await axios
+      .post(url,data,headers)
+      .then(res=>{
+        console.log(res);
+        this.getUsuarios()
+        this.modal=true;
+      })
+      .catch((err)=>{
+        console.log(err);
+      })
+    },
+
+    async getCursos(){
       const url ='https://instituto-backend.herokuapp.com/api/v1/cursos';
       await axios
         .get(url)
@@ -864,12 +1038,15 @@ export default {
   },
    mounted(){
     this.getUsuarios();
+    this.getUsuariosDocument();
+    this.getUsuariosRol();
+    this.getUsuariosEstado();
     this.listCat();
     this.getCursos();
   
 
   }
-};
+}
 </script>
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Oswald:wght@500&family=Poppins:wght@300;600&display=swap");
