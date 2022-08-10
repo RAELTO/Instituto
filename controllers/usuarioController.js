@@ -6,7 +6,7 @@ const getAllUsers = async(req = request, res = response) => {//obtener todos los
     await User.findAll({attributes:[
         'id', 'nombre', 'apellido', 'fecha_nac',
         'telefono', 'documento', 'dni',
-        'correo', 'direccion', 'id_estado', 'img'
+        'correo', 'direccion', 'id_estado', 'contrasena', 'img'
     ], include: [{ model: Role}, { model: TDocument }]})
         .then(user => {
             const data = JSON.stringify(user);
@@ -29,7 +29,7 @@ const getOneUser = async(req = request, res = response) => {
     await User.findOne({attributes:[
         'id', 'nombre', 'apellido', 'fecha_nac',
         'telefono', 'documento', 'dni',
-        'correo', 'direccion', 'id_estado', 'img'
+        'correo', 'direccion', 'id_estado', 'contrasena', 'img'
     ], where: { id: req.params.id }, include: [{ model: Role}, { model: TDocument }]})
         .then(user => {
             const data = JSON.stringify(user);
@@ -91,37 +91,66 @@ const createNewUser = async(req = request, res = response) => {
 
 const updateOneUser = async(req = request, res = response) => {
 
-    // pass encrypt
-    const salt = bcryptjs.genSaltSync();
-    const pass = bcryptjs.hashSync( req.body.contrasena, salt );
-    await User.update({
-        nombre: req.body.nombre,
-        apellido: req.body.apellido,
-        fecha_nac: req.body.fecha_nac,
-        telefono: req.body.telefono,
-        documento: req.body.documento,
-        tipo_doc_id: req.body.tipo_doc_id,
-        dni: req.body.dni,
-        correo: req.body.correo,
-        direccion: req.body.direccion,
-        rol_id: req.body.rol_id,
-        id_estado: req.body.id_estado,
-        contrasena: pass,
-    }, {
-        where: {
-            id: req.params.id
-        }
-    })
-        .then(user => {
-            if (user != 0) {
-                res.status(200).send(`Usuario con id: ${req.params.id} fue actualizado correctamente`);
-            }else{
-                res.status(404).send(`Usuario con id: ${req.params.id} no encontrado`);
+    if (req.body.contrasena) {
+        // pass encrypt
+        const salt = bcryptjs.genSaltSync();
+        await User.update({
+            nombre: req.body.nombre,
+            apellido: req.body.apellido,
+            fecha_nac: req.body.fecha_nac,
+            telefono: req.body.telefono,
+            documento: req.body.documento,
+            tipo_doc_id: req.body.tipo_doc_id,
+            dni: req.body.dni,
+            correo: req.body.correo,
+            direccion: req.body.direccion,
+            rol_id: req.body.rol_id,
+            id_estado: req.body.id_estado,
+            contrasena: bcryptjs.hashSync( req.body.contrasena.toString(), salt ),
+        }, {
+            where: {
+                id: req.params.id
             }
-            
-        }).catch(error => {
-            console.log(error);
-        });
+        })
+            .then(user => {
+                if (user != 0) {
+                    res.status(200).send(`Usuario con id: ${req.params.id} fue actualizado correctamente`);
+                }else{
+                    res.status(404).send(`Usuario con id: ${req.params.id} no encontrado`);
+                }
+                
+            }).catch(error => {
+                console.log(error);
+            });
+    }else{
+        await User.update({
+            nombre: req.body.nombre,
+            apellido: req.body.apellido,
+            fecha_nac: req.body.fecha_nac,
+            telefono: req.body.telefono,
+            documento: req.body.documento,
+            tipo_doc_id: req.body.tipo_doc_id,
+            dni: req.body.dni,
+            correo: req.body.correo,
+            direccion: req.body.direccion,
+            rol_id: req.body.rol_id,
+            id_estado: req.body.id_estado,
+        }, {
+            where: {
+                id: req.params.id
+            }
+        })
+            .then(user => {
+                if (user != 0) {
+                    res.status(200).send(`Usuario con id: ${req.params.id} fue actualizado correctamente`);
+                }else{
+                    res.status(404).send(`Usuario con id: ${req.params.id} no encontrado`);
+                }
+                
+            }).catch(error => {
+                console.log(error);
+            });
+    }
 };
 
 const deleteOneUser = async(req = request, res = response) => {

@@ -47,7 +47,6 @@ router.put('/:id', [
     check('direccion', 'La dirección es obligatoria').not().isEmpty(),
     check('rol_id').custom( validRoles ),
     check('id_estado').custom( userStatusExistsId ),
-    check('contrasena', 'La contraseña es obligatoria').not().isEmpty(),
     valFields
 ], updateOneUser);
 
@@ -71,7 +70,7 @@ router.post('/', [//arreglo de middlewares express-validator
     //check('role', 'No es un rol válido').isIn(['ADMIN_ROLE', 'USER_ROLE']),
     check('rol_id').custom( validRoles ),
     check('id_estado').custom( userStatusExistsId ),
-    check('contrasena', 'La contraseña es obligatoria y debe contener un mínimo de 8 caracteres').isLength({ min: 8 }),
+    check('contrasena', 'La contraseña es obligatoria').not().isEmpty(),
     valFields
 ],createNewUser);
 
