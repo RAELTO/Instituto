@@ -54,7 +54,6 @@ router.post('/', [ //arreglo de middlewares express-validator
     check('fecha_limite_curso', 'No es una fecha válida').isDate(),
     check('estado_curso', 'El estado del curso es obligatorio').not().isEmpty(),
     check('estado_curso', 'El estado del curso es obligatorio').isBoolean(),
-    check('img_curso', 'La imagen del curso es obligatoria').not().isEmpty(),
     valFields
 ], createNewCourse);
 
