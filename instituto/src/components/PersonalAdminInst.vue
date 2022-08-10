@@ -911,7 +911,7 @@ export default {
       .delete(url,headers)
       .then(res=>{
         console.log(res);
-        this.cursosData();
+        this.getCursos();
       })
       .catch((err)=>{
         console.log(err);
