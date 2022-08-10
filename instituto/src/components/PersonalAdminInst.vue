@@ -863,8 +863,6 @@ export default {
     async deleteUsuarios(id){
       console.log(id);
       const headers = {headers:{"x-token":this.getToken()}};
-      // const params = { };
-      // const idd = {id: id}
       const url =`https://instituto-backend.herokuapp.com/api/v1/usuarios/${id}`;
       await axios
       .delete(url,headers)
