@@ -382,7 +382,7 @@
       </section>
       <!--Category  -->
       <section v-if="view === 1">
-        <div class="container">
+        <div>
           <button class="btn p-1 m-2 fw-bold text-white" data-bs-toggle="modal" data-bs-target="#modalCat">Crear Categoría</button>
           <table class="table table-dark table-striped">
             <thead>
