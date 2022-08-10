@@ -429,7 +429,7 @@
                       <div class="modal-header">
                           <h5 class="modal-title" v-if="typeAction == 0" id="staticBackdropLabel">Agregar categoría</h5>
                           <h5 class="modal-title" v-if="typeAction == 1" id="staticBackdropLabel">Actualizar categoría</h5>
-                          <p type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></p>
+                          <p type="button" class="btn-close" @click="clearCat()" data-bs-dismiss="modal" aria-label="Close"></p>
                       </div>
                       <div class="modal-body">
                           <div class="">
