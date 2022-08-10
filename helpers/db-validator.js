@@ -128,14 +128,14 @@ const registrationCourseExistingId = async(id = '') => {
 
 
 //Validar que un curso este registrado en una misma matricula
-/*const courseValidator = async(id_matr = '', id_curso = '') => {
+const courseValidator = async(id_matr = '', id_curso = '') => {
     console.log(id_matr, id_curso);
     const courseExists = await RegistrationCourse.findOne({ where: { id_matr: id_matr, id_curso: id_curso } });
     if ( courseExists ){
         throw new Error(`El curso con id: ${id_curso}, ya se encuentra registrado`);
     }
 
-}*/
+}
 
 //Validar las colecciones permitidas
 const allowedTables = (table = '', tables = []) => {
@@ -166,4 +166,5 @@ module.exports = {
     StatusRegExistsId,
     registrationCourseExistingId,
     allowedTables,
+    courseValidator,
 }
