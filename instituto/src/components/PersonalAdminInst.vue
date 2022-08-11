@@ -365,34 +365,6 @@
         </div>
         <section>
           <!-- Modal -->
-
-          <div class="modal fade" id="modalCat" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-              aria-labelledby="staticBackdropLabel" aria-hidden="true">
-              <div class="modal-dialog modal-lg">
-                  <div class="modal-content">
-                      <div class="modal-header">
-                          <h5 class="modal-title" v-if="typeAction == 0" id="staticBackdropLabel">Agregar categoría</h5>
-                          <h5 class="modal-title" v-if="typeAction == 1" id="staticBackdropLabel">Actualizar categoría</h5>
-                          <p type="button" class="btn-close" @click="clearCat()" data-bs-dismiss="modal" aria-label="Close"></p>
-                      </div>
-                      <div class="modal-body">
-                          <div class="">
-                              <div class="row">
-                                <form class="text-start">
-                                      <div class="mb-3">
-                                          <label class="form-label">Nombre categoría:</label>
-                                          <input type="text" v-model="name" class="form-control" placeholder="ingrese nombre de la categoría">
-                                      </div>
-                                  </form>                                  
-                              </div>
-                          </div>
-                      </div>
-                      <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary fw-bold text-white" @click="clearCat()" data-bs-dismiss="modal" id="">Cancelar</button>
-                          <button type="button" v-if="typeAction == 0" @click="registrarCat()" data-bs-dismiss="modal" class="btn fw-bold text-white">Matricularse</button>
-                          <button type="button" v-if="typeAction == 1" @click="UpdateDataCat()" data-bs-dismiss="modal" class="btn fw-bold text-white">Actualizar</button>
-                      </div>
-=======
           <div
             class="modal fade"
             id="modalCat"
@@ -452,7 +424,6 @@
                         </div>
                       </form>
                     </div>
->>>>>>> brayan
                   </div>
                 </div>
                 <div class="modal-footer">
@@ -891,7 +862,7 @@ export default {
     getToken() {
       return JSON.parse(localStorage.getItem("token"));
     },
-    // Usuarios
+    // Usuarios Brayan
     async getUsuarios() {
       const url = "https://instituto-backend.herokuapp.com/api/v1/usuarios";
 
@@ -1093,7 +1064,7 @@ export default {
         this.Usuario.contrasena = dataUpdate.contrasena;
       }
     },
-    // /Usuarios
+    // /Usuarios Brayan 
     async getCursos() {
       const url = "https://instituto-backend.herokuapp.com/api/v1/cursos";
       await axios
