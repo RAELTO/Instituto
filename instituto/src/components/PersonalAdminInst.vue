@@ -14,8 +14,8 @@
           class="btn m-2 fw-bold text-white"
           :disabled="view === 1"
           @click="category"
-        > 
-          Categoría  
+        >
+          Categoría
         </button>
         <button
           class="btn m-2 fw-bold text-white"
@@ -365,6 +365,34 @@
         </div>
         <section>
           <!-- Modal -->
+
+          <div class="modal fade" id="modalCat" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+              aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h5 class="modal-title" v-if="typeAction == 0" id="staticBackdropLabel">Agregar categoría</h5>
+                          <h5 class="modal-title" v-if="typeAction == 1" id="staticBackdropLabel">Actualizar categoría</h5>
+                          <p type="button" class="btn-close" @click="clearCat()" data-bs-dismiss="modal" aria-label="Close"></p>
+                      </div>
+                      <div class="modal-body">
+                          <div class="">
+                              <div class="row">
+                                <form class="text-start">
+                                      <div class="mb-3">
+                                          <label class="form-label">Nombre categoría:</label>
+                                          <input type="text" v-model="name" class="form-control" placeholder="ingrese nombre de la categoría">
+                                      </div>
+                                  </form>                                  
+                              </div>
+                          </div>
+                      </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary fw-bold text-white" @click="clearCat()" data-bs-dismiss="modal" id="">Cancelar</button>
+                          <button type="button" v-if="typeAction == 0" @click="registrarCat()" data-bs-dismiss="modal" class="btn fw-bold text-white">Matricularse</button>
+                          <button type="button" v-if="typeAction == 1" @click="UpdateDataCat()" data-bs-dismiss="modal" class="btn fw-bold text-white">Actualizar</button>
+                      </div>
+
           <div
             class="modal fade"
             id="modalCat"
@@ -424,6 +452,7 @@
                         </div>
                       </form>
                     </div>
+
                   </div>
                 </div>
                 <div class="modal-footer">
@@ -477,9 +506,25 @@
                 <th scope="col">Fecha</th>
                 <th scope="col">Cantidad Alumnos</th>
                 <th scope="col">Estado</th>
+                <th scope="col">Descripción</th>
                 <th scope="col">Opciones</th>
+
+                
+            </tr>
+          </thead> 
+          <tbody>
+             <thead>
+            <tr v-for="objeto in cursosData" :key="objeto.id" >
+              <td v-text="objeto.nombre_curso"></td>
+              <td v-text="objeto.fecha_limite_curso"></td>
+              <td v-text="objeto.cupo_disponible"></td>
+              <td v-text="objeto.estado_curso"></td>
+                 <td v-text="objeto.descripcion"></td>
+     
+
               </tr>
             </thead>
+            </tbody>
             <tbody>
               <tr v-for="objeto in cursosData" :key="objeto.id">
                 <td v-text="objeto.nombre_curso"></td>
@@ -487,10 +532,12 @@
                 <td v-text="objeto.cupo_disponible"></td>
                 <td v-text="objeto.estado_curso"></td>
                 <td>
+
                   <button
                     class="btn text-white"
                     data-bs-toggle="modal"
                     data-bs-target="#gradeCreate"
+                  @click="chargCursos(objeto)"
                   >
                     <i class="bi bi-eye-fill"></i>
                   </button>
@@ -632,7 +679,8 @@
                 >
                   Guardar
                 </button>
-                <button type="button" class="btn btn-primary fw-bold">
+
+                  <button type="button"  @click="UpdateCursos()" class="btn btn-primary fw-bold">b
                   Actualizar datos
                 </button>
               </div>
@@ -676,6 +724,19 @@ export default {
         contrasena: null,
         img: "",
       },
+
+      modal:false,
+      cursosData:[],
+      nameCurso:'',
+      cantidadAlumnos:'',
+      fechaCurso:'',
+      estadoCurso:'',
+      descripcion:'',
+      areaEstudioId:'',
+      id_dataCursos: 0 ,
+
+
+
       modal: false,
       cursosData: [],
       nameCurso: "",
@@ -685,6 +746,7 @@ export default {
       descripcion: "",
       areaEstudioId: "",
       images: "",
+
     };
   },
   methods: {
@@ -850,22 +912,75 @@ export default {
       const headers = { headers: { "x-token": this.getToken() } };
       const url = `https://instituto-backend.herokuapp.com/api/v1/cursos/${id}`;
       axios
+
+      .delete(url,headers)
+      .then(res=>{
+        console.log(res);
+        this.getCursos();
+      })
+      .catch((err)=>{
+        console.log(err);
+      })
+    },
+     chargCursos(data = []){
+       this.id_dataCursos = data["id"];
+        this.areaEstudioId = data["area_estudio_id"];
+       this.nameCurso = data["nombre_curso"];
+       this.fechaCurso = data["fech_limite_curso"];
+       this.cantidadAlumnos = data["cupo_disponible"];
+       this.estadoCurso = data["estado_curso"];
+        this.descripcion = data["descripcion"];
+
+    },
+       UpdateCursos(){
+      const headers = {headers:{"x-token":this.getToken()}};
+      const url =`https://instituto-backend.herokuapp.com/api/v1/cursos/${this.id_dataCursos}`;
+      const data = {
+                     "area_estudio_id": this.areaEstudioId,
+                     "name_curso": this.nameCurso,
+                     "fecha_limite_curso": this.fechaCurso,
+                     "cupo_disponible": this.cantidadAlumnos,
+                     "estado_curso": this.estadoCurso,
+                     "descripcion": this.descripcion,
+                    };
+      axios
+        .put(url, data, headers)
+        .then((response) => {
+            console.log(response.data);
+            this.message("Categoría actualizada", "success");
+          this.getCursos();
+          
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    },
+    getToken(){  
+      return JSON.parse(localStorage.getItem("token"))
+    },
+    async getUsuarios(){
+      const url ='https://instituto-backend.herokuapp.com/api/v1/usuarios';
+             
+      await axios
+        .get(url)
+        .then((response) => {
+            const data = response.data.results;
+            this.dataUser = data
+
         .delete(url, headers)
         .then((res) => {
           console.log(res);
           this.getCursos();
+
         })
         .catch((err) => {
           console.log(err);
         });
     },
-    getToken() {
-      return JSON.parse(localStorage.getItem("token"));
-    },
-    // Usuarios Brayan
+    
+    // Usuarios
     async getUsuarios() {
       const url = "https://instituto-backend.herokuapp.com/api/v1/usuarios";
-
       await axios
         .get(url)
         .then((response) => {
@@ -1064,7 +1179,7 @@ export default {
         this.Usuario.contrasena = dataUpdate.contrasena;
       }
     },
-    // /Usuarios Brayan 
+    // /Usuarios
     async getCursos() {
       const url = "https://instituto-backend.herokuapp.com/api/v1/cursos";
       await axios
