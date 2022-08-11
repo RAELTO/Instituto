@@ -862,7 +862,7 @@ export default {
     getToken() {
       return JSON.parse(localStorage.getItem("token"));
     },
-    // Usuarios
+    // Usuarios Brayan
     async getUsuarios() {
       const url = "https://instituto-backend.herokuapp.com/api/v1/usuarios";
 
@@ -1064,7 +1064,7 @@ export default {
         this.Usuario.contrasena = dataUpdate.contrasena;
       }
     },
-    // /Usuarios
+    // /Usuarios Brayan 
     async getCursos() {
       const url = "https://instituto-backend.herokuapp.com/api/v1/cursos";
       await axios
