@@ -221,13 +221,26 @@
                         >{{item.estado_usuario? 'Activo': 'Inactivo'}}</option>
                       </select>
                     </div>
-                    <div class="input-group mb-3" v-if="Usuario.typeAction==0">
+                    <div class="input-group mb-3 col-12" v-if="Usuario.typeAction==0">
                       <label class="fw-bold col-12 mb-2"> Cargar documento</label>
                       <input
                         type="file"
                         class="form-control"
                         id="inputGroupFile02"
                         @change="Usuario.documento"
+                      />
+                      <label class="input-group-text" for="inputGroupFile02"
+                      
+                        >Upload</label
+                      >
+                    </div>
+                    <div class="input-group mb-3 col-12" v-if="Usuario.typeAction==0">
+                      <label class="fw-bold col-12 mb-2"> Cargar imagen</label>
+                      <input
+                        type="file"
+                        class="form-control"
+                        id="inputGroupFile02"
+                        @change="getImage"
                       />
                       <label class="input-group-text" for="inputGroupFile02"
                       
@@ -547,6 +560,7 @@ export default {
         rol_id:null,//
         id_estado:null,
         contrasena:null,
+        img:'',
       },
       modal:false,
       cursosData:[],
@@ -556,8 +570,6 @@ export default {
       estadoCurso:'',
       descripcion:'',
       areaEstudioId:'',
-
-
     };
   },   
   methods: {
@@ -838,10 +850,34 @@ export default {
             console.log(error);
         });
     },
+    // getImage(event){
+    //   this.Usuario.img = event.target.files
+    //   console.log(this.Usuario.img);
+    //   // var dataImg = new  FormData();
+    //   //   dataImg.append('avatar', this.Usuario.img);
+    //     // this.Usuario.img = event.target.files[0];
+    // }, 
+    
+    loadImage(file) {
+      if (file) {
+        let reader = new FileReader();
+        reader.onload = (e) => {
+          this.Usuario.img = e.target.result;
+        };
+
+        reader.readAsDataURL(file);
+      }
+    },
+    getImage(file) {
+      this.Usuario.img = file;
+      this.loadImage(file);
+    },
     async postUsuario(){
       const url =`https://instituto-backend.herokuapp.com/api/v1/usuarios`;
       const headers = {headers:{"x-token":this.getToken()}};
       let contrasena = this.Usuario.dni.toString()
+      const img= this.Usuario.img
+ 
       const data={
         "nombre": this.Usuario.nombre,
         "apellido": this.Usuario.apellido,
@@ -855,6 +891,7 @@ export default {
         "rol_id": this.Usuario.rol_id,
         "id_estado": this.Usuario.id_estado,
         "contrasena": contrasena,
+        "img": img, 
 
       };
       await axios
@@ -934,6 +971,12 @@ export default {
 
        
     },
+  
+    // onInputChange(e) {
+    //     const images = new Image();
+    //     const files = this.Usuario.img;
+    //     formData.append("images[]", file, file.name);
+    // },
     // /Usuarios
     async getCursos(){
       const url ='https://instituto-backend.herokuapp.com/api/v1/cursos';
