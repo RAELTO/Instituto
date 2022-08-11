@@ -14,8 +14,8 @@
           class="btn m-2 fw-bold text-white"
           :disabled="view === 1"
           @click="category"
-        >
-          Categoría
+        > 
+          Categoría  
         </button>
         <button
           class="btn m-2 fw-bold text-white"
