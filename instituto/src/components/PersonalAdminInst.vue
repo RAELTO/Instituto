@@ -1,4 +1,4 @@
-<template>
+ <template>
   <div class="container-sm">
     <!-- Buttons -->
     <section>
@@ -491,6 +491,7 @@
                     class="btn text-white"
                     data-bs-toggle="modal"
                     data-bs-target="#gradeCreate"
+                       @click="chargCursos(objeto)"
                   >
                     <i class="bi bi-eye-fill"></i>
                   </button>
@@ -603,12 +604,14 @@
                     </div>
                     <div class="input-group mb-3">
                       <label class="fw-bold col-12 mb-2">
+                        
                         Cargar Imagen Curso</label
                       >
                       <input
                         type="file"
                         class="form-control"
-                        id="inputGroupFile02"
+                        id="imgCursos"
+                        @change="getImageCursos"
                       />
                       <label class="input-group-text" for="inputGroupFile02"
                         >Upload</label
@@ -622,6 +625,7 @@
                   type="button"
                   class="btn btn-secondary fw-bold"
                   data-bs-dismiss="modal"
+
                 >
                   Close
                 </button>
@@ -629,10 +633,14 @@
                   type="button"
                   @click="registrarCursos()"
                   class="btn btn-primary fw-bold"
+                   data-bs-dismiss="modal"
                 >
                   Guardar
                 </button>
-                <button type="button" class="btn btn-primary fw-bold">
+              <button type="button" 
+               data-bs-dismiss="modal" 
+              @click="UpdateCursos()" 
+              class="btn btn-primary fw-bold">
                   Actualizar datos
                 </button>
               </div>
@@ -684,7 +692,8 @@ export default {
       estadoCurso: "",
       descripcion: "",
       areaEstudioId: "",
-      images: "",
+     id_dataCursos: 0 ,
+      imagesCursos: "",
     };
   },
   methods: {
@@ -825,22 +834,28 @@ export default {
     async registrarCursos() {
       const url = "https://instituto-backend.herokuapp.com/api/v1/cursos";
       let estadoCurso = this.estadoCurso == "true" ? true : false;
-      const data = {
-        area_estudio_id: this.areaEstudioId,
-        nombre_curso: this.nameCurso,
-        cupo_disponible: this.cantidadAlumnos,
-        fecha_limite_curso: this.fechaCurso,
-        estado_curso: estadoCurso,
-        descripcion: this.descripcion,
-      };
+      let imagesCursos = this.imagesCursos;
+      let formData = new FormData();
+      formData.append('area_estudio_id', this.areaEstudioId);
+       formData.append('nombre_curso', this.nameCurso);
+        formData.append('cupo_disponible', this.cantidadAlumnos);
+        formData.append('fecha_limite_curso', this.fechaCurso);
+        formData.append('estado_curso', estadoCurso);
+        formData.append('descripcion', this.descripcion);
+        formData.append('img', imagesCursos);
+    
       const headers = {
         headers: { "x-token": this.getToken() },
       };
       console.log(this.getToken("token"));
       await axios
-        .post(url, data, headers)
+        .post(url, formData, headers)
         .then((response) => {
           console.log(response.data);
+        this.message("curso creado correctamente","success");
+          setTimeout(() => {
+              this.getCursos();
+          }, 1000);
         })
         .catch((error) => {
           console.log(error);
@@ -851,7 +866,7 @@ export default {
       const url = `https://instituto-backend.herokuapp.com/api/v1/cursos/${id}`;
       axios
         .delete(url, headers)
-        .then((res) => {
+        .then(res => {
           console.log(res);
           this.getCursos();
         })
@@ -859,6 +874,40 @@ export default {
           console.log(err);
         });
     },
+         chargCursos(data = []){
+       this.id_dataCursos = data["id"];
+        this.areaEstudioId = data["area_estudio_id"];
+       this.nameCurso = data["nombre_curso"];
+       this.fechaCurso = data["fech_limite_curso"];
+       this.cantidadAlumnos = data["cupo_disponible"];
+       this.estadoCurso = data["estado_curso"];
+        this.descripcion = data["descripcion"];
+
+    },
+       UpdateCursos(){
+      const headers = {headers:{"x-token":this.getToken()}};
+      const url =`https://instituto-backend.herokuapp.com/api/v1/cursos/${this.id_dataCursos}`;
+      const data = {
+                     "area_estudio_id": this.areaEstudioId,
+                     "name_curso": this.nameCurso,
+                     "fecha_limite_curso": this.fechaCurso,
+                     "cupo_disponible": this.cantidadAlumnos,
+                     "estado_curso": this.estadoCurso,
+                     "descripcion": this.descripcion,
+                    };
+      axios
+        .put(url, data, headers)
+        .then((response) => {
+            console.log(response.data);
+            this.message("Categoría actualizada", "success");
+          this.getCursos();
+          
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    },
+
     getToken() {
       return JSON.parse(localStorage.getItem("token"));
     },
@@ -968,6 +1017,10 @@ export default {
     getImage2() {
       this.Usuario.img= document.getElementById('img').files[0]
     },
+    getImageCursos() {
+      this.imagesCursos= document.getElementById('imgCursos').files[0]
+    },
+
     async postUsuario() {
       const url = `https://instituto-backend.herokuapp.com/api/v1/usuarios`;
       const headers = { headers: { "x-token": this.getToken() }, 'Content-Type': 'multipart/form-data' };
