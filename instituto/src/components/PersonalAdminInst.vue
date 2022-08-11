@@ -1,8 +1,8 @@
 <template>
   <div class="container-sm">
-  <!-- Buttons -->
+    <!-- Buttons -->
     <section>
-      <div class=" mt-5 p-3">
+      <div class="mt-5 p-3">
         <button
           class="btn m-2 fw-bold text-white"
           :disabled="view === 0"
@@ -42,6 +42,7 @@
           <table class="table table-dark table-striped">
             <thead>
               <tr>
+                <th scope="col">Img</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Apellidos</th>
                 <th scope="col">Correo</th>
@@ -51,29 +52,42 @@
               </tr>
             </thead>
             <tbody>
-              <tr
-                v-for="item in dataUser"
-                :key="item.id">
-                <td><span>{{item.nombre}}</span></td>
-                <td><span>{{item.apellido}}</span></td>
-                <td><span>{{item.correo}}</span></td>
+              <tr v-for="item in dataUser" :key="item.id">
                 <td>
-                  <span 
-                      :style="{color: item.id_estado==1 ? 'green': 'red' }">
-                      {{item.id_estado == 1? 'Activo' : 'Inactivo'}}
+                  <img :src="item.img" alt="" style="width: 50px;">
+                </td>
+                <td>
+                  <span>{{ item.nombre }}</span>
+                </td>
+                <td>
+                  <span>{{ item.apellido }}</span>
+                </td>
+                <td>
+                  <span>{{ item.correo }}</span>
+                </td>
+                <td>
+                  <span
+                    :style="{ color: item.id_estado == 1 ? 'green' : 'red' }"
+                  >
+                    {{ item.id_estado == 1 ? "Activo" : "Inactivo" }}
                   </span>
                 </td>
-                <td><span>{{item.role.nombre_rol}}</span></td>
+                <td>
+                  <span>{{ item.role.nombre_rol }}</span>
+                </td>
                 <td>
                   <button
                     class="btn text-white"
-                    @click="action(1,item)"
+                    @click="action(1, item)"
                     data-bs-toggle="modal"
                     data-bs-target="#userCreate"
                   >
-                    <i class="bi bi-eye-fill" ></i>
+                    <i class="bi bi-eye-fill"></i>
                   </button>
-                  <button class="btn text-white danger ms-1" @click="deleteUsuarios(item.id)">
+                  <button
+                    class="btn text-white danger ms-1"
+                    @click="deleteUsuarios(item.id)"
+                  >
                     <i class="bi bi-trash3-fill"></i>
                   </button>
                 </td>
@@ -94,10 +108,18 @@
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title fw-bold" id="staticBackdropLabel" v-if="Usuario.typeAction==0">
+                <h5
+                  class="modal-title fw-bold"
+                  id="staticBackdropLabel"
+                  v-if="Usuario.typeAction == 0"
+                >
                   Agregar Usuario
                 </h5>
-                 <h5 class="modal-title fw-bold" id="staticBackdropLabel" v-if="Usuario.typeAction==1">
+                <h5
+                  class="modal-title fw-bold"
+                  id="staticBackdropLabel"
+                  v-if="Usuario.typeAction == 1"
+                >
                   Actualizar Usuario
                 </h5>
                 <p
@@ -177,10 +199,13 @@
                         v-model="Usuario.tipo_doc_id"
                       >
                         <option selected value="null">Tipo de documento</option>
-                        <option 
-                        :value="item.id" 
-                        v-for="item in documentData" 
-                        :key="item.id" >{{item.tipo_documento}}</option>
+                        <option
+                          :value="item.id"
+                          v-for="item in documentData"
+                          :key="item.id"
+                        >
+                          {{ item.tipo_documento }}
+                        </option>
                       </select>
                     </div>
                     <div class="mb-3 col-6">
@@ -200,11 +225,13 @@
                         v-model="Usuario.rol_id"
                       >
                         <option selected value="null">Tipo de rol</option>
-                        <option 
-                        v-for="item in rolData"
-                        :value="item.id"
-                        :key="item.id"
-                        >{{item.nombre_rol}}</option>
+                        <option
+                          v-for="item in rolData"
+                          :value="item.id"
+                          :key="item.id"
+                        >
+                          {{ item.nombre_rol }}
+                        </option>
                       </select>
                     </div>
                     <div class="mb-3 col-6">
@@ -214,15 +241,22 @@
                         v-model="Usuario.id_estado"
                       >
                         <option selected value="null">Estado</option>
-                        <option 
-                        v-for="item in estadoData"
-                        :value="item.id"
-                        :key="item.id"
-                        >{{item.estado_usuario? 'Activo': 'Inactivo'}}</option>
+                        <option
+                          v-for="item in estadoData"
+                          :value="item.id"
+                          :key="item.id"
+                        >
+                          {{ item.estado_usuario ? "Activo" : "Inactivo" }}
+                        </option>
                       </select>
                     </div>
-                    <div class="input-group mb-3" v-if="Usuario.typeAction==0">
-                      <label class="fw-bold col-12 mb-2"> Cargar documento</label>
+                    <div
+                      class="input-group mb-3 col-12"
+                      v-if="Usuario.typeAction == 0"
+                    >
+                      <label class="fw-bold col-12 mb-2">
+                        Cargar documento</label
+                      >
                       <input
                         type="file"
                         class="form-control"
@@ -230,7 +264,22 @@
                         @change="Usuario.documento"
                       />
                       <label class="input-group-text" for="inputGroupFile02"
-                      
+                        >Upload</label
+                      >
+                    </div>
+                    <div
+                      class="input-group mb-3 col-12"
+                      v-if="Usuario.typeAction == 0"
+                    >
+                      <label class="fw-bold col-12 mb-2"> Cargar imagen</label>
+                      <input
+                        type="file"
+                        ref="fotico"
+                        class="form-control"
+                        id="img"
+                        @change="getImage2"
+                      />
+                      <label class="input-group-text" for="inputGroupFile02"
                         >Upload</label
                       >
                     </div>
@@ -245,21 +294,23 @@
                 >
                   Close
                 </button>
-                
-                <button 
-                type="button" 
-                class="btn btn-primary fw-bold"
-                data-bs-dismiss="modal"
-                v-if="Usuario.typeAction==0"
-                @click="postUsuario">
+
+                <button
+                  type="button"
+                  class="btn btn-primary fw-bold"
+                  data-bs-dismiss="modal"
+                  v-if="Usuario.typeAction == 0"
+                  @click="postUsuario"
+                >
                   Guardar
                 </button>
-                <button 
-                type="button" 
-                class="btn btn-primary fw-bold"
-                data-bs-dismiss="modal"
-                v-if="Usuario.typeAction==1"
-                @click="putUsuario">
+                <button
+                  type="button"
+                  class="btn btn-primary fw-bold"
+                  data-bs-dismiss="modal"
+                  v-if="Usuario.typeAction == 1"
+                  @click="putUsuario"
+                >
                   Actualizar
                 </button>
               </div>
@@ -270,7 +321,13 @@
       <!--Category  -->
       <section v-if="view === 1">
         <div>
-          <button class="btn p-1 m-2 fw-bold text-white" data-bs-toggle="modal" data-bs-target="#modalCat">Crear Categoría</button>
+          <button
+            class="btn p-1 m-2 fw-bold text-white"
+            data-bs-toggle="modal"
+            data-bs-target="#modalCat"
+          >
+            Crear Categoría
+          </button>
           <table class="table table-dark table-striped">
             <thead>
               <tr>
@@ -284,15 +341,16 @@
                 <td>
                   <button
                     class="btn text-white"
-                    data-bs-toggle="modal" 
+                    data-bs-toggle="modal"
                     data-bs-target="#modalCat"
                     @click="chargData(data)"
                   >
                     <i class="bi bi-eye-fill"></i>
                   </button>
-                  <button 
+                  <button
                     @click="deleteCat(data.id)"
-                    class="btn text-white danger ms-1">
+                    class="btn text-white danger ms-1"
+                  >
                     <i class="bi bi-trash3-fill"></i>
                   </button>
                 </td>
@@ -300,15 +358,14 @@
             </tbody>
             <tbody v-else>
               <tr>
-                <td colspan="9" class="text-center">
-                  No existen elementos 
-                </td>
+                <td colspan="9" class="text-center">No existen elementos</td>
               </tr>
             </tbody>
-          </table> 
-        </div> 
+          </table>
+        </div>
         <section>
           <!-- Modal -->
+
           <div class="modal fade" id="modalCat" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
               aria-labelledby="staticBackdropLabel" aria-hidden="true">
               <div class="modal-dialog modal-lg">
@@ -335,37 +392,130 @@
                           <button type="button" v-if="typeAction == 0" @click="registrarCat()" data-bs-dismiss="modal" class="btn fw-bold text-white">Matricularse</button>
                           <button type="button" v-if="typeAction == 1" @click="UpdateDataCat()" data-bs-dismiss="modal" class="btn fw-bold text-white">Actualizar</button>
                       </div>
+=======
+          <div
+            class="modal fade"
+            id="modalCat"
+            data-bs-backdrop="static"
+            data-bs-keyboard="false"
+            tabindex="-1"
+            aria-labelledby="staticBackdropLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5
+                    class="modal-title"
+                    v-if="typeAction == 0"
+                    id="staticBackdropLabel"
+                  >
+                    Agregar categoría
+                  </h5>
+                  <h5
+                    class="modal-title"
+                    v-if="typeAction == 1"
+                    id="staticBackdropLabel"
+                  >
+                    Actualizar categoría
+                  </h5>
+                  <p
+                    type="button"
+                    class="btn-close"
+                    @click="clearCat()"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></p>
+                </div>
+                <div class="modal-body">
+                  <div class="">
+                    <div class="row">
+                      <form class="text-start">
+                        <div class="mb-3">
+                          <label class="form-label">Nombre categoría:</label>
+                          <input
+                            type="text"
+                            v-model="name"
+                            class="form-control"
+                            placeholder="ingrese nombre de la categoría"
+                          />
+                        </div>
+                        <div class="mb-3">
+                          <label class="form-label">Descripción:</label>
+                          <textarea
+                            class="form-control"
+                            v-model="description"
+                            id="exampleFormControlTextarea1"
+                            rows="3"
+                            placeholder="ingrese descripción"
+                          ></textarea>
+                        </div>
+                      </form>
+                    </div>
+>>>>>>> brayan
                   </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary fw-bold text-white"
+                    @click="clearCat()"
+                    data-bs-dismiss="modal"
+                    id=""
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    type="button"
+                    v-if="typeAction == 0"
+                    @click="registrarCat()"
+                    data-bs-dismiss="modal"
+                    class="btn fw-bold text-white"
+                  >
+                    Matricularse
+                  </button>
+                  <button
+                    type="button"
+                    v-if="typeAction == 1"
+                    @click="UpdateDataCat()"
+                    data-bs-dismiss="modal"
+                    class="btn fw-bold text-white"
+                  >
+                    Actualizar
+                  </button>
+                </div>
               </div>
+            </div>
           </div>
-      </section>
-
+        </section>
       </section>
       <!-- Courses -->
-      <section v-if="view===2">
+      <section v-if="view === 2">
         <div class="">
-        <button class="btn p-1 m-2 fw-bold text-white"  
-        data-bs-toggle="modal"
-        data-bs-target="#gradeCreate" 
-        >Agregar cursos
-        </button>
-        <table class="table table-dark table-striped" >
-          <thead>
-            <tr>
-              <th scope="col">Nombre de curso</th>
-              <th scope="col">Fecha</th>
-              <th scope="col">Cantidad Alumnos</th>
+          <button
+            class="btn p-1 m-2 fw-bold text-white"
+            data-bs-toggle="modal"
+            data-bs-target="#gradeCreate"
+          >
+            Agregar cursos
+          </button>
+          <table class="table table-dark table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Nombre de curso</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Cantidad Alumnos</th>
                 <th scope="col">Estado</th>
                 <th scope="col">Opciones</th>
-            </tr>
-          </thead> 
-          <tbody>
-            <tr v-for="objeto in cursosData" :key="objeto.id" >
-              <td v-text="objeto.nombre_curso"></td>
-              <td v-text="objeto.fecha_limite_curso"></td>
-              <td v-text="objeto.cupo_disponible"></td>
-              <td v-text="objeto.estado_curso"></td>
-              <td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="objeto in cursosData" :key="objeto.id">
+                <td v-text="objeto.nombre_curso"></td>
+                <td v-text="objeto.fecha_limite_curso"></td>
+                <td v-text="objeto.cupo_disponible"></td>
+                <td v-text="objeto.estado_curso"></td>
+                <td>
                   <button
                     class="btn text-white"
                     data-bs-toggle="modal"
@@ -373,17 +523,18 @@
                   >
                     <i class="bi bi-eye-fill"></i>
                   </button>
-                  <button 
-                  @click="deleteCursos(objeto.id)"
-                  class="btn text-white danger ms-1">
+                  <button
+                    @click="deleteCursos(objeto.id)"
+                    class="btn text-white danger ms-1"
+                  >
                     <i class="bi bi-trash3-fill"></i>
                   </button>
                 </td>
-            </tr>
-          </tbody>
-        </table>
+              </tr>
+            </tbody>
+          </table>
         </div>
-            <!-- Modal  Crear curso-->
+        <!-- Modal  Crear curso-->
         <div
           class="modal fade"
           id="gradeCreate"
@@ -410,23 +561,25 @@
               <div class="modal-body">
                 <div class="">
                   <div class="row">
-                  
                     <div class="mb-3 col-12">
                       <select
                         class="form-select"
                         aria-label="Default select example"
                         v-model="areaEstudioId"
-                       
                       >
-                      <option value=""  >Categorias</option>
-                      <option :value="item.id" v-for="item in arrayDataCat" :key="item.id">{{item.area_estudio}}</option>
-                    
-
+                        <option value="">Categorias</option>
+                        <option
+                          :value="item.id"
+                          v-for="item in arrayDataCat"
+                          :key="item.id"
+                        >
+                          {{ item.area_estudio }}
+                        </option>
                       </select>
                     </div>
                     <div class="mb-3 col-6">
                       <input
-                       v-model="nameCurso"
+                        v-model="nameCurso"
                         type="text"
                         class="form-control"
                         placeholder="Nombre Curso"
@@ -446,7 +599,7 @@
                     </div>
                     <div class="mb-3 col-12">
                       <input
-                      v-model="fechaCurso"
+                        v-model="fechaCurso"
                         type="date"
                         class="form-control"
                         placeholder="Fecha Curso"
@@ -454,25 +607,33 @@
                         aria-describedby="basic-addon1"
                       />
                     </div>
-                  
-                      <div class="mb-3 col-12">
+
+                    <div class="mb-3 col-12">
                       <label class="form-label">Estado:</label>
                       <select
-                       v-model="estadoCurso"
+                        v-model="estadoCurso"
                         class="form-select"
                         aria-label="Default select example"
                       >
-                        <option value="" selected >Estado</option>
-                        <option  value="true">activo</option>
+                        <option value="" selected>Estado</option>
+                        <option value="true">activo</option>
                         <option value="false">inactivo</option>
                       </select>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Descripción:</label>
-                        <textarea v-model="descripcion" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Ingrese una descripción"></textarea>
+                      <label class="form-label">Descripción:</label>
+                      <textarea
+                        v-model="descripcion"
+                        class="form-control"
+                        id="exampleFormControlTextarea1"
+                        rows="3"
+                        placeholder="Ingrese una descripción"
+                      ></textarea>
                     </div>
                     <div class="input-group mb-3">
-                      <label class="fw-bold col-12 mb-2"> Cargar Imagen Curso</label>
+                      <label class="fw-bold col-12 mb-2">
+                        Cargar Imagen Curso</label
+                      >
                       <input
                         type="file"
                         class="form-control"
@@ -493,22 +654,22 @@
                 >
                   Close
                 </button>
-                <button type="button" @click="registrarCursos()" class="btn btn-primary fw-bold">
+                <button
+                  type="button"
+                  @click="registrarCursos()"
+                  class="btn btn-primary fw-bold"
+                >
                   Guardar
                 </button>
-                  <button type="button"  class="btn btn-primary fw-bold">
+                <button type="button" class="btn btn-primary fw-bold">
                   Actualizar datos
                 </button>
               </div>
             </div>
           </div>
         </div>
-    
-    
-
       </section>
     </section>
-
   </div>
 </template>
 <script>
@@ -518,48 +679,48 @@ export default {
     return {
       view: 0,
       typeAction: 0,
-      name: '',
-      description: '',
+      name: "",
+      description: "",
       arrayDataCat: [],
       id_DataCat: 0,
       // Brayan
       dataUser: null,
-      documentData:null,
-      rolData:null,
-      estadoData:null,
-      Usuario:{
-        updateUser:null,
-        typeAction:0,
-        nombre:null,//
-        apellido:null,//
-        fecha_nac:null,//
-        telefono:null,//
-        documento:'Prueba',//
-        tipo_doc_id:null,//
-        dni:'',//
-        correo:null,//
-        direccion:null,//
-        rol_id:null,//
-        id_estado:null,
-        contrasena:null,
+      documentData: null,
+      rolData: null,
+      estadoData: null,
+      Usuario: {
+        updateUser: null,
+        typeAction: 0,
+        nombre: null, //
+        apellido: null, //
+        fecha_nac: null, //
+        telefono: null, //
+        documento: "Prueba", //
+        tipo_doc_id: null, //
+        dni: "", //
+        correo: null, //
+        direccion: null, //
+        rol_id: null, //
+        id_estado: null,
+        contrasena: null,
+        img: "",
       },
-      modal:false,
-      cursosData:[],
-      nameCurso:'',
-      cantidadAlumnos:'',
-      fechaCurso:'',
-      estadoCurso:'',
-      descripcion:'',
-      areaEstudioId:'',
-
-
+      modal: false,
+      cursosData: [],
+      nameCurso: "",
+      cantidadAlumnos: "",
+      fechaCurso: "",
+      estadoCurso: "",
+      descripcion: "",
+      areaEstudioId: "",
+      images: "",
     };
-  },   
+  },
   methods: {
-    catAct(){
+    catAct() {
       this.typeAction = 1;
     },
-    catBasic(){
+    catBasic() {
       this.typeAction = 0;
     },
     user() {
@@ -571,393 +732,390 @@ export default {
     courses() {
       this.view = 2;
     },
-    async registrarCat(){
-       const url ='https://instituto-backend.herokuapp.com/api/v1/areas-estudio';
-       const data = {
-                     "area_estudio": this.name
-                    }
-       const headers = {
-                        headers:{"x-token":this.getToken()}
-                       }
-       console.log(this.getToken("token"));
+    async registrarCat() {
+      const url =
+        "https://instituto-backend.herokuapp.com/api/v1/areas-estudio";
+      const data = {
+        area_estudio: this.name,
+      };
+      const headers = {
+        headers: { "x-token": this.getToken() },
+      };
+      console.log(this.getToken("token"));
       await axios
         .post(url, data, headers)
         .then((response) => {
-            console.log(response.data);   
-            this.message("Categoría registrada", "success");           
-            this.clearCat();
-            this.listCat();
+          console.log(response.data);
+          this.message("Categoría registrada", "success");
+          this.clearCat();
+          this.listCat();
         })
         .catch((error) => {
-            console.log(error);
+          console.log(error);
         });
     },
-    listCat(){
-       const url ='https://instituto-backend.herokuapp.com/api/v1/areas-estudio';  
-       axios
+    listCat() {
+      const url =
+        "https://instituto-backend.herokuapp.com/api/v1/areas-estudio";
+      axios
         .get(url)
-        .then(
-          data => this.arrayDataCat = data.data.results
-        )
+        .then((data) => (this.arrayDataCat = data.data.results))
         .catch(function (error) {
           console.log(error);
         });
     },
-    deleteCat(id){
+    deleteCat(id) {
       const swalWithBootstrapButtons = this.$swal.mixin({
         customClass: {
-          confirmButton: 'btn btn-success',
-          cancelButton: 'btn btn-danger danger m-2'
+          confirmButton: "btn btn-success",
+          cancelButton: "btn btn-danger danger m-2",
         },
-        buttonsStyling: false
-      })
+        buttonsStyling: false,
+      });
 
-      swalWithBootstrapButtons.fire({
-        title: '¿Esta seguro de eliminar este registro?',
-        text: "no podras revertir los cambios!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Sí, borrar!',
-        cancelButtonText: 'Cancelar!',
-        reverseButtons: true
-      }).then((result) => {
-        if (result.isConfirmed) {
-          const headers = {headers:{"x-token":this.getToken()}};
-          const url =`ashttps://instituto-backend.herokuapp.com/api/v1/areas-estudio/${id}`;
-          axios
-          .delete(url,headers)
-          .then(res=>{
-            console.log(res);
-            this.message("Categoría eliminada", "success");
-            this.listCat();
-          })
-          .catch((err)=>{
-            console.log(err);
-          })
-        } else if(result.dismiss === this.$swal.DismissReason.cancel)
-         {
-          const categoria = this.arrayDataCat.filter((e)=>{
-            return e.id === id
-          });
-          swalWithBootstrapButtons.fire(
-          'Cacelado',
-          `Tu categoria ${categoria[0].area_estudio} no ha sido eliminada`,
-          'error'
-        )
-        }
-      })
-
-      
-
+      swalWithBootstrapButtons
+        .fire({
+          title: "¿Esta seguro de eliminar este registro?",
+          text: "no podras revertir los cambios!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Sí, borrar!",
+          cancelButtonText: "Cancelar!",
+          reverseButtons: true,
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            const headers = { headers: { "x-token": this.getToken() } };
+            const url = `ashttps://instituto-backend.herokuapp.com/api/v1/areas-estudio/${id}`;
+            axios
+              .delete(url, headers)
+              .then((res) => {
+                console.log(res);
+                this.message("Categoría eliminada", "success");
+                this.listCat();
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          } else if (result.dismiss === this.$swal.DismissReason.cancel) {
+            const categoria = this.arrayDataCat.filter((e) => {
+              return e.id === id;
+            });
+            swalWithBootstrapButtons.fire(
+              "Cacelado",
+              `Tu categoria ${categoria[0].area_estudio} no ha sido eliminada`,
+              "error"
+            );
+          }
+        });
     },
-    chargData(data = []){
-       this.catAct();
-       this.id_DataCat = data["id"];
-       this.name = data["area_estudio"];
+    chargData(data = []) {
+      this.catAct();
+      this.id_DataCat = data["id"];
+      this.name = data["area_estudio"];
     },
-    UpdateDataCat(){
-      const headers = {headers:{"x-token":this.getToken()}};
-      const url =`https://instituto-backend.herokuapp.com/api/v1/areas-estudio/${this.id_DataCat}`;
+    UpdateDataCat() {
+      const headers = { headers: { "x-token": this.getToken() } };
+      const url = `https://instituto-backend.herokuapp.com/api/v1/areas-estudio/${this.id_DataCat}`;
       const data = {
-                     "area_estudio": this.name
-                    };
+        area_estudio: this.name,
+      };
       axios
         .put(url, data, headers)
         .then((response) => {
-            console.log(response.data);
-            this.message("Categoría actualizada", "success");
-            this.clearCat();
-            this.catBasic();
-            this.listCat();
+          console.log(response.data);
+          this.message("Categoría actualizada", "success");
+          this.clearCat();
+          this.catBasic();
+          this.listCat();
         })
         .catch((error) => {
-            console.log(error);
+          console.log(error);
         });
     },
-    clearCat(){
+    clearCat() {
       this.catBasic();
       this.name = null;
       this.description = null;
     },
     message(msj, icono) {
-        const Toast = this.$swal.mixin({
-            toast: true,
-            position: 'top-center',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-        })
-        Toast.fire({
-            icon: icono,
-            title: msj
-        })
-
+      const Toast = this.$swal.mixin({
+        toast: true,
+        position: "top-center",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+      });
+      Toast.fire({
+        icon: icono,
+        title: msj,
+      });
     },
-    async registrarCursos(){
-       const url ='https://instituto-backend.herokuapp.com/api/v1/cursos';
-       let estadoCurso = this.estadoCurso == "true"? true:false
-       const data = {
-                      "area_estudio_id": this.areaEstudioId,
-                     "nombre_curso": this.nameCurso,
-                     "cupo_disponible":this.cantidadAlumnos,
-                     "fecha_limite_curso":this.fechaCurso,
-                     "estado_curso":estadoCurso,
-                     "descripcion":this.descripcion,
-                    }
-       const headers = {
-                        headers:{"x-token":this.getToken()}
-                       }
-       console.log(this.getToken("token"));
+    async registrarCursos() {
+      const url = "https://instituto-backend.herokuapp.com/api/v1/cursos";
+      let estadoCurso = this.estadoCurso == "true" ? true : false;
+      const data = {
+        area_estudio_id: this.areaEstudioId,
+        nombre_curso: this.nameCurso,
+        cupo_disponible: this.cantidadAlumnos,
+        fecha_limite_curso: this.fechaCurso,
+        estado_curso: estadoCurso,
+        descripcion: this.descripcion,
+      };
+      const headers = {
+        headers: { "x-token": this.getToken() },
+      };
+      console.log(this.getToken("token"));
       await axios
         .post(url, data, headers)
         .then((response) => {
-            console.log(response.data);
+          console.log(response.data);
         })
         .catch((error) => {
-            console.log(error);
+          console.log(error);
         });
-
     },
-    deleteCursos(id){
-       const headers = {headers:{"x-token":this.getToken()}};
-       const url =`https://instituto-backend.herokuapp.com/api/v1/cursos/${id}`;
+    deleteCursos(id) {
+      const headers = { headers: { "x-token": this.getToken() } };
+      const url = `https://instituto-backend.herokuapp.com/api/v1/cursos/${id}`;
       axios
-      .delete(url,headers)
-      .then(res=>{
-        console.log(res);
-        this.getCursos();
-      })
-      .catch((err)=>{
-        console.log(err);
-      })
+        .delete(url, headers)
+        .then((res) => {
+          console.log(res);
+          this.getCursos();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
-    getToken(){  
-      return JSON.parse(localStorage.getItem("token"))
+    getToken() {
+      return JSON.parse(localStorage.getItem("token"));
     },
     // Usuarios
-    async getUsuarios(){
-      const url ='https://instituto-backend.herokuapp.com/api/v1/usuarios';
-             
+    async getUsuarios() {
+      const url = "https://instituto-backend.herokuapp.com/api/v1/usuarios";
+
       await axios
         .get(url)
         .then((response) => {
-            const data = response.data.results;
-            this.dataUser = data
+          const data = response.data.results;
+          this.dataUser = data;
         })
         .catch((error) => {
-            console.log(error);
+          console.log(error);
         });
     },
-    async deleteUsuarios(id){
-     
+    async deleteUsuarios(id) {
       const swalWithBootstrapButtons = this.$swal.mixin({
         customClass: {
-          confirmButton: 'btn btn-success',
-          cancelButton: 'btn btn-danger danger m-2'
+          confirmButton: "btn btn-success",
+          cancelButton: "btn btn-danger danger m-2",
         },
-        buttonsStyling: false
-      })
+        buttonsStyling: false,
+      });
 
-      swalWithBootstrapButtons.fire({
-        title: '¿Esta seguro de eliminar este registro?',
-        text: "no podras revertir los cambios!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Sí, borrar!',
-        cancelButtonText: 'Cancelar!',
-        reverseButtons: true
-      }).then((result) => {
-        if (result.isConfirmed) {
-          const user = this.dataUser.filter(user =>{
-            return user.id == id
-          })
-          const headers = {headers:{"x-token":this.getToken()}};
-          const url =`https://instituto-backend.herokuapp.com/api/v1/usuarios/${id}`;
-          axios
-          .delete(url,headers)
-          .then(res=>{
-            console.log(res);
-            this.getUsuarios()
-            this.message(`El usuario ${user[0].nombre} ha sido eliminado correctamente`, 'success')
-
-          })
-          .catch((err)=>{
-            console.log(err);
-          })
-        } else if(result.dismiss === this.$swal.DismissReason.cancel)
-         {
-          swalWithBootstrapButtons.fire(
-          'Cancelado',
-          `Tu resgistro no ha sido eliminado`,
-          'error'
-        )
-        }
-      })
+      swalWithBootstrapButtons
+        .fire({
+          title: "¿Esta seguro de eliminar este registro?",
+          text: "no podras revertir los cambios!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Sí, borrar!",
+          cancelButtonText: "Cancelar!",
+          reverseButtons: true,
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            const user = this.dataUser.filter((user) => {
+              return user.id == id;
+            });
+            const headers = { headers: { "x-token": this.getToken() } };
+            const url = `https://instituto-backend.herokuapp.com/api/v1/usuarios/${id}`;
+            axios
+              .delete(url, headers)
+              .then((res) => {
+                console.log(res);
+                this.getUsuarios();
+                this.message(
+                  `El usuario ${user[0].nombre} ha sido eliminado correctamente`,
+                  "success"
+                );
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          } else if (result.dismiss === this.$swal.DismissReason.cancel) {
+            swalWithBootstrapButtons.fire(
+              "Cancelado",
+              `Tu resgistro no ha sido eliminado`,
+              "error"
+            );
+          }
+        });
     },
-    async getUsuariosDocument(){
-      const url ='https://instituto-backend.herokuapp.com/api/v1/tipoDocumento';
-             
+    async getUsuariosDocument() {
+      const url =
+        "https://instituto-backend.herokuapp.com/api/v1/tipoDocumento";
+
       await axios
         .get(url)
         .then((response) => {
-            const data = response.data.results;
-            this.documentData = data
+          const data = response.data.results;
+          this.documentData = data;
         })
         .catch((error) => {
-            console.log(error);
+          console.log(error);
         });
     },
-    async getUsuariosRol(){
-      const url ='https://instituto-backend.herokuapp.com/api/v1/roles';
-             
-      await axios
-        .get(url)
-        .then((response) => {
-            const data = response.data.results;
-            this.rolData = data
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-    },
-    async getUsuariosEstado(){
-      const url ='https://instituto-backend.herokuapp.com/api/v1/estadoUsuario';
-             
-      await axios
-        .get(url)
-        .then((response) => {
-            const data = response.data.results;
-            this.estadoData = data
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-    },
-    async postUsuario(){
-      const url =`https://instituto-backend.herokuapp.com/api/v1/usuarios`;
-      const headers = {headers:{"x-token":this.getToken()}};
-      let contrasena = this.Usuario.dni.toString()
-      const data={
-        "nombre": this.Usuario.nombre,
-        "apellido": this.Usuario.apellido,
-        "fecha_nac": this.Usuario.fecha_nac,
-        "telefono": this.Usuario.telefono.toString(),
-        "documento": this.Usuario.documento,
-        "tipo_doc_id": this.Usuario.tipo_doc_id,
-        "dni": this.Usuario.dni.toString(),
-        "correo": this.Usuario.correo,
-        "direccion": this.Usuario.direccion,
-        "rol_id": this.Usuario.rol_id,
-        "id_estado": this.Usuario.id_estado,
-        "contrasena": contrasena,
+    async getUsuariosRol() {
+      const url = "https://instituto-backend.herokuapp.com/api/v1/roles";
 
-      };
       await axios
-      .post(url,data,headers)
-      .then(res=>{
-        console.log(res);
-        this.getUsuarios()
-        this.message('El usuario ha sido creado exitosamente', 'success')
-      })
-      .catch((err)=>{
-        console.log(err);
-      })
+        .get(url)
+        .then((response) => {
+          const data = response.data.results;
+          this.rolData = data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
-    async putUsuario(){
-      const user = this.Usuario.updateUser
+    async getUsuariosEstado() {
+      const url =
+        "https://instituto-backend.herokuapp.com/api/v1/estadoUsuario";
+
+      await axios
+        .get(url)
+        .then((response) => {
+          const data = response.data.results;
+          this.estadoData = data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    getImage2() {
+      this.Usuario.img= document.getElementById('img').files[0]
+    },
+    async postUsuario() {
+      const url = `https://instituto-backend.herokuapp.com/api/v1/usuarios`;
+      const headers = { headers: { "x-token": this.getToken() }, 'Content-Type': 'multipart/form-data' };
+      let contrasena = this.Usuario.dni.toString();
+      let img = this.Usuario.img
+      let formData = new FormData();
+      formData.append('nombre', this.Usuario.nombre);
+      formData.append('apellido', this.Usuario.apellido);
+      formData.append('fecha_nac', this.Usuario.fecha_nac);
+      formData.append('telefono', this.Usuario.telefono.toString());
+      formData.append('documento', this.Usuario.documento);
+      formData.append('tipo_doc_id', this.Usuario.tipo_doc_id);
+      formData.append('dni', this.Usuario.dni.toString());
+      formData.append('correo', this.Usuario.correo);
+      formData.append('direccion', this.Usuario.direccion);
+      formData.append('rol_id', this.Usuario.rol_id);
+      formData.append('id_estado', this.Usuario.id_estado);
+      formData.append('contrasena', contrasena);
+      formData.append('img', img);
+      let me = this;
+      await axios
+        .post(url, formData, headers)
+        .then((res) => {
+          console.log(res);
+          setTimeout(() => {
+            me.getUsuarios();
+          }, 1000);
+          this.message("El usuario ha sido creado exitosamente", "success");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    async putUsuario() {
+      const user = this.Usuario.updateUser;
       console.log(user);
-      const url =`https://instituto-backend.herokuapp.com/api/v1/usuarios/${user.id}`;
-      const headers = {headers:{"x-token":this.getToken()}};
-      const data={
-        "nombre": this.Usuario.nombre,
-        "apellido": this.Usuario.apellido,
-        "fecha_nac": this.Usuario.fecha_nac,
-        "telefono": this.Usuario.telefono.toString(),
-        "documento": this.Usuario.documento,
-        "tipo_doc_id": this.Usuario.tipo_doc_id,
-        "dni": this.Usuario.dni.toString(),
-        "correo": this.Usuario.correo,
-        "direccion": this.Usuario.direccion,
-        "rol_id": this.Usuario.rol_id,
-        "id_estado": this.Usuario.id_estado,
-        "contrasena": this.Usuario.contrasena,
-
+      const url = `https://instituto-backend.herokuapp.com/api/v1/usuarios/${user.id}`;
+      const headers = { headers: { "x-token": this.getToken() } };
+      const data = {
+        nombre: this.Usuario.nombre,
+        apellido: this.Usuario.apellido,
+        fecha_nac: this.Usuario.fecha_nac,
+        telefono: this.Usuario.telefono.toString(),
+        documento: this.Usuario.documento,
+        tipo_doc_id: this.Usuario.tipo_doc_id,
+        dni: this.Usuario.dni.toString(),
+        correo: this.Usuario.correo,
+        direccion: this.Usuario.direccion,
+        rol_id: this.Usuario.rol_id,
+        id_estado: this.Usuario.id_estado,
+        contrasena: this.Usuario.contrasena,
       };
       await axios
-      .put(url,data,headers)
-      .then(res=>{
-        console.log(res);
-        this.message('El usuario a sido actualizado exitosamente', 'success')
-        this.getUsuarios()
-      })
-      .catch((err)=>{
-        console.log(err);
-      })
+        .put(url, data, headers)
+        .then((res) => {
+          console.log(res);
+          this.message("El usuario a sido actualizado exitosamente", "success");
+          this.getUsuarios();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
-    action(num,data){
-      if( num ==0){
-        this.Usuario.typeAction= 0;
-        this.Usuario.nombre=null
-        this.Usuario.apellido=null
-        this.Usuario.fecha_nac=null
-        this.Usuario.telefono=null
-        this.Usuario.documento=null
-        this.Usuario.tipo_doc_id=null
-        this.Usuario.dni=null
-        this.Usuario.correo=null
-        this.Usuario.direccion=null
-        this.Usuario.rol_id=null
-        this.Usuario.id_estado=null
-        this.Usuario.contrasena=null
-      }else{
-        this.Usuario.updateUser = data
+    action(num, data) {
+      if (num == 0) {
+        this.Usuario.typeAction = 0;
+        this.Usuario.nombre = null;
+        this.Usuario.apellido = null;
+        this.Usuario.fecha_nac = null;
+        this.Usuario.telefono = null;
+        this.Usuario.documento = null;
+        this.Usuario.tipo_doc_id = null;
+        this.Usuario.dni = null;
+        this.Usuario.correo = null;
+        this.Usuario.direccion = null;
+        this.Usuario.rol_id = null;
+        this.Usuario.id_estado = null;
+        this.Usuario.contrasena = null;
+      } else {
+        this.Usuario.updateUser = data;
         const dataUpdate = this.Usuario.updateUser;
-        this.Usuario.typeAction= 1;
-        this.Usuario.nombre = dataUpdate.nombre
-        this.Usuario.apellido= dataUpdate.apellido
-        this.Usuario.fecha_nac= dataUpdate.fecha_nac
-        this.Usuario.telefono= dataUpdate.telefono
-        this.Usuario.documento= dataUpdate.documento
-        this.Usuario.tipo_doc_id= dataUpdate.tipo_documento.id
-        this.Usuario.dni= dataUpdate.dni
-        this.Usuario.correo= dataUpdate.correo
-        this.Usuario.direccion= dataUpdate.direccion
-        this.Usuario.rol_id= dataUpdate.role.id
-        this.Usuario.id_estado= dataUpdate.id_estado
-        this.Usuario.contrasena= dataUpdate.contrasena
+        this.Usuario.typeAction = 1;
+        this.Usuario.nombre = dataUpdate.nombre;
+        this.Usuario.apellido = dataUpdate.apellido;
+        this.Usuario.fecha_nac = dataUpdate.fecha_nac;
+        this.Usuario.telefono = dataUpdate.telefono;
+        this.Usuario.documento = dataUpdate.documento;
+        this.Usuario.tipo_doc_id = dataUpdate.tipo_documento.id;
+        this.Usuario.dni = dataUpdate.dni;
+        this.Usuario.correo = dataUpdate.correo;
+        this.Usuario.direccion = dataUpdate.direccion;
+        this.Usuario.rol_id = dataUpdate.role.id;
+        this.Usuario.id_estado = dataUpdate.id_estado;
+        this.Usuario.contrasena = dataUpdate.contrasena;
       }
-
-       
     },
     // /Usuarios
-    async getCursos(){
-      const url ='https://instituto-backend.herokuapp.com/api/v1/cursos';
+    async getCursos() {
+      const url = "https://instituto-backend.herokuapp.com/api/v1/cursos";
       await axios
         .get(url)
         .then((response) => {
-            const data = response.data.results;
-            this.cursosData = data
+          const data = response.data.results;
+          this.cursosData = data;
         })
         .catch((error) => {
-            console.log(error);
+          console.log(error);
         });
-
-
-
-    }
-
+    },
   },
-   mounted(){
+  mounted() {
     this.getUsuarios();
     this.getUsuariosDocument();
     this.getUsuariosRol();
     this.getUsuariosEstado();
     this.listCat();
     this.getCursos();
-  
-
-  }
-}
+  },
+};
 </script>
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Oswald:wght@500&family=Poppins:wght@300;600&display=swap");
