@@ -864,7 +864,7 @@ export default {
         reader.onload = (e) => {
           this.Usuario.img = e.target.result;
         };
-
+ 
         reader.readAsDataURL(file);
       }
     },
