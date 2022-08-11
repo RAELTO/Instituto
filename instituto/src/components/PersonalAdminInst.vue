@@ -1064,12 +1064,6 @@ export default {
         this.Usuario.contrasena = dataUpdate.contrasena;
       }
     },
-
-    // onInputChange(e) {
-    //     const images = new Image();
-    //     const files = this.Usuario.img;
-    //     formData.append("images[]", file, file.name);
-    // },
     // /Usuarios
     async getCursos() {
       const url = "https://instituto-backend.herokuapp.com/api/v1/cursos";
