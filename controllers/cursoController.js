@@ -4,17 +4,16 @@ const { Course, Areas } = require('../models');
 const cloudinary = require('cloudinary').v2
 cloudinary.config( process.env.CLOUDINARY_URL );
 
-const getAllCourses = async(req = request, res = response) => {//obtener todos los cursos
+const getAllCourses = async(req = request, res = response) => {//brings all the courses in the database
     await Course.findAll({attributes:[
         'id', 'nombre_curso', 'descripcion', 'cupo_disponible', 
         'fecha_limite_curso', 'estado_curso', 'img'
     ], include: [{ model: Areas}]})
-        .then(course => {
-            const data = JSON.stringify(course);
-            const results = JSON.parse(data);
-            if (results.length > 0) {
+        .then(courses => {
+            if (courses.length > 0) {
                 res.json({
-                    results
+                    total: courses.length,
+                    courses
                 });
             }else{
                 res.status(404).send('No hay cursos registrados');
@@ -24,17 +23,15 @@ const getAllCourses = async(req = request, res = response) => {//obtener todos l
         });
 };
 
-const getOneCourse = async(req = request, res = response) => {
+const getOneCourse = async(req = request, res = response) => {//brings one course from the db table by using an id
     await Course.findOne({attributes:[
         'id', 'nombre_curso', 'descripcion', 'cupo_disponible', 
         'fecha_limite_curso', 'estado_curso', 'img'
     ], where: { id: req.params.id }, include: [{ model: Areas}]})
         .then(course => {
-            const data = JSON.stringify(course);
-            const results = JSON.parse(data);
-            if (results != null) {
+            if (course != null) {
                 res.json({
-                    results
+                    course
                 });
             }else{
                 res.status(404).send(`Curso con id: ${req.params.id} no encontrado`);
@@ -46,8 +43,8 @@ const getOneCourse = async(req = request, res = response) => {
     
 };
 
-const createNewCourse = async(req = request, res = response) => {
-    //res.send(`Create course ${req.params.id}`);
+const createNewCourse = async(req = request, res = response) => {//insert a new course into the courses db table
+
     await Course.create({
         nombre_curso: req.body.nombre_curso,
         descripcion: req.body.descripcion,
@@ -97,8 +94,8 @@ const createNewCourse = async(req = request, res = response) => {
     
 };
 
-const updateOneCourse = async(req = request, res = response) => {
-    //res.send(`Update course ${req.params.id}`);
+const updateOneCourse = async(req = request, res = response) => {//updates one course from the db by using an id as identifier
+
     await Course.update({ 
         nombre_curso: req.body.nombre_curso,
         descripcion: req.body.descripcion,

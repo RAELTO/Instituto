@@ -1,4 +1,4 @@
-//controlador para login o autenticación
+//controlador para verificar si una contraseña es correcta en caso de un update desde el front
 const { response } = require("express");
 const bcryptjs = require('bcryptjs');
 
@@ -29,7 +29,7 @@ const passValidate = async(req, res = response) => {
 
         res.json({
             user,
-            passMatch: true
+            passMatch: true//si la contraseña coincide se enviará esta variable como respuesta adicional
         })
 
     } catch (error) {

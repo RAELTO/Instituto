@@ -8,23 +8,23 @@ const {
     adminRole,
     hasRole,
     validateFileUpload
-} = require('../middlewares');
+} = require('../middlewares'); //importación de los middlewares que serán usado para validaciones en las peticiones
 
-const { courseExistingId, areaExistingId, courseValidator } = require('../helpers/db-validator');
+const { courseExistingId, areaExistingId, courseValidator } = require('../helpers/db-validator'); //importación de validaciones de la base de datos
 
 
 const { getAllCourses,
         getOneCourse,
         createNewCourse,
         updateOneCourse,
-        deleteOneCourse } = require('../controllers/cursoController');
+        deleteOneCourse } = require('../controllers/cursoController'); //importación de los controladores para cursos
 
 
 const router = Router();
 
-router.get('/', getAllCourses);
+router.get('/', getAllCourses); // ejecuta la petición GET y su controlador desde el path "/" en la ruta establecida desde el servidor
 
-router.get('/:id', [
+router.get('/:id', [ //ejecuta la petición GET especificando un id en los params de la ruta establecida /id
     check('id', 'No es un ID válido').isNumeric(),
     check('id').custom( courseExistingId ),
     valFields

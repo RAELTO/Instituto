@@ -1,6 +1,6 @@
 const { response } = require('express');
 
-
+//middleware para validar el rol de los usuarios
 const adminRole = (req, res = response, next) => {
 
     if (!req.user) {
@@ -14,7 +14,7 @@ const adminRole = (req, res = response, next) => {
 
     const { rol_id, nombre } = req.user;
 
-    if( rol_id !== 1 ){
+    if( rol_id !== 1 ){// 1 es el id en la tabla de roles para administrador
         return res.status(401).json({
             msg: `${nombre} no es administrador - No puede realizar la accion`
         });
@@ -23,7 +23,7 @@ const adminRole = (req, res = response, next) => {
     next();
 }
 
-const hasRole = ( ...roles ) =>{
+const hasRole = ( ...roles ) =>{//validar si el rol del usuario coincide con los válidos
 
     return (req, res = response, next) => {
 

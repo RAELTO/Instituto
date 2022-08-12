@@ -6,7 +6,7 @@ const genJWT = ( uid = '' ) => {
 
         const payload = { uid };
 
-        //funcion jwt
+        //función jwt
         jwt.sign( payload, process.env.SECRET_KEY, {
             expiresIn: '4h'
         }, ( err, token ) =>{
