@@ -134,6 +134,13 @@ export default {
         console.log(err)
       })
     },
+    SignOff(){
+      this.UserLog ='';
+      this.token='';
+      this.updateLocal()
+      this.updateSesion()
+      this.$router.push('/')
+    },
     updateLocal() {
       sessionStorage.setItem("user", JSON.stringify(this.UserLog));
     },

@@ -1,7 +1,7 @@
 <template>
   <header>
             <nav id="navbar" class="navbar navbar-expand-lg bg-light navbar-dark">
-                <div class="container">
+                <div class="container-fluid">
                     <a class="navbar-brand" href="app.html">
                         <img src="assets/Logo.png" alt="">
                         <span>Instituto</span>
@@ -27,7 +27,7 @@
                                     <a class="nav-link active" aria-current="page" href="#">Área personal</a>
                                 </li>
                                 <li class="nav-item d-flex">
-                                    <a class="nav-link" href="#" @click="logout">Cerrar Sesión
+                                    <a class="nav-link" href="#" @click="SignOff">Cerrar Sesión
                                     </a>
                                     <h4 class="bi bi-box-arrow-right" ></h4>
                                 </li>
@@ -54,16 +54,43 @@ export default {
     return{
         estado:true,
         rol:'',
-        user:''
+        user:'',
+        token:'',
+        UserLog:'',
     }
   },
   methods:{
-    localGet(){
-        
-    }
+    SignOff(){
+      this.UserLog ='';
+      this.token='';
+      this.updateLocal()
+      this.updateSesion()
+      this.$router.push('/')
+    },
+    updateSesion() {
+      localStorage.setItem("token", JSON.stringify(this.token));
+    },
+    updateLocal() {
+      sessionStorage.setItem("user", JSON.stringify(this.UserLog));
+    },
+    sesionDatos() {
+      if (sessionStorage.getItem("user") !== '') {
+        this.UserLog = JSON.parse(sessionStorage.getItem("user"));
+      } else {
+        this.UserLog= '';
+      }
+    },
+    localDatos() {
+      if (localStorage.getItem("token") !== '') {
+        this.token = JSON.parse(localStorage.getItem("token"));
+      } else {
+        this.token= '';
+      }
+    },
   },
   mounted(){
-
+    this.sesionDatos();
+    this.localDatos();
   }
 }
 </script>
