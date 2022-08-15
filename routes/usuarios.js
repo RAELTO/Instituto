@@ -21,9 +21,10 @@ const { getAllUsers,
 
 const router = Router();
 
-router.get('/', getAllUsers);
+router.get('/', valJWT, getAllUsers);
 
 router.get('/:id' , [
+    valJWT,
     check('id', 'No es un ID válido').isNumeric(),
     check('id').custom( userExistingId ),
     valFields

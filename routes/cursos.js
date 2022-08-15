@@ -22,9 +22,10 @@ const { getAllCourses,
 
 const router = Router();
 
-router.get('/', getAllCourses); // ejecuta la petición GET y su controlador desde el path "/" en la ruta establecida desde el servidor
+router.get('/', valJWT, getAllCourses); // ejecuta la petición GET y su controlador desde el path "/" en la ruta establecida desde el servidor
 
 router.get('/:id', [ //ejecuta la petición GET especificando un id en los params de la ruta establecida /id
+    valJWT,
     check('id', 'No es un ID válido').isNumeric(),
     check('id').custom( courseExistingId ),
     valFields

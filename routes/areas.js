@@ -19,9 +19,10 @@ const { getAllAreas,
 
 const router = Router();
 
-router.get('/', getAllAreas);
+router.get('/', valJWT, getAllAreas);
 
 router.get('/:id', [
+    valJWT,
     check('id', 'No es un ID válido').isNumeric(),
     check('id').custom( areaExistingId ),
     valFields
