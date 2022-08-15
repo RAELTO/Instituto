@@ -45,7 +45,7 @@
                     </div>
                 </div>
             </nav>
-        </header>
+  </header>
 </template>
 <script>
 export default {
@@ -53,9 +53,18 @@ export default {
   data() {
     return{
         estado:true,
-        rol:''
+        rol:'',
+        user:''
     }
   },
+  methods:{
+    localGet(){
+        
+    }
+  },
+  mounted(){
+
+  }
 }
 </script>
 <style>
