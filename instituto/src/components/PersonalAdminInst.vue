@@ -85,6 +85,7 @@
                     <i class="bi bi-eye-fill"></i>
                   </button>
                   <button
+                    :disabled="item.id == userLog.id? true:false"
                     class="btn text-white danger ms-1"
                     @click="deleteUsuarios(item.id)"
                   >
@@ -682,6 +683,7 @@ import {Form, Field,ErrorMessage} from 'vee-validate'
 export default {
   data(){
     return {
+      userLog:'',
       clickN:0,
       modal:false,
       view: 0,
@@ -757,21 +759,24 @@ export default {
       await axios
         .post(url, data, headers)
         .then((response) => {
-          console.log(response.data);
+          console.log(response);
           this.message("Categoría registrada", "success");
           this.clearCat();
           this.listCat();
         })
         .catch((error) => {
           console.log(error);
+          let msg = error.response.data.msg
+          this.message(`${msg}`,'error')
         });
     },
-    listCat() {
+    async listCat() {
       const url =
         "https://instituto-backend.herokuapp.com/api/v1/areas-estudio";
-      axios
-        .get(url)
-        .then((data) => (this.arrayDataCat = data.data.results))
+      const headers = { headers: { "x-token": this.getToken() } };
+      await axios
+        .get(url,headers)
+        .then((data) => (this.arrayDataCat = data.data.area))
         .catch(function (error) {
           console.log(error);
         });
@@ -798,7 +803,7 @@ export default {
         .then((result) => {
           if (result.isConfirmed) {
             const headers = { headers: { "x-token": this.getToken() } };
-            const url = `ashttps://instituto-backend.herokuapp.com/api/v1/areas-estudio/${id}`;
+            const url = `https://instituto-backend.herokuapp.com/api/v1/areas-estudio/${id}`;
             axios
               .delete(url, headers)
               .then((res) => {
@@ -1027,9 +1032,9 @@ export default {
 
     async getUsuarios() {
       const url = "https://instituto-backend.herokuapp.com/api/v1/usuarios";
-
+      const headers = { headers: { "x-token": this.getToken() } };
       await axios
-        .get(url)
+        .get(url,headers)
         .then((response) => {
           const data = response.data.results;
           this.dataUser = data;
@@ -1089,9 +1094,9 @@ export default {
     async getUsuariosDocument() {
       const url =
         "https://instituto-backend.herokuapp.com/api/v1/tipoDocumento";
-
+      const headers = { headers: { "x-token": this.getToken() } };
       await axios
-        .get(url)
+        .get(url,headers)
         .then((response) => {
           const data = response.data.results;
           this.documentData = data;
@@ -1102,9 +1107,9 @@ export default {
     },
     async getUsuariosRol() {
       const url = "https://instituto-backend.herokuapp.com/api/v1/roles";
-
+      const headers = { headers: { "x-token": this.getToken() } };
       await axios
-        .get(url)
+        .get(url,headers)
         .then((response) => {
           const data = response.data.results;
           this.rolData = data;
@@ -1114,11 +1119,10 @@ export default {
         });
     },
     async getUsuariosEstado() {
-      const url =
-        "https://instituto-backend.herokuapp.com/api/v1/estadoUsuario";
-
+      const url ="https://instituto-backend.herokuapp.com/api/v1/estadoUsuario";
+      const headers = { headers: { "x-token": this.getToken() } };
       await axios
-        .get(url)
+        .get(url,headers)
         .then((response) => {
           const data = response.data.results;
           this.estadoData = data;
@@ -1257,13 +1261,31 @@ export default {
         this.Usuario.contrasena = dataUpdate.contrasena;
       }
     },
+    validacionUsuario(){
+      const user= JSON.parse(sessionStorage.getItem("user"));
+      console.log(user.nombre);
+      if (user ==null || user == ''){
+        this.$router.push('/')
+      }else if(user.rol_id==1){
+        return true
+        }else if(user.rol_id==2){
+        this.$router.push('/personal')
+      }
+    },
+    pruebaComponente(){
+      console.log('Hola mundo desde personal admin');
+    },
+    userLogin(){
+      this.userLog= JSON.parse(sessionStorage.getItem("user"));
+    },
     // /Usuarios Brayan 
     async getCursos() {
       const url = "https://instituto-backend.herokuapp.com/api/v1/cursos";
+      const headers = {headers: { "x-token": this.getToken() } };
       await axios
-        .get(url)
+        .get(url,headers)
         .then((response) => {
-          const data = response.data.results;
+          const data = response.data.courses;
           this.cursosData = data;
         })
         .catch((error) => {
@@ -1272,6 +1294,8 @@ export default {
     },
   },
   mounted() {
+    this.userLogin()
+    this.validacionUsuario();
     this.getUsuarios();
     this.getUsuariosDocument();
     this.getUsuariosRol();
