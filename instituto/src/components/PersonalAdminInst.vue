@@ -1262,20 +1262,22 @@ export default {
     },
     validacionUsuario(){
       const user= JSON.parse(sessionStorage.getItem("user"));
-      console.log(user.nombre);
       if (user ==null || user == ''){
-        this.$router.push('/')
+       return this.$router.push('/')
       }else if(user.rol_id==1){
-        return true
+        this.userLog= user
         }else if(user.rol_id==2){
         this.$router.push('/personal')
       }
+        this.getUsuarios();
+        this.getUsuariosDocument();
+        this.getUsuariosRol();
+        this.getUsuariosEstado();
+        this.listCat();
+        this.getCursos();
     },
     pruebaComponente(){
       console.log('Hola mundo desde personal admin');
-    },
-    userLogin(){
-      this.userLog= JSON.parse(sessionStorage.getItem("user"));
     },
     // /Usuarios Brayan 
     async getCursos() {
@@ -1293,14 +1295,7 @@ export default {
     },
   },
   mounted() {
-    this.userLogin()
     this.validacionUsuario();
-    this.getUsuarios();
-    this.getUsuariosDocument();
-    this.getUsuariosRol();
-    this.getUsuariosEstado();
-    this.listCat();
-    this.getCursos();
   },
   computed(){
   }
