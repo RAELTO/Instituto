@@ -54,7 +54,7 @@
             <tbody>
               <tr v-for="item in dataUser" :key="item.id">
                 <td>
-                  <img :src="item.img" alt="" style="width: 50px;">
+                  <img :src="item.img" alt="" style="width: 50px; border-radius:50px;">
                 </td>
                 <td>
                   <span>{{ item.nombre }}</span>
@@ -1038,8 +1038,8 @@ export default {
           const data = response.data.results;
           this.dataUser = data;
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          console.log(err);
         });
     },
     async deleteUsuarios(id) {
@@ -1195,23 +1195,25 @@ export default {
       }
     },
     async putUsuario() {
-      const user = this.Usuario.updateUser;
-      console.log(user);
-      const url = `https://instituto-backend.herokuapp.com/api/v1/usuarios/${user.id}`;
+      this.clickN=0;
+      const {id} = this.Usuario.updateUser;
+      const url = `https://instituto-backend.herokuapp.com/api/v1/usuarios/${id}`;
       const headers = { headers: { "x-token": this.getToken() } };
+      let {nombre,apellido,fecha_nac,telefono,direccion,correo,tipo_doc_id,dni,rol_id,id_estado,documento,contrasena} = this.Usuario;
+      // const regex= /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
       const data = {
-        nombre: this.Usuario.nombre,
-        apellido: this.Usuario.apellido,
-        fecha_nac: this.Usuario.fecha_nac,
-        telefono: this.Usuario.telefono.toString(),
-        documento: this.Usuario.documento,
-        tipo_doc_id: this.Usuario.tipo_doc_id,
-        dni: this.Usuario.dni.toString(),
-        correo: this.Usuario.correo,
-        direccion: this.Usuario.direccion,
-        rol_id: this.Usuario.rol_id,
-        id_estado: this.Usuario.id_estado,
-        contrasena: this.Usuario.contrasena,
+        nombre: nombre,
+        apellido: apellido,
+        fecha_nac: fecha_nac,
+        telefono: telefono.toString(),
+        documento: documento,
+        tipo_doc_id: tipo_doc_id,
+        dni:dni.toString(),
+        correo: correo,
+        direccion: direccion,
+        rol_id: rol_id,
+        id_estado: id_estado,
+        contrasena: contrasena,
       };
       await axios
         .put(url, data, headers)
@@ -1224,10 +1226,13 @@ export default {
           console.log(err);
         });
     },
-    action(num, data) {
+    action(num, data) { 
       if (num == 0) {
         console.log(this.clickN);
         this.clickN=1;
+        setTimeout(() => {
+          this.clickN=0
+        }, 1000);
         console.log(this.clickN);
         this.Usuario.typeAction = 0;
         this.Usuario.nombre = '';
@@ -1276,9 +1281,6 @@ export default {
         this.listCat();
         this.getCursos();
     },
-    pruebaComponente(){
-      console.log('Hola mundo desde personal admin');
-    },
     // /Usuarios Brayan 
     async getCursos() {
       const url = "https://instituto-backend.herokuapp.com/api/v1/cursos";
@@ -1294,8 +1296,23 @@ export default {
         });
     },
   },
-  mounted() {
+  mounted(){
     this.validacionUsuario();
+  },
+  beforeCreate(){
+    const url = "https://instituto-backend.herokuapp.com/api/v1/usuarios";
+    const token= JSON.parse(localStorage.getItem("token"));
+    const headers = { headers: { "x-token": token } };
+      axios
+        .get(url,headers)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err);
+          const error = err.response.data.msg
+          if(error =='Token no válido') return this.$router.push('/')
+        });
   },
   computed(){
   }

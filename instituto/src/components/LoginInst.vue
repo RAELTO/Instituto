@@ -108,7 +108,6 @@ export default {
   name: 'LoginInst' ,
   data(){
     return{
-        prueba:false,
         correo:'',
         pass:'',
         UserLog:'', 

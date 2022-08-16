@@ -74,10 +74,10 @@ export default {
       sessionStorage.setItem("user", JSON.stringify(this.UserLog));
     },
     sesionDatos() {
-      if (sessionStorage.getItem("user") !== '') {
+      if (sessionStorage.getItem("user") !==null) {
         this.UserLog = JSON.parse(sessionStorage.getItem("user"));
       } else {
-        this.UserLog= '';
+        return true
       }
     },
     localDatos() {
@@ -91,7 +91,7 @@ export default {
   mounted(){
     this.sesionDatos();
     this.localDatos();
-  }
+  },
 }
 </script>
 <style>
