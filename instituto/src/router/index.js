@@ -32,7 +32,12 @@ const routes = [
     path: '/personalAdmin',
     name: 'personalAdmin',
     component: () => import(/* webpackChunkName: "about" */ '../components/PersonalAdminInst.vue')
-  }
+  },
+  {
+    path: '/form',
+    name: 'form',
+    component: () => import(/* webpackChunkName: "about" */ '../components/HelloWorld.vue')
+  },
 ]
 
 const router = createRouter({

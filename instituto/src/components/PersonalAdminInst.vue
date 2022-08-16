@@ -85,6 +85,7 @@
                     <i class="bi bi-eye-fill"></i>
                   </button>
                   <button
+                    :disabled="item.id == userLog.id? true:false"
                     class="btn text-white danger ms-1"
                     @click="deleteUsuarios(item.id)"
                   >
@@ -130,75 +131,96 @@
                 ></p>
               </div>
               <div class="modal-body">
-                <div class="">
+                <Form @submit="onSubmit">
                   <div class="row">
                     <div class="mb-3 col-6">
-                      <input
+                      <Field
                         type="text"
                         class="form-control"
                         placeholder="Nombre"
                         aria-label="Nombre"
                         aria-describedby="basic-addon1"
+                        name="nombre"
+                        :rules="validateNombre"
                         v-model="Usuario.nombre"
                       />
+                      <ErrorMessage name="nombre" id="error"/>
                     </div>
                     <div class="mb-3 col-6">
-                      <input
+                      <Field
                         type="text"
                         class="form-control"
                         placeholder="Apellido"
                         aria-label="Apellido"
                         aria-describedby="basic-addon1"
+                        name="apellido"
+                        :rules="validateApellido"
                         v-model="Usuario.apellido"
                       />
+                      <ErrorMessage name="apellido" id="error"/>
                     </div>
                     <div class="mb-3 col-6">
-                      <input
+                      <Field
                         type="date"
                         class="form-control"
                         placeholder="Fecha de Nacimiento"
                         aria-label="Nacimiento"
                         aria-describedby="basic-addon1"
+                        name="fecha_nac"
+                        :rules="validateFechaNac"
                         v-model="Usuario.fecha_nac"
                       />
+                      <ErrorMessage name="fecha_nac" id="error"/>
                     </div>
                     <div class="mb-3 col-6">
-                      <input
+                      <Field
                         type="number"
                         class="form-control"
                         placeholder="Teléfono"
                         aria-label="Telefono"
                         aria-describedby="basic-addon1"
+                        name="telefono"
+                        :rules="validateTelefono"
                         v-model="Usuario.telefono"
                       />
+                      <ErrorMessage name="telefono" id="error"/>
                     </div>
                     <div class="mb-3 col-6">
-                      <input
+                      <Field
                         type="text"
                         class="form-control"
                         placeholder="Dirección"
                         aria-label="Direccion"
                         aria-describedby="basic-addon1"
+                        name="direccion"
+                        :rules="validateDireccion"
                         v-model="Usuario.direccion"
                       />
+                      <ErrorMessage name="direccion" id="error"/>
                     </div>
                     <div class="mb-3 col-6">
-                      <input
+                      <Field
                         type="email"
                         class="form-control"
                         placeholder="Correo"
                         aria-label="Correo"
                         aria-describedby="basic-addon1"
+                        name="correo"
+                        :rules="validateCorreo"
                         v-model="Usuario.correo"
                       />
+                      <ErrorMessage name="correo" id="error"/>
                     </div>
                     <div class="mb-3 col-6">
-                      <select
+                      <Field
                         class="form-select"
                         aria-label="Default select example"
+                        as="select"
+                        name="tipo_doc_id"
+                        :rules="validateTipoDocId"
                         v-model="Usuario.tipo_doc_id"
                       >
-                        <option selected value="null">Tipo de documento</option>
+                        <option selected value="">Tipo de documento</option>
                         <option
                           :value="item.id"
                           v-for="item in documentData"
@@ -206,25 +228,32 @@
                         >
                           {{ item.tipo_documento }}
                         </option>
-                      </select>
+                      </Field>
+                      <ErrorMessage name="tipo_doc_id" id="error"/>
                     </div>
                     <div class="mb-3 col-6">
-                      <input
+                      <Field
                         type="number"
                         class="form-control"
                         placeholder="No. Documento"
                         aria-label="NoDocumento"
                         aria-describedby="basic-addon1"
+                        name="dni"
+                        :rules="validateDni"
                         v-model="Usuario.dni"
                       />
+                      <ErrorMessage name="dni" id="error"/>
                     </div>
                     <div class="mb-3 col-6">
-                      <select
+                      <Field
                         class="form-select"
                         aria-label="Default select example"
+                        as="select"
+                        name="rol_id"
+                        :rules="validateRolId"
                         v-model="Usuario.rol_id"
                       >
-                        <option selected value="null">Tipo de rol</option>
+                        <option selected value="">Tipo de rol</option>
                         <option
                           v-for="item in rolData"
                           :value="item.id"
@@ -232,15 +261,19 @@
                         >
                           {{ item.nombre_rol }}
                         </option>
-                      </select>
+                      </Field>
+                      <ErrorMessage name="rol_id" id="error"/>
                     </div>
                     <div class="mb-3 col-6">
-                      <select
+                      <Field
                         class="form-select"
                         aria-label="Default select example"
+                        as="select"
+                        name="id_estado"
+                        :rules="validateEstadoId"
                         v-model="Usuario.id_estado"
                       >
-                        <option selected value="null">Estado</option>
+                        <option selected value="">Estado</option>
                         <option
                           v-for="item in estadoData"
                           :value="item.id"
@@ -248,7 +281,8 @@
                         >
                           {{ item.estado_usuario ? "Activo" : "Inactivo" }}
                         </option>
-                      </select>
+                      </Field>
+                      <ErrorMessage name="id_estado" id="error"/>
                     </div>
                     <div
                       class="input-group mb-3 col-12"
@@ -257,12 +291,12 @@
                       <label class="fw-bold col-12 mb-2">
                         Cargar documento</label
                       >
-                      <input
-                        type="file"
-                        class="form-control"
-                        id="inputGroupFile02"
-                        @change="Usuario.documento"
-                      />
+                        <input
+                          type="file"
+                          class="form-control"
+                          id="doc"
+                          @change="getDocumento"
+                        />
                       <label class="input-group-text" for="inputGroupFile02"
                         >Upload</label
                       >
@@ -284,36 +318,36 @@
                       >
                     </div>
                   </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary fw-bold"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary fw-bold"
+                      data-bs-dismiss="modal"
+                    >
+                      Close
+                    </button>
 
-                <button
-                  type="button"
-                  class="btn btn-primary fw-bold"
-                  data-bs-dismiss="modal"
-                  v-if="Usuario.typeAction == 0"
-                  @click="postUsuario"
-                >
-                  Guardar
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-primary fw-bold"
-                  data-bs-dismiss="modal"
-                  v-if="Usuario.typeAction == 1"
-                  @click="putUsuario"
-                >
-                  Actualizar
-                </button>
+                    <button
+                      as="button"
+                      class="btn btn-primary fw-bold"
+                      v-if="Usuario.typeAction == 0"
+                      @click="postUsuario"
+                    >
+                      Guardar
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-primary fw-bold"
+                      data-bs-dismiss="modal"
+                      v-if="Usuario.typeAction == 1"
+                      @click="putUsuario"
+                    >
+                      Actualizar
+                    </button>
+                  </div>
+                </Form>
               </div>
+              
             </div>
           </div>
         </div>
@@ -491,7 +525,7 @@
                     class="btn text-white"
                     data-bs-toggle="modal"
                     data-bs-target="#gradeCreate"
-                       @click="chargCursos(objeto)"
+                     @click="chargCursos(objeto)"
                   >
                     <i class="bi bi-eye-fill"></i>
                   </button>
@@ -653,9 +687,13 @@
 </template>
 <script>
 import axios from "axios";
+import {Form, Field,ErrorMessage} from 'vee-validate'
 export default {
-  data() {
+  data(){
     return {
+      userLog:'',
+      clickN:0,
+      modal:false,
       view: 0,
       typeAction: 0,
       name: "",
@@ -668,23 +706,23 @@ export default {
       rolData: null,
       estadoData: null,
       Usuario: {
-        updateUser: null,
+        updateUser: '',
         typeAction: 0,
-        nombre: null, //
-        apellido: null, //
-        fecha_nac: null, //
-        telefono: null, //
-        documento: "Prueba", //
-        tipo_doc_id: null, //
+        nombre: '', //
+        apellido: '', //
+        fecha_nac: '', //
+        telefono: '', //
+        documento: '', //
+        tipo_doc_id: '', //
         dni: "", //
-        correo: null, //
-        direccion: null, //
-        rol_id: null, //
-        id_estado: null,
-        contrasena: null,
+        correo: '', //
+        direccion: '', //
+        rol_id: '', //
+        id_estado: '',
+        contrasena: '',
         img: "",
+        counter:0,
       },
-      modal: false,
       cursosData: [],
       nameCurso: "",
       cantidadAlumnos: "",
@@ -695,6 +733,11 @@ export default {
      id_dataCursos: 0 ,
       imagesCursos: "",
     };
+  },
+  components:{
+    Form,
+    Field,
+    ErrorMessage,
   },
   methods: {
     catAct() {
@@ -725,21 +768,24 @@ export default {
       await axios
         .post(url, data, headers)
         .then((response) => {
-          console.log(response.data);
+          console.log(response);
           this.message("Categoría registrada", "success");
           this.clearCat();
           this.listCat();
         })
         .catch((error) => {
           console.log(error);
+          let msg = error.response.data.msg
+          this.message(`${msg}`,'error')
         });
     },
-    listCat() {
+    async listCat() {
       const url =
         "https://instituto-backend.herokuapp.com/api/v1/areas-estudio";
-      axios
-        .get(url)
-        .then((data) => (this.arrayDataCat = data.data.results))
+      const headers = { headers: { "x-token": this.getToken() } };
+      await axios
+        .get(url,headers)
+        .then((data) => (this.arrayDataCat = data.data.area))
         .catch(function (error) {
           console.log(error);
         });
@@ -766,7 +812,7 @@ export default {
         .then((result) => {
           if (result.isConfirmed) {
             const headers = { headers: { "x-token": this.getToken() } };
-            const url = `ashttps://instituto-backend.herokuapp.com/api/v1/areas-estudio/${id}`;
+            const url = `https://instituto-backend.herokuapp.com/api/v1/areas-estudio/${id}`;
             axios
               .delete(url, headers)
               .then((res) => {
@@ -912,11 +958,132 @@ export default {
       return JSON.parse(localStorage.getItem("token"));
     },
     // Usuarios Brayan
+    // validaciones de usuario
+    validateCorreo(value){
+      const regex= /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+      if(this.clickN==0){
+        if(!value){
+          return 'El Email es requerido';
+        }else if(!regex.test(value)){
+          return 'No es valido para tipo Email';
+        }else{
+          return true;
+        }
+      }else {
+        return true
+      }
+
+    },
+    onSubmit(values) {
+      console.log(values, null, 2);
+    },
+    validateNombre(value){
+       if(this.clickN==0){
+        if(!value){
+          return 'El nombre es requerido';
+        }else{
+          return true;
+        }
+      }else {
+        return true
+      }
+    },
+    validateApellido(value){
+      if(this.clickN==0){
+        if(!value){
+          return 'El apellido es requerido';
+        }else{
+          return true;
+        }
+      }else {
+        return true
+      }
+    },
+    validateFechaNac(value){
+      if(this.clickN==0){
+        if(!value){
+          return 'La fecha de nacimiento es requerida';
+        }else{
+          return true;
+        }
+      }else {
+        return true
+      }
+      // All is good
+    },
+    validateTelefono(value){
+      if(this.clickN==0){
+        if(!value){
+          return 'El telefono es requerido';
+        }else{
+          return true;
+        }
+      }else {
+        return true
+      }
+    },
+    validateTipoDocId(value){
+      if(this.clickN==0){
+        if(!value){
+          return 'Seleccione su tipo de documento';
+        }else{
+          return true;
+        }
+      }else {
+        return true
+      }
+    },
+    validateDni(value){
+      if(this.clickN==0){
+        if(!value){
+          return 'El numero de documento es requerido';
+        }else{
+          return true;
+        }
+      }else {
+        return true
+      }
+    },
+    validateDireccion(value){
+      if(this.clickN==0){
+        if(!value){
+          return 'La direccion es requerida';
+        }else{
+          return true;
+        }
+      }else {
+        return true
+      }
+    },
+    validateRolId(value){
+      if(this.clickN==0){
+        if(!value){
+          return 'Seleccione el rol';
+       
+        }else{
+          return true;
+        }
+      }else {
+        return true
+      }
+    },
+    validateEstadoId(value){
+      if(this.clickN==0){
+        if(!value){
+          return 'Seleccione El estado Activo o Inactivo';
+        }else{
+          return true;
+        }
+      }else {
+        return true
+      }
+    },
+
     async getUsuarios() {
       const url = "https://instituto-backend.herokuapp.com/api/v1/usuarios";
-
+      const headers = { headers: { "x-token": this.getToken() } };
       await axios
-        .get(url)
+        .get(url,headers)
         .then((response) => {
           const data = response.data.results;
           this.dataUser = data;
@@ -926,6 +1093,9 @@ export default {
         });
     },
     async deleteUsuarios(id) {
+       const user = this.dataUser.filter((user) => {
+              return user.id == id;
+            });
       const swalWithBootstrapButtons = this.$swal.mixin({
         customClass: {
           confirmButton: "btn btn-success",
@@ -936,7 +1106,7 @@ export default {
 
       swalWithBootstrapButtons
         .fire({
-          title: "¿Esta seguro de eliminar este registro?",
+          title: `¿Esta seguro de eliminar a ${user[0].nombre}?`,
           text: "no podras revertir los cambios!",
           icon: "warning",
           showCancelButton: true,
@@ -946,9 +1116,6 @@ export default {
         })
         .then((result) => {
           if (result.isConfirmed) {
-            const user = this.dataUser.filter((user) => {
-              return user.id == id;
-            });
             const headers = { headers: { "x-token": this.getToken() } };
             const url = `https://instituto-backend.herokuapp.com/api/v1/usuarios/${id}`;
             axios
@@ -976,9 +1143,9 @@ export default {
     async getUsuariosDocument() {
       const url =
         "https://instituto-backend.herokuapp.com/api/v1/tipoDocumento";
-
+      const headers = { headers: { "x-token": this.getToken() } };
       await axios
-        .get(url)
+        .get(url,headers)
         .then((response) => {
           const data = response.data.results;
           this.documentData = data;
@@ -989,9 +1156,9 @@ export default {
     },
     async getUsuariosRol() {
       const url = "https://instituto-backend.herokuapp.com/api/v1/roles";
-
+      const headers = { headers: { "x-token": this.getToken() } };
       await axios
-        .get(url)
+        .get(url,headers)
         .then((response) => {
           const data = response.data.results;
           this.rolData = data;
@@ -1001,11 +1168,10 @@ export default {
         });
     },
     async getUsuariosEstado() {
-      const url =
-        "https://instituto-backend.herokuapp.com/api/v1/estadoUsuario";
-
+      const url ="https://instituto-backend.herokuapp.com/api/v1/estadoUsuario";
+      const headers = { headers: { "x-token": this.getToken() } };
       await axios
-        .get(url)
+        .get(url,headers)
         .then((response) => {
           const data = response.data.results;
           this.estadoData = data;
@@ -1017,42 +1183,73 @@ export default {
     getImage2() {
       this.Usuario.img= document.getElementById('img').files[0]
     },
+
     getImageCursos() {
       this.imagesCursos= document.getElementById('imgCursos').files[0]
     },
 
+
+    getDocumento() {
+      this.Usuario.documento= document.getElementById('doc').files[0]
+    },
+
     async postUsuario() {
+      this.clickN=0;
       const url = `https://instituto-backend.herokuapp.com/api/v1/usuarios`;
       const headers = { headers: { "x-token": this.getToken() }, 'Content-Type': 'multipart/form-data' };
-      let contrasena = this.Usuario.dni.toString();
-      let img = this.Usuario.img
-      let formData = new FormData();
-      formData.append('nombre', this.Usuario.nombre);
-      formData.append('apellido', this.Usuario.apellido);
-      formData.append('fecha_nac', this.Usuario.fecha_nac);
-      formData.append('telefono', this.Usuario.telefono.toString());
-      formData.append('documento', this.Usuario.documento);
-      formData.append('tipo_doc_id', this.Usuario.tipo_doc_id);
-      formData.append('dni', this.Usuario.dni.toString());
-      formData.append('correo', this.Usuario.correo);
-      formData.append('direccion', this.Usuario.direccion);
-      formData.append('rol_id', this.Usuario.rol_id);
-      formData.append('id_estado', this.Usuario.id_estado);
-      formData.append('contrasena', contrasena);
-      formData.append('img', img);
-      let me = this;
-      await axios
-        .post(url, formData, headers)
-        .then((res) => {
-          console.log(res);
-          setTimeout(() => {
-            me.getUsuarios();
-          }, 1000);
-          this.message("El usuario ha sido creado exitosamente", "success");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      let {nombre,apellido,fecha_nac,telefono,direccion,correo,tipo_doc_id,dni,rol_id,id_estado,img} = this.Usuario;
+      const regex= /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+      if(nombre  !='' && apellido  !='' && fecha_nac !='' && telefono !='' && direccion !='' && correo !='' && tipo_doc_id !='' && dni !='' && rol_id !='' && id_estado !='' ){
+        if(img=='') return this.message('Porfavor Ingrese una imagen','error')
+        if(regex.test(this.Usuario.correo)){
+        let contrasena = this.Usuario.dni.toString();
+        let img = this.Usuario.img
+        let formData = new FormData();
+        formData.append('nombre', nombre);
+        formData.append('apellido', apellido);
+        formData.append('fecha_nac', fecha_nac);
+        formData.append('telefono', telefono.toString());
+        formData.append('documento', this.Usuario.documento);
+        formData.append('tipo_doc_id', tipo_doc_id);
+        formData.append('dni', dni.toString());
+        formData.append('correo', correo);
+        formData.append('direccion', direccion);
+        formData.append('rol_id', rol_id);
+        formData.append('id_estado', id_estado);
+        formData.append('contrasena', contrasena);
+        formData.append('img', img);
+        await axios
+          .post(url, formData, headers)
+          .then((res) => {
+            this.modal=true
+            console.log(res);
+            setTimeout(() => {
+              this.getUsuarios();
+            }, 1000);
+            this.clickN=1;
+            this.Usuario.nombre= '';
+            this.Usuario.apellido='';
+            this.Usuario.fecha_nac='';
+            this.Usuario.telefono='';
+            this.Usuario.tipo_doc_id='';
+            this.Usuario.dni='';
+            this.Usuario.correo='';
+            this.Usuario.direccion='';
+            this.Usuario.rol_id='';
+            this.Usuario.id_estado='';
+            this.Usuario.contrasena='';
+            this.Usuario.img='';
+            
+            this.message("El usuario ha sido creado exitosamente", "success");
+          })
+          .catch((err) => {
+            console.log(err);
+            this.clickN=0;
+          });
+        }else{
+          console.log('Sintaxis de correo no valida');
+        }
+      }
     },
     async putUsuario() {
       const user = this.Usuario.updateUser;
@@ -1086,19 +1283,22 @@ export default {
     },
     action(num, data) {
       if (num == 0) {
+        console.log(this.clickN);
+        this.clickN=1;
+        console.log(this.clickN);
         this.Usuario.typeAction = 0;
-        this.Usuario.nombre = null;
-        this.Usuario.apellido = null;
-        this.Usuario.fecha_nac = null;
-        this.Usuario.telefono = null;
-        this.Usuario.documento = null;
-        this.Usuario.tipo_doc_id = null;
-        this.Usuario.dni = null;
-        this.Usuario.correo = null;
-        this.Usuario.direccion = null;
-        this.Usuario.rol_id = null;
-        this.Usuario.id_estado = null;
-        this.Usuario.contrasena = null;
+        this.Usuario.nombre = '';
+        this.Usuario.apellido = '';
+        this.Usuario.fecha_nac = '';
+        this.Usuario.telefono = '';
+        this.Usuario.documento = '';
+        this.Usuario.tipo_doc_id = '';
+        this.Usuario.dni = '';
+        this.Usuario.correo = '';
+        this.Usuario.direccion = '';
+        this.Usuario.rol_id = '';
+        this.Usuario.id_estado = '';
+        this.Usuario.contrasena = '';
       } else {
         this.Usuario.updateUser = data;
         const dataUpdate = this.Usuario.updateUser;
@@ -1117,13 +1317,33 @@ export default {
         this.Usuario.contrasena = dataUpdate.contrasena;
       }
     },
+    validacionUsuario(){
+      const user= JSON.parse(sessionStorage.getItem("user"));
+      if (user ==null || user == ''){
+       return this.$router.push('/')
+      }else if(user.rol_id==1){
+        this.userLog= user
+        }else if(user.rol_id==2){
+        this.$router.push('/personal')
+      }
+        this.getUsuarios();
+        this.getUsuariosDocument();
+        this.getUsuariosRol();
+        this.getUsuariosEstado();
+        this.listCat();
+        this.getCursos();
+    },
+    pruebaComponente(){
+      console.log('Hola mundo desde personal admin');
+    },
     // /Usuarios Brayan 
     async getCursos() {
       const url = "https://instituto-backend.herokuapp.com/api/v1/cursos";
+      const headers = {headers: { "x-token": this.getToken() } };
       await axios
-        .get(url)
+        .get(url,headers)
         .then((response) => {
-          const data = response.data.results;
+          const data = response.data.courses;
           this.cursosData = data;
         })
         .catch((error) => {
@@ -1132,13 +1352,10 @@ export default {
     },
   },
   mounted() {
-    this.getUsuarios();
-    this.getUsuariosDocument();
-    this.getUsuariosRol();
-    this.getUsuariosEstado();
-    this.listCat();
-    this.getCursos();
+    this.validacionUsuario();
   },
+  computed(){
+  }
 };
 </script>
 <style>
@@ -1163,5 +1380,9 @@ button {
 }
 .modal-content {
   background: var(--fourth);
+}
+#error{
+  color:red;
+  font-weight: bold;
 }
 </style>
