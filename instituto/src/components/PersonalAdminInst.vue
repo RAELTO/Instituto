@@ -900,6 +900,7 @@ export default {
         .then((response) => {
             console.log(response.data);
             this.message("Categoría actualizada", "success");
+            
           this.getCursos();
           
         })
