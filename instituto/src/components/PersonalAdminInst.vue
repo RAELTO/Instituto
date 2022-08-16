@@ -1150,7 +1150,7 @@ export default {
         let img = this.Usuario.img
         let formData = new FormData();
         formData.append('nombre', nombre);
-        formData.append('apellido', apellido);
+        formData.append('apellido', apellido); 
         formData.append('fecha_nac', fecha_nac);
         formData.append('telefono', telefono.toString());
         formData.append('documento', this.Usuario.documento);
