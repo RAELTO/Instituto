@@ -446,7 +446,7 @@
                             placeholder="ingrese nombre de la categoría"
                           />
                         </div>
-                        <div class="mb-3">
+                        <!-- <div class="mb-3">
                           <label class="form-label">Descripción:</label>
                           <textarea
                             class="form-control"
@@ -455,7 +455,7 @@
                             rows="3"
                             placeholder="ingrese descripción"
                           ></textarea>
-                        </div>
+                        </div> -->
                       </form>
                     </div>
                   </div>
