@@ -360,7 +360,7 @@
             data-bs-toggle="modal"
             data-bs-target="#modalCat"
           >
-            Crear Categoría
+            Crear Categoría <i class="bi bi-plus-circle"></i>
           </button>
           <table class="table table-dark table-striped">
             <thead>
