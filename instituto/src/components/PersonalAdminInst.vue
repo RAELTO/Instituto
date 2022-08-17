@@ -977,24 +977,23 @@ export default {
         });
         
     },
-         chargCursos(data = []){
-          console.log(data);
-          this.cursosAct();
-       this.id_dataCursos = data["id"];
-        this.areaEstudioId = data["area_estudio"];
-       this.nameCurso = data["nombre_curso"];
-       this.fechaCurso = data["fecha_limite_curso"];
-       this.cantidadAlumnos = data["cupo_disponible"];
-       this.estadoCurso = data["estado_curso"];
-        this.descripcion = data["descripcion"];
+      chargCursos(data = []){
+
+      this.id_dataCursos = data["id"];
+      this.areaEstudioId = data.areas_estudio["id"];
+      this.nameCurso = data["nombre_curso"];
+      this.fechaCurso = data["fecha_limite_curso"];
+      this.cantidadAlumnos = data["cupo_disponible"];
+      this.estadoCurso = data["estado_curso"];
+      this.descripcion = data["descripcion"];
 
     },
-       UpdateCursos(){
+    UpdateCursos(){
       const headers = {headers:{"x-token":this.getToken()}};
-      const url =`https://instituto-backend.herokuapp.com/api/v1/cursos/${this.id_dataCursos}`;
+      const url =https://instituto-backend.herokuapp.com/api/v1/cursos/${this.id_dataCursos};
       const data = {
                      "area_estudio_id": this.areaEstudioId,
-                     "name_curso": this.nameCurso,
+                     "nombre_curso": this.nameCurso,
                      "fecha_limite_curso": this.fechaCurso,
                      "cupo_disponible": this.cantidadAlumnos,
                      "estado_curso": this.estadoCurso,
@@ -1005,9 +1004,9 @@ export default {
         .then((response) => {
             console.log(response.data);
             this.message("Categoría actualizada", "success");
-            
+
           this.getCursos();
-          
+
         })
         .catch((error) => {
             console.log(error);
