@@ -360,7 +360,7 @@
             data-bs-toggle="modal"
             data-bs-target="#modalCat"
           >
-            Crear Categoría
+            Crear Categoría <i class="bi bi-plus-circle"></i>
           </button>
           <table class="table table-dark table-striped">
             <thead>
@@ -446,7 +446,7 @@
                             placeholder="ingrese nombre de la categoría"
                           />
                         </div>
-                        <div class="mb-3">
+                        <!-- <div class="mb-3">
                           <label class="form-label">Descripción:</label>
                           <textarea
                             class="form-control"
@@ -455,7 +455,7 @@
                             rows="3"
                             placeholder="ingrese descripción"
                           ></textarea>
-                        </div>
+                        </div> -->
                       </form>
                     </div>
                   </div>
@@ -919,6 +919,7 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+        
     },
          chargCursos(data = []){
        this.id_dataCursos = data["id"];
@@ -946,6 +947,7 @@ export default {
         .then((response) => {
             console.log(response.data);
             this.message("Categoría actualizada", "success");
+            
           this.getCursos();
           
         })
@@ -1184,15 +1186,25 @@ export default {
       this.Usuario.img= document.getElementById('img').files[0]
     },
 
+<<<<<<< HEAD
+=======
+    getDocumento() {
+      this.Usuario.documento= document.getElementById('doc').files[0]
+    },
+
+>>>>>>> f998583a382765866d22c5bf63ee0f3c9910f8eb
     getImageCursos() {
       this.imagesCursos= document.getElementById('imgCursos').files[0]
     },
 
+<<<<<<< HEAD
 
     getDocumento() {
       this.Usuario.documento= document.getElementById('doc').files[0]
     },
 
+=======
+>>>>>>> f998583a382765866d22c5bf63ee0f3c9910f8eb
     async postUsuario() {
       this.clickN=0;
       const url = `https://instituto-backend.herokuapp.com/api/v1/usuarios`;
@@ -1206,7 +1218,7 @@ export default {
         let img = this.Usuario.img
         let formData = new FormData();
         formData.append('nombre', nombre);
-        formData.append('apellido', apellido);
+        formData.append('apellido', apellido); 
         formData.append('fecha_nac', fecha_nac);
         formData.append('telefono', telefono.toString());
         formData.append('documento', this.Usuario.documento);
