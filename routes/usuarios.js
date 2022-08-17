@@ -5,7 +5,8 @@ const {
     valFields, 
     valJWT, 
     adminRole, 
-    hasRole
+    hasRole,
+    validateFileUpload
 } = require('../middlewares');
 
 const { validRoles, emailValidator, userExistingId, 
@@ -20,9 +21,10 @@ const { getAllUsers,
 
 const router = Router();
 
-router.get('/', getAllUsers);
+router.get('/', valJWT, getAllUsers);
 
 router.get('/:id' , [
+    valJWT,
     check('id', 'No es un ID válido').isNumeric(),
     check('id').custom( userExistingId ),
     valFields
@@ -47,7 +49,6 @@ router.put('/:id', [
     check('direccion', 'La dirección es obligatoria').not().isEmpty(),
     check('rol_id').custom( validRoles ),
     check('id_estado').custom( userStatusExistsId ),
-    check('contrasena', 'La contraseña es obligatoria y debe contener un mínimo de 8 caracteres').isLength({ min: 8 }),
     valFields
 ], updateOneUser);
 
@@ -68,10 +69,10 @@ router.post('/', [//arreglo de middlewares express-validator
     check('correo', 'El correo ingresado no es válido').isEmail(),
     check('correo').custom( emailValidator ),
     check('direccion', 'La dirección es obligatoria').not().isEmpty(),
-    //check('role', 'No es un rol válido').isIn(['ADMIN_ROLE', 'USER_ROLE']),
     check('rol_id').custom( validRoles ),
     check('id_estado').custom( userStatusExistsId ),
-    check('contrasena', 'La contraseña es obligatoria y debe contener un mínimo de 8 caracteres').isLength({ min: 8 }),
+    check('contrasena', 'La contraseña es obligatoria').not().isEmpty(),
+    validateFileUpload,
     valFields
 ],createNewUser);
 

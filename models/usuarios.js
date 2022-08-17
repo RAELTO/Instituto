@@ -26,7 +26,7 @@ const User = sequelize.define('usuarios', {
     },
     documento: {
         type: DataTypes.STRING,
-        allowNull: false
+        defaultValue: 'noPdfYet',
     },
     tipo_doc_id: {
         type: DataTypes.INTEGER,
@@ -56,6 +56,9 @@ const User = sequelize.define('usuarios', {
         type: DataTypes.STRING,
         allowNull: false
     },
+    img: {
+        type: DataTypes.STRING,
+    }
 }, {
     // Other model options go here
 });

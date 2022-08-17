@@ -21,9 +21,10 @@ const { getAllRegistration,
 
 const router = Router();
 
-router.get('/', getAllRegistration);
+router.get('/', valJWT, getAllRegistration);
 
 router.get('/:id',[
+    valJWT,
     check('id', 'No es un ID válido').isNumeric(),
     check('id').custom( registrationExistingId ),
     valFields

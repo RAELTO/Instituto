@@ -127,13 +127,24 @@ const registrationCourseExistingId = async(id = '') => {
 }
 
 
-//Validar que un curso este registrado en una misma matricula 
-const courseValidator = async(id_matr = '', id_curso = '') => {
-    console.log(id_matr, id_curso);
-    const courseExists = await RegistrationCourse.findOne({ where: { id_matr: id_matr, id_curso: id_curso } });
+//Validar que un curso este registrado en una misma matricula
+const courseValidator = async(nombre_curso = '') => {
+    const courseExists = await Course.findOne({ where: { nombre_curso: nombre_curso} });
     if ( courseExists ){
-        throw new Error(`El curso con id: ${id_curso}, ya se encuentra registrado`);
+        throw new Error(`El curso ${nombre_curso}, ya se encuentra registrado`);
     }
+
+}
+
+//Validar las colecciones permitidas
+const allowedTables = (table = '', tables = []) => {
+
+    const incluida = tables.includes( table );
+    if (!incluida) {
+        throw new Error(`La tabla ${table} no es permitida - ${tables}`);
+    }
+    
+    return true;
 
 }
 
@@ -163,10 +174,12 @@ module.exports = {
     areaExistingId,
     areaValidator,
     courseExistingId,
-    courseValidator,
     registrationExistingId,
     StatusRegExistsId,
     registrationCourseExistingId,
     courseValidator,
-    transferExistingId
+    transferExistingId,
+    allowedTables,
+    courseValidator,
+
 }

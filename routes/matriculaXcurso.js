@@ -9,7 +9,11 @@ const {
     adminRole, 
     hasRole
 } = require('../middlewares');
+
 const { registrationExistingId, registrationCourseExistingId , courseExistingId  } = require('../helpers/db-validator');
+
+const { registrationExistingId, registrationCourseExistingId , courseExistingId } = require('../helpers/db-validator');
+
 
 
 
@@ -22,9 +26,10 @@ const { getAllRegistrationCourse,
 
 const router = Router();
 
-router.get('/', getAllRegistrationCourse);
+router.get('/', valJWT, getAllRegistrationCourse);
 
 router.get('/:id', [
+    valJWT,
     check('id', 'No es un ID válido').isNumeric(),
     check('id').custom( registrationCourseExistingId ),
     valFields

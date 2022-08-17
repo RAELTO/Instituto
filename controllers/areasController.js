@@ -1,16 +1,15 @@
 const { response, request } = require('express');
 const Areas = require('../models/areas');
 
-const getAllAreas = async(req = request, res = response) => {//obtener todos los cursos
+const getAllAreas = async(req = request, res = response) => {//obtener todos los cursos de la tabla cursos en BD
     await Areas.findAll({attributes:[
         'id', 'area_estudio'
     ]})
         .then(area => {
-            const data = JSON.stringify(area);
-            const results = JSON.parse(data);
-            if (results.length > 0) {
+            if (area.length > 0) {
                 res.json({
-                    results
+                    total: area.length,
+                    area
                 });
             }else{
                 res.status(404).send('No hay areas de estudio registradas');
@@ -25,11 +24,9 @@ const getOneArea = async(req = request, res = response) => {
         'id', 'area_estudio',
     ], where: { id: req.params.id } })
         .then(area => {
-            const data = JSON.stringify(area);
-            const results = JSON.parse(data);
-            if (results != null) {
+            if (area != null) {
                 res.json({
-                    results
+                    area
                 });
             }else{
                 res.status(404).send(`Area de estudio con id: ${req.params.id} no encontrada`);

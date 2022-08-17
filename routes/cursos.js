@@ -6,24 +6,26 @@ const {
     valFields,
     valJWT,
     adminRole,
-    hasRole
-} = require('../middlewares');
+    hasRole,
+    validateFileUpload
+} = require('../middlewares'); //importación de los middlewares que serán usado para validaciones en las peticiones
 
-const { courseExistingId, areaExistingId, courseValidator } = require('../helpers/db-validator');
+const { courseExistingId, areaExistingId, courseValidator } = require('../helpers/db-validator'); //importación de validaciones de la base de datos
 
 
 const { getAllCourses,
         getOneCourse,
         createNewCourse,
         updateOneCourse,
-        deleteOneCourse } = require('../controllers/cursoController');
+        deleteOneCourse } = require('../controllers/cursoController'); //importación de los controladores para cursos
 
 
 const router = Router();
 
-router.get('/', getAllCourses);
+router.get('/', valJWT, getAllCourses); // ejecuta la petición GET y su controlador desde el path "/" en la ruta establecida desde el servidor
 
-router.get('/:id', [
+router.get('/:id', [ //ejecuta la petición GET especificando un id en los params de la ruta establecida /id
+    valJWT,
     check('id', 'No es un ID válido').isNumeric(),
     check('id').custom( courseExistingId ),
     valFields
@@ -54,7 +56,7 @@ router.post('/', [ //arreglo de middlewares express-validator
     check('fecha_limite_curso', 'No es una fecha válida').isDate(),
     check('estado_curso', 'El estado del curso es obligatorio').not().isEmpty(),
     check('estado_curso', 'El estado del curso es obligatorio').isBoolean(),
-    check('img_curso', 'La imagen del curso es obligatoria').not().isEmpty(),
+    validateFileUpload,
     valFields
 ], createNewCourse);
 

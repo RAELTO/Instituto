@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { check } = require('express-validator');
+const { check } = require('express-validator'); //para validaciones del body con check
 
 const {
     valFields,
@@ -19,9 +19,10 @@ const { getAllAreas,
 
 const router = Router();
 
-router.get('/', getAllAreas);
+router.get('/', valJWT, getAllAreas);
 
 router.get('/:id', [
+    valJWT,
     check('id', 'No es un ID válido').isNumeric(),
     check('id').custom( areaExistingId ),
     valFields
