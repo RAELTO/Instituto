@@ -908,16 +908,48 @@ export default {
         });
     },
     deleteCursos(id) {
-      const headers = { headers: { "x-token": this.getToken() } };
-      const url = `https://instituto-backend.herokuapp.com/api/v1/cursos/${id}`;
-      axios
-        .delete(url, headers)
-        .then(res => {
-          console.log(res);
-          this.getCursos();
+     const swalWithBootstrapButtons = this.$swal.mixin({
+        customClass: {
+          confirmButton: "btn btn-success",
+          cancelButton: "btn btn-danger danger m-2",
+        },
+        buttonsStyling: false,
+      });
+
+      swalWithBootstrapButtons
+        .fire({
+          title: "¿Esta seguro de eliminar este registro?",
+          text: "no podras revertir los cambios!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Sí, borrar!",
+          cancelButtonText: "Cancelar!",
+          reverseButtons: true,
         })
-        .catch((err) => {
-          console.log(err);
+        .then((result) => {
+          if (result.isConfirmed) {
+            const headers = { headers: { "x-token": this.getToken() } };
+            const url = `https://instituto-backend.herokuapp.com/api/v1/cursos/${id}`;
+            axios
+              .delete(url, headers)
+              .then((res) => {
+                console.log(res);
+                this.message("Curso Eliminado correctamente", "success");
+                this.getCursos();
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          } else if (result.dismiss === this.$swal.DismissReason.cancel) {
+            const Cursos = this.arrayDataCat.filter((e) => {
+              return e.id === id;
+            });
+            swalWithBootstrapButtons.fire(
+              "Cacelado",
+              `Tu Curso ${Cursos[0].nameCurso} no ha sido eliminada`,
+              "error"
+            );
+          }
         });
         
     },
