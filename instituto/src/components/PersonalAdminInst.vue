@@ -951,7 +951,7 @@ export default {
             );
           }
         });
-        
+
     },
          chargCursos(data = []){
        this.id_dataCursos = data["id"];
@@ -1218,25 +1218,20 @@ export default {
       this.Usuario.img= document.getElementById('img').files[0]
     },
 
-<<<<<<< HEAD
-=======
-    getDocumento() {
-      this.Usuario.documento= document.getElementById('doc').files[0]
-    },
 
->>>>>>> f998583a382765866d22c5bf63ee0f3c9910f8eb
+
     getImageCursos() {
       this.imagesCursos= document.getElementById('imgCursos').files[0]
     },
 
-<<<<<<< HEAD
+
 
     getDocumento() {
       this.Usuario.documento= document.getElementById('doc').files[0]
     },
 
-=======
->>>>>>> f998583a382765866d22c5bf63ee0f3c9910f8eb
+
+
     async postUsuario() {
       this.clickN=0;
       const url = `https://instituto-backend.herokuapp.com/api/v1/usuarios`;
