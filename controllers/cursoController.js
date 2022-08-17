@@ -51,7 +51,7 @@ const createNewCourse = async(req = request, res = response) => {
         cupo_disponible: req.body.cupo_disponible,
         area_estudio_id: req.body.area_estudio_id,
         fecha_limite_curso: req.body.fecha_limite_curso,
-        estado_curso: 1,
+        estado_curso: req.body.estado_curso,
         img_curso: req.body.img_curso
     }, { fields: ['nombre_curso', 'descripcion', 'cupo_disponible',
     'area_estudio_id', 'fecha_limite_curso', 'estado_curso', 'img_curso'] })
@@ -80,7 +80,8 @@ const updateOneCourse = async(req = request, res = response) => {
         cupo_disponible: req.body.cupo_disponible,
         area_estudio_id: req.body.area_estudio_id,
         fecha_limite_curso: req.body.fecha_limite_curso,
-        img_curso: req.body.img_curso
+        img_curso: req.body.img_curso,
+        estado_curso: req.body.estado_curso
     }, {
         where: {
             id: req.params.id

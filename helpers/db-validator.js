@@ -138,6 +138,19 @@ const courseValidator = async(id_matr = '', id_curso = '') => {
 }
 
 
+//trasladooooos//
+
+//validar que exista el traslado
+const transferExistingId = async(id = '') => {
+    
+    const transferExisting = await User.findByPk(id);
+    if ( !transferExisting ){
+        throw new Error(`No existe un traslado con el id: ${id}`);
+    }
+
+}
+
+
 
 module.exports = {
     validRoles,
@@ -154,5 +167,6 @@ module.exports = {
     registrationExistingId,
     StatusRegExistsId,
     registrationCourseExistingId,
-    courseValidator
+    courseValidator,
+    transferExistingId
 }
