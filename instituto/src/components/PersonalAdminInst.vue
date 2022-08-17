@@ -561,6 +561,7 @@
                   class="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
+                  @click="cursosClear()"
                 ></p>
               </div>
               <!-- body modal curso -->
@@ -568,6 +569,7 @@
                 <div class="">
                   <div class="row">
                     <div class="mb-3 col-12">
+                       <label class="form-label">Categoria:</label>
                       <select
                         class="form-select"
                         aria-label="Default select example"
@@ -659,19 +661,21 @@
                   type="button"
                   class="btn btn-secondary fw-bold"
                   data-bs-dismiss="modal"
-
+                   @click="cursosClear()"
                 >
                   Close
                 </button>
                 <button
                   type="button"
                   @click="registrarCursos()"
+                   v-if="tipoCurso == 0"
                   class="btn btn-primary fw-bold"
                    data-bs-dismiss="modal"
                 >
                   Guardar
                 </button>
               <button type="button" 
+              v-if="tipoCurso == 1"
                data-bs-dismiss="modal" 
               @click="UpdateCursos()" 
               class="btn btn-primary fw-bold">
@@ -732,6 +736,7 @@ export default {
       areaEstudioId: "",
      id_dataCursos: 0 ,
       imagesCursos: "",
+      tipoCurso:0,
     };
   },
   components:{
@@ -755,6 +760,25 @@ export default {
     courses() {
       this.view = 2;
     },
+     cursosCrear() {
+      this.tipoCurso = 0;
+    },
+     cursosAct() {
+      this.tipoCurso = 1;
+    },
+     cursosClear() {
+      this.tipoCurso = 0;
+      this.nameCurso = null;
+      this.cantidadAlumnos = null;
+      this.fechaCurso = null;
+      this.estadoCurso = null;
+      this.descripcion = null;
+      this.areaEstudioId = null;
+      this. imagesCursos = null;
+      
+    },
+   
+    
     async registrarCat() {
       const url =
         "https://instituto-backend.herokuapp.com/api/v1/areas-estudio";
@@ -951,13 +975,15 @@ export default {
             );
           }
         });
-
+        
     },
          chargCursos(data = []){
+          console.log(data);
+          this.cursosAct();
        this.id_dataCursos = data["id"];
-        this.areaEstudioId = data["area_estudio_id"];
+        this.areaEstudioId = data["area_estudio"];
        this.nameCurso = data["nombre_curso"];
-       this.fechaCurso = data["fech_limite_curso"];
+       this.fechaCurso = data["fecha_limite_curso"];
        this.cantidadAlumnos = data["cupo_disponible"];
        this.estadoCurso = data["estado_curso"];
         this.descripcion = data["descripcion"];
@@ -1219,17 +1245,14 @@ export default {
     },
 
 
-
-    getImageCursos() {
-      this.imagesCursos= document.getElementById('imgCursos').files[0]
-    },
-
-
-
     getDocumento() {
       this.Usuario.documento= document.getElementById('doc').files[0]
     },
 
+
+    getImageCursos() {
+      this.imagesCursos= document.getElementById('imgCursos').files[0]
+    },
 
 
     async postUsuario() {
