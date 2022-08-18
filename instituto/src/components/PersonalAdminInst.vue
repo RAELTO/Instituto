@@ -621,7 +621,7 @@
                         class="form-select"
                         aria-label="Default select example"
                       >
-                        <option value="" selected>Estado</option>
+                        <option value="null" selected>Estado</option>
                         <option value="true">activo</option>
                         <option value="false">inactivo</option>
                       </select>
@@ -727,7 +727,7 @@ export default {
       nameCurso: "",
       cantidadAlumnos: "",
       fechaCurso: "",
-      estadoCurso: "",
+      estadoCurso: null,
       descripcion: "",
       areaEstudioId: "",
      id_dataCursos: 0 ,
@@ -920,22 +920,23 @@ export default {
           console.log(err);
         });
     },
-         chargCursos(data = []){
-       this.id_dataCursos = data["id"];
-        this.areaEstudioId = data["area_estudio_id"];
-       this.nameCurso = data["nombre_curso"];
-       this.fechaCurso = data["fech_limite_curso"];
-       this.cantidadAlumnos = data["cupo_disponible"];
-       this.estadoCurso = data["estado_curso"];
-        this.descripcion = data["descripcion"];
+    chargCursos(data = []){
+      
+      this.id_dataCursos = data["id"];
+      this.areaEstudioId = data.areas_estudio["id"];
+      this.nameCurso = data["nombre_curso"];
+      this.fechaCurso = data["fecha_limite_curso"];
+      this.cantidadAlumnos = data["cupo_disponible"];
+      this.estadoCurso = data["estado_curso"];
+      this.descripcion = data["descripcion"];
 
     },
-       UpdateCursos(){
+    UpdateCursos(){
       const headers = {headers:{"x-token":this.getToken()}};
       const url =`https://instituto-backend.herokuapp.com/api/v1/cursos/${this.id_dataCursos}`;
       const data = {
                      "area_estudio_id": this.areaEstudioId,
-                     "name_curso": this.nameCurso,
+                     "nombre_curso": this.nameCurso,
                      "fecha_limite_curso": this.fechaCurso,
                      "cupo_disponible": this.cantidadAlumnos,
                      "estado_curso": this.estadoCurso,
