@@ -121,7 +121,7 @@
                   id="staticBackdropLabel"
                   v-if="Usuario.typeAction == 1"
                 >
-                  Actualizar Usuario
+                Actualizar Usuario
                 </h5>
                 <p
                   type="button"
@@ -978,7 +978,6 @@ export default {
         
     },
       chargCursos(data = []){
-
       this.id_dataCursos = data["id"];
       this.areaEstudioId = data.areas_estudio["id"];
       this.nameCurso = data["nombre_curso"];
@@ -990,7 +989,7 @@ export default {
     },
     UpdateCursos(){
       const headers = {headers:{"x-token":this.getToken()}};
-      const url =https://instituto-backend.herokuapp.com/api/v1/cursos/${this.id_dataCursos};
+      const url =`https://instituto-backend.herokuapp.com/api/v1/cursos/${this.id_dataCursos}`;
       const data = {
                      "area_estudio_id": this.areaEstudioId,
                      "nombre_curso": this.nameCurso,

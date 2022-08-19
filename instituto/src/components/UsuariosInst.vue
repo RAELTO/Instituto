@@ -1,100 +1,35 @@
 <template>
-        <!-- Area personal --> 
-        <!-- Etiqueta -->
-        <section class="container-fluid mt-4 w-100">
-            <div class="p-3 w-50 div-area">
-                <span class="h3 fw-bold ms-2">Área personal</span>
-            </div>
-        </section>
-        <!-- Informacion -->
-        <section class="container-fluid mt-2">
-            <div class="row">
-                <div class="col d-flex flex-column ms-5 mt-4">
-                   <span class="mb-3"><span class="fw-bold fs-4" >Nombre:</span><span class="fs-3 ms-3" v-if="prueba">Brayan Esteban Marin Calderon</span></span>
-                   <span class="mb-3"><span class="fw-bold fs-4">Curso matriculados:</span><span  class=" fs-3 ms-3">0</span> </span>
-                   <span class="mb-3"><span class="fw-bold fs-4">Estado:</span><span class=" fs-3 ms-3">Inactivo</span></span>
-                   <span class="mb-3"><span class="fw-bold fs-4">Rol: </span> <span class=" fs-3 ms-3">Estudiante</span></span>
-                   <button class="btn fw-bold w-50" data-bs-toggle="modal" data-bs-target="#cambioCurso">Cambiar Curso</button>
-                </div>
-                <div class="col text-center">
-                    <img src="assets/User.png" alt="" style="width:50%;">
-                    
-                </div>
-            </div>
-            <!-- Modales -->
-            <section>
-                <!-- Modal -->
-                    <div class="modal fade" id="cambioCurso" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title fw-bold" id="staticBackdropLabel">Formulario cambio de curso</h5>
-                            <p type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></p>
-                        </div>
-                        <div class="modal-body">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col col-12 mt-2 mb-2">
-                                      <div class="form-floating">
-                                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
-                                        <label for="floatingTextarea">¿Por qué quiere cambiar de curso?</label>
-                                      </div>
-                                    </div>
-                                    <p class="col-12 fw-bold h6 mb-2">Curso a cambiar</p>
-                                      <div class="row mb-2">
-                                        <div class="col col-6">
-                                            <select class="form-select text-center" aria-label="Default select example">
-                                            <option selected>Categoría</option>
-                                            <option value="1">One</option>
-                                            </select>
-                                        </div>
-                                        <div class="col col-6">
-                                            <select class="form-select text-center" aria-label="Default select example">
-                                            <option selected>Cursos</option>
-                                            <option value="1">One</option>
-                                            </select>
-                                        </div>
-                                      </div>
-                                    <p class="col-12 fw-bold h6 mb-2">Curso a trasladarse</p>
-                                      <div class="row mb-2">
-                                        <div class="col col-6">
-                                            <select class="form-select text-center" aria-label="Default select example">
-                                            <option selected>Categoría</option>
-                                            <option value="1">One</option>
-                                            </select>
-                                        </div>
-                                        <div class="col col-6">
-                                            <select class="form-select text-center" aria-label="Default select example">
-                                            <option selected>Cursos</option>
-                                            <option value="1">One</option>
-                                            </select>
-                                        </div>
-                                      </div> 
+
+
+                    <!-- Carusel -->
+                    <div id="carousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-pause="false">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="assets/vue.png" class="d-block w-100" alt="Images carousel">
+                                <div class="carousel-caption p-5 mb-5">
+                                    <h2 class="fw-bold ">vue.js</h2>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="assets/POO.png" class="d-block w-100" alt="Images carousel">
+                                <div class="carousel-caption p-5 mb-5">
+                                    <h2 class="fw-bold ">Programación Orientada a Objetos</h2>
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Guardar</button>
-                        </div>
-                        </div>
                     </div>
-                    </div>
-            </section>
-        </section>
-        <!-- Etiqueta -->
-        <section class="container-fluid mt-4 w-100">
+                    <!-- /Carusel -->
+       <section class="container-fluid mt-4 w-100">
             <div class="p-3 w-50 div-area">
                 <span class="h3 fw-bold ms-2">Mis cursos</span>
             </div>
-        </section>
-        <!-- Buscador -->
-        <section class="mt-4">
+        </section>                
+    <section class="mt-4">
             <div class="container">
                 <div class="row justify-content-between">
                     <div class="col col-5">
                         <select class="form-select text-center" aria-label="Default select example">
-                        <option selected>Open this select menu</option>
+                        <option selected> Todas las categorias</option>
                         <option value="1">One</option>
                         </select>
                     </div>
@@ -106,59 +41,85 @@
                 </div>
             </div>
         </section>
-        <!-- Card -->
-        <section>
-            
-        </section>
-        <!-- No existen cursos -->
-        <section class="mt-5 p-5">
-            <div class="container h-100">
-                <div class="row">
-                    <div class="col text-center">
-                        <h1 class="fw-bold mb-5"> Sin cursos matriculados</h1>
-                        <img class="img-center" src="assets/danger.png" alt="" style="height:200px;">
-                    </div>
-                </div>
-            </div>
-        </section>
+        <!-- cards cursos -->
+<section class="container mb-3">
 
+     
+      <div class="row row-cols-1 row-cols-md-3 g-4" >
+        <div class="col">
+          <div class="card h-100"  id="cardcursos" >
+            <img  class="card-img-top" alt="..." src="assets/flutter.png" >
+            <div class="card-body">
+              <h6 class="card-title" style="row text-center" >Curso avanzado de flutter</h6>
+              <p class="card-text"><strong>Fecha de cierre:</strong></p>
+            </div>
+           
+              <button type="button" id="botoncard" class="btn btn-success" >Comprar</button>
+           
+          </div>
+        </div>
+
+      </div>
+    
+    </section>
+        
+          <!-- FOOTER -->
+            <footer id="footer" class="pb-4 pt-4">
+                <div class="container">
+                    <div class="row text-center">
+                        <div class="col-12 col-lg col-md">
+                            <h5 class="text-center mt-2 mb-2">
+                            <a href="https://www.ionos.es/digitalguide/paginas-web/derecho-digital/aviso-legal-obligatorio-todo-lo-que-necesitas-saber/#:~:text=Seg%C3%BAn%20el%20art%C3%ADculo%2010%20de,Mercantil%20si%20fuese%20el%20caso.">Información Legal</a>
+                        </h5>
+                        </div>
+                        <div class="col-12 col-lg col-md">
+                            <h5 class="text-center mt-2 mb-2">
+                            <a href="https://github.com/RAELTO/Instituto">Contacto</a>
+                        </h5>
+                        </div>
+                         <div class="col-12 col-lg col-md">
+                            
+                            <img src="assets/Logo.png" style="width: 120px;" alt="">
+                           
+                        </div>
+                        <div class="col-12 col-lg col-md">
+                            <h5 class="text-center mt-2 mb-2">
+                            <a href="#">PQRS</a>
+                        </h5>
+                        </div>
+                       
+                        
+                        <div class="col-12 col-lg col-md">
+                            <h5 class="text-center mt-4 mb-2">
+                                Síguenos en redes sociales: 
+                                <a href="https://www.facebook.com/profile.php?id=100063570341400"><i class="fab fa-instagram-square"></i></a>
+                                <a href="https://www.facebook.com/profile.php?id=100063570341400"><i class="fab fa-facebook-square"></i></a>
+                
+                                
+                            </h5>
+                        </div>
+                    </div>
+                   
+                  
+                </div>
+                 <h5 class="text-center ">© 2022 Instituto Derechos Reservados</h5>
+                    <h5 class="text-center ">Instituto X</h5>
+            </footer>
+            <!-- /FOOTER -->
 </template>
 
 <script>
 export default {
-  name: 'PersonalAreaInst',
+  name: 'UsuariosInst',
   data(){
     return{
-        UserLog:'',
-        token:'',
+  
     }
   },
   methods:{
-    updateLocal() {
-      sessionStorage.setItem("user", JSON.stringify(this.UserLog));
-    },
-    sesionDatos() {
-      if (sessionStorage.getItem("user") !== null) {
-        this.UserLog = JSON.parse(sessionStorage.getItem("user"));
-      } else {
-        this.UserLog= '';
-      }
-    },
-    localDatos() {
-      if (localStorage.getItem("token") !== null) {
-        this.token = JSON.parse(localStorage.getItem("token"));
-      } else {
-        this.token= '';
-      }
-    },
-    updateSesion() {
-      localStorage.setItem("token", JSON.stringify(this.token));
-    },
+    
   },
-  created() {
-    this.sesionDatos();
-    this.localDatos();
-  },
+ 
   mounted() {},
   computed: {},
 
@@ -179,7 +140,31 @@ export default {
     --fourth:#d0fdd7;
     --fifth:#ffffff;
   }
+#main .carousel-inner img {
+    max-height: 70vh;
+    object-fit: fill;
+    filter: grayscale(20%);
+}
 
+#carousel {
+    position: relative;
+}
+
+#carousel .overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    z-index: 1;
+}
+
+#carousel .overlay .container,
+#carousel .overlay .row {
+    height: 100%;
+}
 .div-area{
     background: var(--third);
     
@@ -207,4 +192,52 @@ button{
     border-radius:20px ;
     font-weight: bold;
 }
+  #cardcursos {
+    width: 300px;
+    padding: 25px 40px;
+    margin-top: 20%;
+   
+    /* padding: 10px 30px 70px 30px; */
+/*     
+    width: 50%; */
+    
+    background-color: var(--third);
+    border-radius: 20px;
+    box-shadow: 0px 0px 30px 5px gray;
+  }
+#footer {
+    background: var(--second) ;
+    padding: 310px;
+    margin-top: 14%;
+
+ 
+}
+#botoncard{
+  
+      margin-top: auto;
+
+}
+
+#footer  h6 {
+    text-decoration: none;
+    color: #000;
+
+}
+
+
+#footer h5{
+    color: white;
+    
+    
+    
+}
+
+#footer a{
+    color: white;
+}
+
+#footer a:hover{
+    color: #fff;
+}
+/*END FOOTER*/
 </style>
