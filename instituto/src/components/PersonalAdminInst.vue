@@ -705,7 +705,7 @@ export default {
       documentData: null,
       rolData: null,
       estadoData: null,
-      Usuario: {
+      Usuario: { 
         updateUser: '',
         typeAction: 0,
         nombre: '', //
