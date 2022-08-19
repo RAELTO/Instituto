@@ -44,7 +44,6 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../components/UsuariosInst.vue')
   },
 ]
-
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes

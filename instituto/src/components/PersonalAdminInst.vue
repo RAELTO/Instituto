@@ -977,7 +977,7 @@ export default {
         });
         
     },
-         chargCursos(data = []){
+    chargCursos(data = []){
           console.log(data);
           this.cursosAct();
        this.id_dataCursos = data["id"];
@@ -989,7 +989,7 @@ export default {
         this.descripcion = data["descripcion"];
 
     },
-       UpdateCursos(){
+    UpdateCursos(){
       const headers = {headers:{"x-token":this.getToken()}};
       const url =`https://instituto-backend.herokuapp.com/api/v1/cursos/${this.id_dataCursos}`;
       const data = {
@@ -1243,18 +1243,12 @@ export default {
     getImage2() {
       this.Usuario.img= document.getElementById('img').files[0]
     },
-
-
     getDocumento() {
       this.Usuario.documento= document.getElementById('doc').files[0]
     },
-
-
     getImageCursos() {
       this.imagesCursos= document.getElementById('imgCursos').files[0]
     },
-
-
     async postUsuario() {
       this.clickN=0;
       const url = `https://instituto-backend.herokuapp.com/api/v1/usuarios`;
