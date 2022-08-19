@@ -212,11 +212,7 @@ button{
 
  
 }
-#botoncard{
-  
-      margin-top: auto;
 
-}
 
 #footer  h6 {
     text-decoration: none;
