@@ -360,7 +360,7 @@
             data-bs-toggle="modal"
             data-bs-target="#modalCat"
           >
-            Crear Categoría
+            Crear Categoría <i class="bi bi-plus-circle"></i>
           </button>
           <table class="table table-dark table-striped">
             <thead>
@@ -446,7 +446,7 @@
                             placeholder="ingrese nombre de la categoría"
                           />
                         </div>
-                        <div class="mb-3">
+                        <!-- <div class="mb-3">
                           <label class="form-label">Descripción:</label>
                           <textarea
                             class="form-control"
@@ -455,7 +455,7 @@
                             rows="3"
                             placeholder="ingrese descripción"
                           ></textarea>
-                        </div>
+                        </div> -->
                       </form>
                     </div>
                   </div>
@@ -525,7 +525,7 @@
                     class="btn text-white"
                     data-bs-toggle="modal"
                     data-bs-target="#gradeCreate"
-                       @click="chargCursos(objeto)"
+                     @click="chargCursos(objeto)"
                   >
                     <i class="bi bi-eye-fill"></i>
                   </button>
@@ -561,6 +561,7 @@
                   class="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
+                  @click="cursosClear()"
                 ></p>
               </div>
               <!-- body modal curso -->
@@ -568,6 +569,7 @@
                 <div class="">
                   <div class="row">
                     <div class="mb-3 col-12">
+                       <label class="form-label">Categoria:</label>
                       <select
                         class="form-select"
                         aria-label="Default select example"
@@ -659,19 +661,21 @@
                   type="button"
                   class="btn btn-secondary fw-bold"
                   data-bs-dismiss="modal"
-
+                   @click="cursosClear()"
                 >
                   Close
                 </button>
                 <button
                   type="button"
                   @click="registrarCursos()"
+                   v-if="tipoCurso == 0"
                   class="btn btn-primary fw-bold"
                    data-bs-dismiss="modal"
                 >
                   Guardar
                 </button>
               <button type="button" 
+              v-if="tipoCurso == 1"
                data-bs-dismiss="modal" 
               @click="UpdateCursos()" 
               class="btn btn-primary fw-bold">
@@ -732,6 +736,7 @@ export default {
       areaEstudioId: "",
      id_dataCursos: 0 ,
       imagesCursos: "",
+      tipoCurso:0,
     };
   },
   components:{
@@ -755,6 +760,25 @@ export default {
     courses() {
       this.view = 2;
     },
+     cursosCrear() {
+      this.tipoCurso = 0;
+    },
+     cursosAct() {
+      this.tipoCurso = 1;
+    },
+     cursosClear() {
+      this.tipoCurso = 0;
+      this.nameCurso = null;
+      this.cantidadAlumnos = null;
+      this.fechaCurso = null;
+      this.estadoCurso = null;
+      this.descripcion = null;
+      this.areaEstudioId = null;
+      this. imagesCursos = null;
+      
+    },
+   
+    
     async registrarCat() {
       const url =
         "https://instituto-backend.herokuapp.com/api/v1/areas-estudio";
@@ -908,20 +932,52 @@ export default {
         });
     },
     deleteCursos(id) {
-      const headers = { headers: { "x-token": this.getToken() } };
-      const url = `https://instituto-backend.herokuapp.com/api/v1/cursos/${id}`;
-      axios
-        .delete(url, headers)
-        .then(res => {
-          console.log(res);
-          this.getCursos();
+     const swalWithBootstrapButtons = this.$swal.mixin({
+        customClass: {
+          confirmButton: "btn btn-success",
+          cancelButton: "btn btn-danger danger m-2",
+        },
+        buttonsStyling: false,
+      });
+
+      swalWithBootstrapButtons
+        .fire({
+          title: "¿Esta seguro de eliminar este registro?",
+          text: "no podras revertir los cambios!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Sí, borrar!",
+          cancelButtonText: "Cancelar!",
+          reverseButtons: true,
         })
-        .catch((err) => {
-          console.log(err);
+        .then((result) => {
+          if (result.isConfirmed) {
+            const headers = { headers: { "x-token": this.getToken() } };
+            const url = `https://instituto-backend.herokuapp.com/api/v1/cursos/${id}`;
+            axios
+              .delete(url, headers)
+              .then((res) => {
+                console.log(res);
+                this.message("Curso Eliminado correctamente", "success");
+                this.getCursos();
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          } else if (result.dismiss === this.$swal.DismissReason.cancel) {
+            const Cursos = this.arrayDataCat.filter((e) => {
+              return e.id === id;
+            });
+            swalWithBootstrapButtons.fire(
+              "Cacelado",
+              `Tu Curso ${Cursos[0].nameCurso} no ha sido eliminada`,
+              "error"
+            );
+          }
         });
+        
     },
     chargCursos(data = []){
-      
       this.id_dataCursos = data["id"];
       this.areaEstudioId = data.areas_estudio["id"];
       this.nameCurso = data["nombre_curso"];
@@ -929,6 +985,16 @@ export default {
       this.cantidadAlumnos = data["cupo_disponible"];
       this.estadoCurso = data["estado_curso"];
       this.descripcion = data["descripcion"];
+      console.log(data);
+      this.cursosAct();
+       this.id_dataCursos = data["id"];
+        this.areaEstudioId = data["area_estudio"];
+       this.nameCurso = data["nombre_curso"];
+       this.fechaCurso = data["fecha_limite_curso"];
+       this.cantidadAlumnos = data["cupo_disponible"];
+       this.estadoCurso = data["estado_curso"];
+        this.descripcion = data["descripcion"];
+
 
     },
     UpdateCursos(){
@@ -1185,15 +1251,12 @@ export default {
     getImage2() {
       this.Usuario.img= document.getElementById('img').files[0]
     },
-
     getDocumento() {
       this.Usuario.documento= document.getElementById('doc').files[0]
     },
-
     getImageCursos() {
       this.imagesCursos= document.getElementById('imgCursos').files[0]
     },
-
     async postUsuario() {
       this.clickN=0;
       const url = `https://instituto-backend.herokuapp.com/api/v1/usuarios`;
