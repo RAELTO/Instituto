@@ -706,7 +706,7 @@ export default {
       rolData: null,
       estadoData: null,
       Usuario: { 
-        updateUser: '',
+        updateUser: '', 
         typeAction: 0,
         nombre: '', //
         apellido: '', //
